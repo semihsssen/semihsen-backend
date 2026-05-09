@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Semih Şen | Lead Game Artist</title>
+<meta name="description" content="Semih Şen — Lead Game Artist. Mobile game art direction, visual identity, and character design.">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<div class="site" id="site">
+
+  <nav class="nav">
+    <div class="nav-brand">
+      <span class="nav-logo">Semih Şen</span>
+      <span class="nav-sub">Lead Game Artist</span>
+    </div>
+    <div class="nav-links">
+      <a onclick="showPage('home')" class="active" id="nav-home">Home</a>
+      <a onclick="showPage('portfolio')" id="nav-portfolio">Portfolio</a>
+      <a onclick="showPage('resume')" id="nav-resume">Resume</a>
+    </div>
+  </nav>
+
+  <!-- HOME -->
+  <div class="page active" id="page-home">
+    <div class="hero-fullimage" id="hero-img">
+      <div class="hero-ph-label"><i class="ti ti-photo"></i><span>Görsel buraya gelecek</span></div>
+    </div>
+    <div class="home-grid">
+      <div class="home-item" onclick="openDetail('block-out')" style="background:url(assets/images/block-out/thumb.jpg) center/cover;">
+        <div class="grid-overlay"><div class="grid-title">Block Out</div><div class="grid-tag">Grand Games · 2025</div></div>
+      </div>
+      <div class="home-item" onclick="openDetail('car-match')" style="background:url(assets/images/car-match/thumb.jpg) center/cover;">
+        <div class="grid-overlay"><div class="grid-title">Car Match</div><div class="grid-tag">Grand Games · 2024</div></div>
+      </div>
+      <div class="home-item" onclick="openDetail('magic-sort')" style="background:url(assets/images/magic-sort/thumb.jpg) center/cover;">
+        <div class="grid-overlay"><div class="grid-title">Magic Sort</div><div class="grid-tag">Grand Games · 2024</div></div>
+      </div>
+      <div class="home-item" onclick="openDetail('match-villains')" style="background:url(assets/images/match-villains/thumb.jpg) center/cover;">
+        <div class="grid-overlay"><div class="grid-title">Match Villians</div><div class="grid-tag">GoodJob Games · 2023</div></div>
+      </div>
+      <div class="home-item" onclick="openDetail('wonder-blast')" style="background:url(assets/images/wonder-blast/thumb.jpg) center/cover;">
+        <div class="grid-overlay"><div class="grid-title">Wonder Blast</div><div class="grid-tag">GoodJob Games · 2022</div></div>
+      </div>
+    </div>
+    <footer class="home-footer">
+      <span class="footer-text">semihsen.art</span>
+      <div class="social-links">
+        <a href="https://www.artstation.com/semihsssen" target="_blank">ArtStation</a>
+        <a href="https://www.behance.net/semihsssen" target="_blank">Behance</a>
+        <a href="https://www.instagram.com/semsssen" target="_blank">Instagram</a>
+        <a href="https://linkedin.com/in/semih-şen-191900179" target="_blank">LinkedIn</a>
+      </div>
+    </footer>
+  </div>
+
+  <!-- PORTFOLIO SELECT -->
+  <div class="page" id="page-portfolio">
+    <div class="port-select">
+      <div class="port-cat" onclick="showPage('game')">
+        <div class="port-cat-bg cat-game-bg"></div>
+        <div class="port-cat-overlay"></div>
+        <i class="ti ti-device-gamepad-2 port-cat-icon"></i>
+        <div class="port-cat-label"><div class="port-cat-title">Game Art</div><div class="port-cat-sub">5 Projects</div></div>
+        <div class="port-cat-accent"></div>
+      </div>
+      <div class="port-cat" onclick="showPage('personal')">
+        <div class="port-cat-bg cat-personal-bg"></div>
+        <div class="port-cat-overlay"></div>
+        <i class="ti ti-brush port-cat-icon"></i>
+        <div class="port-cat-label"><div class="port-cat-title">Personal Works</div><div class="port-cat-sub">7 Projects</div></div>
+        <div class="port-cat-accent"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GAME ART -->
+  <div class="page" id="page-game">
+    <div class="port-inner-header">
+      <button class="port-back" onclick="showPage('portfolio')"><i class="ti ti-arrow-left"></i> Portfolio</button>
+      <div class="port-inner-title">Game Art</div>
+    </div>
+    <div class="inf-grid-wrap">
+      <div class="inf-grid">
+        <div class="game-item" onclick="openDetail('block-out')">
+          <div class="inner-grid" id="grid-block-out"><div class="inner-cell"><img src="assets/images/block-out/grid-1.jpg" alt="" loading="lazy"></div>
+<div class="inner-cell"><img src="assets/images/block-out/grid-2.jpg" alt="" loading="lazy"></div>
+<div class="inner-cell"><img src="assets/images/block-out/grid-3.jpg" alt="" loading="lazy"></div>
+<div class="inner-cell inner-cell-ph"><i class="ti ti-photo"></i></div>
+</div>
+          <div class="grid-overlay"><div class="grid-title">Block Out</div><div class="grid-tag">Grand Games · 2025</div></div>
+        </div>
+        <div class="game-item" onclick="openDetail('car-match')">
+          <div class="inner-grid" id="grid-car-match"><div class="inner-cell"><img src="assets/images/car-match/grid-1.jpg" alt="" loading="lazy"></div>
+<div class="inner-cell inner-cell-ph"><i class="ti ti-photo"></i></div>
+<div class="inner-cell inner-cell-ph"><i class="ti ti-photo"></i></div>
+<div class="inner-cell inner-cell-ph"><i class="ti ti-photo"></i></div>
+</div>
+          <div class="grid-overlay"><div class="grid-title">Car Match</div><div class="grid-tag">Grand Games · 2024</div></div>
+        </div>
+        <div class="game-item" onclick="openDetail('magic-sort')">
+          <div class="inner-grid" id="grid-magic-sort"><div class="inner-cell"><img src="assets/images/magic-sort/grid-1.jpg" alt="" loading="lazy"></div>
+<div class="inner-cell"><img src="assets/images/magic-sort/grid-2.jpg" alt="" loading="lazy"></div>
+<div class="inner-cell"><img src="assets/images/magic-sort/grid-3.jpg" alt="" loading="lazy"></div>
+<div class="inner-cell inner-cell-ph"><i class="ti ti-photo"></i></div>
+</div>
+          <div class="grid-overlay"><div class="grid-title">Magic Sort</div><div class="grid-tag">Grand Games · 2024</div></div>
+        </div>
+        <div class="game-item" onclick="openDetail('match-villains')">
+          <div class="inner-grid" id="grid-match-villains"><div class="inner-cell"><img src="assets/images/match-villains/grid-1.jpg" alt="" loading="lazy"></div>
+<div class="inner-cell"><img src="assets/images/match-villains/grid-2.jpg" alt="" loading="lazy"></div>
+<div class="inner-cell"><img src="assets/images/match-villains/grid-3.jpg" alt="" loading="lazy"></div>
+<div class="inner-cell"><img src="assets/images/match-villains/grid-4.jpg" alt="" loading="lazy"></div>
+</div>
+          <div class="grid-overlay"><div class="grid-title">Match Villians</div><div class="grid-tag">GoodJob Games · 2023</div></div>
+        </div>
+        <div class="game-item" onclick="openDetail('wonder-blast')">
+          <div class="inner-grid" id="grid-wonder-blast"><div class="inner-cell"><img src="assets/images/wonder-blast/grid-1.jpg" alt="" loading="lazy"></div>
+<div class="inner-cell"><img src="assets/images/wonder-blast/grid-2.jpg" alt="" loading="lazy"></div>
+<div class="inner-cell"><img src="assets/images/wonder-blast/grid-3.jpg" alt="" loading="lazy"></div>
+<div class="inner-cell"><img src="assets/images/wonder-blast/grid-4.jpg" alt="" loading="lazy"></div>
+</div>
+          <div class="grid-overlay"><div class="grid-title">Wonder Blast</div><div class="grid-tag">GoodJob Games · 2022</div></div>
+        </div>
+      </div>
+      <div class="ghost-row"><div class="ghost-tile"></div><div class="ghost-tile"></div><div class="ghost-tile"></div><div class="ghost-tile"></div><div class="ghost-tile"></div></div>
+      <div class="ghost-row"><div class="ghost-tile"></div><div class="ghost-tile"></div><div class="ghost-tile"></div><div class="ghost-tile"></div><div class="ghost-tile"></div></div>
+    </div>
+  </div>
+
+  <!-- PERSONAL WORKS -->
+  <div class="page" id="page-personal">
+    <div class="port-inner-header">
+      <button class="port-back" onclick="showPage('portfolio')"><i class="ti ti-arrow-left"></i> Portfolio</button>
+      <div class="port-inner-title">Personal Works</div>
+    </div>
+    <div class="inf-grid-wrap">
+      <div class="inf-grid">
+        <div class="game-item" onclick="openDetail('personal1')">
+          <div class="inner-grid">
+            <div class="inner-cell inner-cell-ph"><i class="ti ti-photo"></i></div>
+            <div class="inner-cell inner-cell-ph"><i class="ti ti-photo"></i></div>
+            <div class="inner-cell inner-cell-ph"><i class="ti ti-photo"></i></div>
+            <div class="inner-cell inner-cell-ph"><i class="ti ti-photo"></i></div>
+          </div>
+          <div class="grid-overlay"><div class="grid-title">Personal Work 1</div><div class="grid-tag">Personal Work</div></div>
+        </div>
+        <div class="game-item" onclick="openDetail('personal2')">
+          <div class="inner-grid">
+            <div class="inner-cell inner-cell-ph"><i class="ti ti-photo"></i></div>
+            <div class="inner-cell inner-cell-ph"><i class="ti ti-photo"></i></div>
+            <div class="inner-cell inner-cell-ph"><i class="ti ti-photo"></i></div>
+            <div class="inner-cell inner-cell-ph"><i class="ti ti-photo"></i></div>
+          </div>
+          <div class="grid-overlay"><div class="grid-title">Personal Work 2</div><div class="grid-tag">Personal Work</div></div>
+        </div>
+        <div class="game-item" onclick="openDetail('personal3')">
+          <div class="inner-grid">
+            <div class="inner-cell inner-cell-ph"><i class="ti ti-photo"></i></div>
+            <div class="inner-cell inner-cell-ph"><i class="ti ti-photo"></i></div>
+            <div class="inner-cell inner-cell-ph"><i class="ti ti-photo"></i></div>
+            <div class="inner-cell inner-cell-ph"><i class="ti ti-photo"></i></div>
+          </div>
+          <div class="grid-overlay"><div class="grid-title">Personal Work 3</div><div class="grid-tag">Personal Work</div></div>
+        </div>
+        <div class="game-item" onclick="openDetail('personal4')">
+          <div class="inner-grid">
+            <div class="inner-cell inner-cell-ph"><i class="ti ti-photo"></i></div>
+            <div class="inner-cell inner-cell-ph"><i class="ti ti-photo"></i></div>
+            <div class="inner-cell inner-cell-ph"><i class="ti ti-photo"></i></div>
+            <div class="inner-cell inner-cell-ph"><i class="ti ti-photo"></i></div>
+          </div>
+          <div class="grid-overlay"><div class="grid-title">Personal Work 4</div><div class="grid-tag">Personal Work</div></div>
+        </div>
+        <div class="game-item" onclick="openDetail('personal5')">
+          <div class="inner-grid">
+            <div class="inner-cell inner-cell-ph"><i class="ti ti-photo"></i></div>
+            <div class="inner-cell inner-cell-ph"><i class="ti ti-photo"></i></div>
+            <div class="inner-cell inner-cell-ph"><i class="ti ti-photo"></i></div>
+            <div class="inner-cell inner-cell-ph"><i class="ti ti-photo"></i></div>
+          </div>
+          <div class="grid-overlay"><div class="grid-title">Personal Work 5</div><div class="grid-tag">Personal Work</div></div>
+        </div>
+        <div class="game-item" onclick="openDetail('personal6')">
+          <div class="inner-grid">
+            <div class="inner-cell inner-cell-ph"><i class="ti ti-photo"></i></div>
+            <div class="inner-cell inner-cell-ph"><i class="ti ti-photo"></i></div>
+            <div class="inner-cell inner-cell-ph"><i class="ti ti-photo"></i></div>
+            <div class="inner-cell inner-cell-ph"><i class="ti ti-photo"></i></div>
+          </div>
+          <div class="grid-overlay"><div class="grid-title">Personal Work 6</div><div class="grid-tag">Personal Work</div></div>
+        </div>
+        <div class="game-item" onclick="openDetail('personal7')">
+          <div class="inner-grid">
+            <div class="inner-cell inner-cell-ph"><i class="ti ti-photo"></i></div>
+            <div class="inner-cell inner-cell-ph"><i class="ti ti-photo"></i></div>
+            <div class="inner-cell inner-cell-ph"><i class="ti ti-photo"></i></div>
+            <div class="inner-cell inner-cell-ph"><i class="ti ti-photo"></i></div>
+          </div>
+          <div class="grid-overlay"><div class="grid-title">Personal Work 7</div><div class="grid-tag">Personal Work</div></div>
+        </div>
+        <div class="ghost-tile" style="aspect-ratio:1/1;"></div>
+        <div class="ghost-tile" style="aspect-ratio:1/1;"></div>
+        <div class="ghost-tile" style="aspect-ratio:1/1;"></div>
+      </div>
+      <div class="ghost-row"><div class="ghost-tile"></div><div class="ghost-tile"></div><div class="ghost-tile"></div><div class="ghost-tile"></div><div class="ghost-tile"></div></div>
+    </div>
+  </div>
+
+  
+  <div class="detail-page" id="detail-block-out">
+    <div class="detail-header"><button class="port-back" onclick="closeDetail('game')"><i class="ti ti-arrow-left"></i> Game Art</button></div>
+    <div class="detail-inner">
+      <div class="detail-left">
+        <div class="detail-left-title">Stores</div>
+        <a class="store-btn" href="https://apps.apple.com/us/app/block-out-color-sort-puzzle/id6752672568" target="_blank"><i class="ti ti-brand-apple"></i><span>App Store</span></a>
+        
+      </div>
+      <div class="detail-center">
+        <div class="detail-slider" id="slider-block-out">
+          <div class="detail-slide"><img src="assets/images/block-out/slide-1.jpg" alt="block-out visual 1" loading="lazy"></div>
+<div class="detail-slide"><img src="assets/images/block-out/slide-2.jpg" alt="block-out visual 2" loading="lazy"></div>
+<div class="detail-slide"><img src="assets/images/block-out/slide-3.jpg" alt="block-out visual 3" loading="lazy"></div>
+<div class="detail-slide"><img src="assets/images/block-out/slide-4.jpg" alt="block-out visual 4" loading="lazy"></div>
+<div class="detail-slide"><img src="assets/images/block-out/slide-5.jpg" alt="block-out visual 5" loading="lazy"></div>
+<div class="detail-slide"><img src="assets/images/block-out/slide-6.jpg" alt="block-out visual 6" loading="lazy"></div>
+<div class="detail-slide"><img src="assets/images/block-out/slide-7.jpg" alt="block-out visual 7" loading="lazy"></div>
+<div class="detail-slide"><img src="assets/images/block-out/slide-8.jpg" alt="block-out visual 8" loading="lazy"></div>
+<div class="detail-slide"><img src="assets/images/block-out/slide-9.jpg" alt="block-out visual 9" loading="lazy"></div>
+
+        </div>
+        <button class="slider-arrow slider-prev" onclick="slide('block-out',-1)"><i class="ti ti-chevron-left"></i></button>
+        <button class="slider-arrow slider-next" onclick="slide('block-out',1)"><i class="ti ti-chevron-right"></i></button>
+        <div class="slider-nav" id="dots-block-out"><div class="slider-dot  active" onclick="goSlide('block-out',0)"></div><div class="slider-dot" onclick="goSlide('block-out',1)"></div><div class="slider-dot" onclick="goSlide('block-out',2)"></div><div class="slider-dot" onclick="goSlide('block-out',3)"></div><div class="slider-dot" onclick="goSlide('block-out',4)"></div><div class="slider-dot" onclick="goSlide('block-out',5)"></div><div class="slider-dot" onclick="goSlide('block-out',6)"></div><div class="slider-dot" onclick="goSlide('block-out',7)"></div><div class="slider-dot" onclick="goSlide('block-out',8)"></div></div>
+      </div>
+      <div class="detail-right">
+        <div class="detail-proj-name">Block Out</div>
+        <div class="detail-studio">Grand Games · 2025</div>
+        <div class="detail-section-label">Art Direction</div><div class="credit-item">Semih Şen</div><div class="credit-role">Lead Game Artist</div>
+        <div class="detail-section-label">Concept Art</div><div class="credit-item">—</div>
+        <div class="detail-section-label">3D Art</div><div class="credit-item">—</div>
+        <div class="detail-section-label">About</div>
+        <div class="detail-desc">Mobile game art direction and visual identity design.</div>
+      </div>
+    </div>
+  </div>
+  <div class="detail-page" id="detail-car-match">
+    <div class="detail-header"><button class="port-back" onclick="closeDetail('game')"><i class="ti ti-arrow-left"></i> Game Art</button></div>
+    <div class="detail-inner">
+      <div class="detail-left">
+        <div class="detail-left-title">Stores</div>
+        <a class="store-btn" href="https://apps.apple.com/us/app/car-match-traffic-puzzle/id6504421808" target="_blank"><i class="ti ti-brand-apple"></i><span>App Store</span></a>
+        <a class="store-btn" href="https://play.google.com/store/apps/details?id=com.grandgames.carmatch" target="_blank"><i class="ti ti-brand-google-play"></i><span>Google Play</span></a>
+      </div>
+      <div class="detail-center">
+        <div class="detail-slider" id="slider-car-match">
+          <div class="detail-slide"><img src="assets/images/car-match/slide-1.jpg" alt="car-match visual 1" loading="lazy"></div>
+<div class="detail-slide"><img src="assets/images/car-match/slide-2.jpg" alt="car-match visual 2" loading="lazy"></div>
+<div class="detail-slide"><img src="assets/images/car-match/slide-3.jpg" alt="car-match visual 3" loading="lazy"></div>
+<div class="detail-slide"><img src="assets/images/car-match/slide-4.jpg" alt="car-match visual 4" loading="lazy"></div>
+<div class="detail-slide"><img src="assets/images/car-match/slide-5.jpg" alt="car-match visual 5" loading="lazy"></div>
+
+        </div>
+        <button class="slider-arrow slider-prev" onclick="slide('car-match',-1)"><i class="ti ti-chevron-left"></i></button>
+        <button class="slider-arrow slider-next" onclick="slide('car-match',1)"><i class="ti ti-chevron-right"></i></button>
+        <div class="slider-nav" id="dots-car-match"><div class="slider-dot  active" onclick="goSlide('car-match',0)"></div><div class="slider-dot" onclick="goSlide('car-match',1)"></div><div class="slider-dot" onclick="goSlide('car-match',2)"></div><div class="slider-dot" onclick="goSlide('car-match',3)"></div><div class="slider-dot" onclick="goSlide('car-match',4)"></div></div>
+      </div>
+      <div class="detail-right">
+        <div class="detail-proj-name">Car Match</div>
+        <div class="detail-studio">Grand Games · 2024</div>
+        <div class="detail-section-label">Art Direction</div><div class="credit-item">Semih Şen</div><div class="credit-role">Lead Game Artist</div>
+        <div class="detail-section-label">Concept Art</div><div class="credit-item">—</div>
+        <div class="detail-section-label">3D Art</div><div class="credit-item">—</div>
+        <div class="detail-section-label">About</div>
+        <div class="detail-desc">Mobile game art direction and visual identity design.</div>
+      </div>
+    </div>
+  </div>
+  <div class="detail-page" id="detail-magic-sort">
+    <div class="detail-header"><button class="port-back" onclick="closeDetail('game')"><i class="ti ti-arrow-left"></i> Game Art</button></div>
+    <div class="detail-inner">
+      <div class="detail-left">
+        <div class="detail-left-title">Stores</div>
+        <a class="store-btn" href="https://apps.apple.com/us/app/magic-sort/id6499209744" target="_blank"><i class="ti ti-brand-apple"></i><span>App Store</span></a>
+        <a class="store-btn" href="https://play.google.com/store/apps/details?id=com.grandgames.magicsort" target="_blank"><i class="ti ti-brand-google-play"></i><span>Google Play</span></a>
+      </div>
+      <div class="detail-center">
+        <div class="detail-slider" id="slider-magic-sort">
+          <div class="detail-slide"><img src="assets/images/magic-sort/slide-1.jpg" alt="magic-sort visual 1" loading="lazy"></div>
+<div class="detail-slide"><img src="assets/images/magic-sort/slide-2.jpg" alt="magic-sort visual 2" loading="lazy"></div>
+<div class="detail-slide"><img src="assets/images/magic-sort/slide-3.jpg" alt="magic-sort visual 3" loading="lazy"></div>
+<div class="detail-slide"><img src="assets/images/magic-sort/slide-4.jpg" alt="magic-sort visual 4" loading="lazy"></div>
+<div class="detail-slide"><img src="assets/images/magic-sort/slide-5.jpg" alt="magic-sort visual 5" loading="lazy"></div>
+<div class="detail-slide"><img src="assets/images/magic-sort/slide-6.jpg" alt="magic-sort visual 6" loading="lazy"></div>
+<div class="detail-slide"><img src="assets/images/magic-sort/slide-7.jpg" alt="magic-sort visual 7" loading="lazy"></div>
+
+        </div>
+        <button class="slider-arrow slider-prev" onclick="slide('magic-sort',-1)"><i class="ti ti-chevron-left"></i></button>
+        <button class="slider-arrow slider-next" onclick="slide('magic-sort',1)"><i class="ti ti-chevron-right"></i></button>
+        <div class="slider-nav" id="dots-magic-sort"><div class="slider-dot  active" onclick="goSlide('magic-sort',0)"></div><div class="slider-dot" onclick="goSlide('magic-sort',1)"></div><div class="slider-dot" onclick="goSlide('magic-sort',2)"></div><div class="slider-dot" onclick="goSlide('magic-sort',3)"></div><div class="slider-dot" onclick="goSlide('magic-sort',4)"></div><div class="slider-dot" onclick="goSlide('magic-sort',5)"></div><div class="slider-dot" onclick="goSlide('magic-sort',6)"></div></div>
+      </div>
+      <div class="detail-right">
+        <div class="detail-proj-name">Magic Sort</div>
+        <div class="detail-studio">Grand Games · 2024</div>
+        <div class="detail-section-label">Art Direction</div><div class="credit-item">Semih Şen</div><div class="credit-role">Lead Game Artist</div>
+        <div class="detail-section-label">Concept Art</div><div class="credit-item">—</div>
+        <div class="detail-section-label">3D Art</div><div class="credit-item">—</div>
+        <div class="detail-section-label">About</div>
+        <div class="detail-desc">Mobile game art direction and visual identity design.</div>
+      </div>
+    </div>
+  </div>
+  <div class="detail-page" id="detail-match-villains">
+    <div class="detail-header"><button class="port-back" onclick="closeDetail('game')"><i class="ti ti-arrow-left"></i> Game Art</button></div>
+    <div class="detail-inner">
+      <div class="detail-left">
+        <div class="detail-left-title">Stores</div>
+        <a class="store-btn" href="https://apps.apple.com/us/app/match-villains/id6479752688" target="_blank"><i class="ti ti-brand-apple"></i><span>App Store</span></a>
+        <a class="store-btn" href="https://play.google.com/store/search?q=match+villains&c=apps" target="_blank"><i class="ti ti-brand-google-play"></i><span>Google Play</span></a>
+      </div>
+      <div class="detail-center">
+        <div class="detail-slider" id="slider-match-villains">
+          <div class="detail-slide"><img src="assets/images/match-villains/slide-1.jpg" alt="match-villains visual 1" loading="lazy"></div>
+<div class="detail-slide"><img src="assets/images/match-villains/slide-2.jpg" alt="match-villains visual 2" loading="lazy"></div>
+<div class="detail-slide"><img src="assets/images/match-villains/slide-3.jpg" alt="match-villains visual 3" loading="lazy"></div>
+<div class="detail-slide"><img src="assets/images/match-villains/slide-4.jpg" alt="match-villains visual 4" loading="lazy"></div>
+<div class="detail-slide"><img src="assets/images/match-villains/slide-5.jpg" alt="match-villains visual 5" loading="lazy"></div>
+<div class="detail-slide"><img src="assets/images/match-villains/slide-6.jpg" alt="match-villains visual 6" loading="lazy"></div>
+<div class="detail-slide"><img src="assets/images/match-villains/slide-7.jpg" alt="match-villains visual 7" loading="lazy"></div>
+<div class="detail-slide"><img src="assets/images/match-villains/slide-8.jpg" alt="match-villains visual 8" loading="lazy"></div>
+<div class="detail-slide"><img src="assets/images/match-villains/slide-9.jpg" alt="match-villains visual 9" loading="lazy"></div>
+<div class="detail-slide"><img src="assets/images/match-villains/slide-10.jpg" alt="match-villains visual 10" loading="lazy"></div>
+<div class="detail-slide"><img src="assets/images/match-villains/slide-11.jpg" alt="match-villains visual 11" loading="lazy"></div>
+<div class="detail-slide"><img src="assets/images/match-villains/slide-12.jpg" alt="match-villains visual 12" loading="lazy"></div>
+<div class="detail-slide"><img src="assets/images/match-villains/slide-13.jpg" alt="match-villains visual 13" loading="lazy"></div>
+<div class="detail-slide"><img src="assets/images/match-villains/slide-14.jpg" alt="match-villains visual 14" loading="lazy"></div>
+<div class="detail-slide"><img src="assets/images/match-villains/slide-15.jpg" alt="match-villains visual 15" loading="lazy"></div>
+<div class="detail-slide"><img src="assets/images/match-villains/slide-16.jpg" alt="match-villains visual 16" loading="lazy"></div>
+<div class="detail-slide"><img src="assets/images/match-villains/slide-17.jpg" alt="match-villains visual 17" loading="lazy"></div>
+<div class="detail-slide"><img src="assets/images/match-villains/slide-18.jpg" alt="match-villains visual 18" loading="lazy"></div>
+<div class="detail-slide"><img src="assets/images/match-villains/slide-19.jpg" alt="match-villains visual 19" loading="lazy"></div>
+<div class="detail-slide"><img src="assets/images/match-villains/slide-20.jpg" alt="match-villains visual 20" loading="lazy"></div>
+<div class="detail-slide"><img src="assets/images/match-villains/slide-21.jpg" alt="match-villains visual 21" loading="lazy"></div>
+<div class="detail-slide"><img src="assets/images/match-villains/slide-22.jpg" alt="match-villains visual 22" loading="lazy"></div>
+
+        </div>
+        <button class="slider-arrow slider-prev" onclick="slide('match-villains',-1)"><i class="ti ti-chevron-left"></i></button>
+        <button class="slider-arrow slider-next" onclick="slide('match-villains',1)"><i class="ti ti-chevron-right"></i></button>
+        <div class="slider-nav" id="dots-match-villains"><div class="slider-dot  active" onclick="goSlide('match-villains',0)"></div><div class="slider-dot" onclick="goSlide('match-villains',1)"></div><div class="slider-dot" onclick="goSlide('match-villains',2)"></div><div class="slider-dot" onclick="goSlide('match-villains',3)"></div><div class="slider-dot" onclick="goSlide('match-villains',4)"></div><div class="slider-dot" onclick="goSlide('match-villains',5)"></div><div class="slider-dot" onclick="goSlide('match-villains',6)"></div><div class="slider-dot" onclick="goSlide('match-villains',7)"></div><div class="slider-dot" onclick="goSlide('match-villains',8)"></div><div class="slider-dot" onclick="goSlide('match-villains',9)"></div><div class="slider-dot" onclick="goSlide('match-villains',10)"></div><div class="slider-dot" onclick="goSlide('match-villains',11)"></div><div class="slider-dot" onclick="goSlide('match-villains',12)"></div><div class="slider-dot" onclick="goSlide('match-villains',13)"></div><div class="slider-dot" onclick="goSlide('match-villains',14)"></div><div class="slider-dot" onclick="goSlide('match-villains',15)"></div><div class="slider-dot" onclick="goSlide('match-villains',16)"></div><div class="slider-dot" onclick="goSlide('match-villains',17)"></div><div class="slider-dot" onclick="goSlide('match-villains',18)"></div><div class="slider-dot" onclick="goSlide('match-villains',19)"></div><div class="slider-dot" onclick="goSlide('match-villains',20)"></div><div class="slider-dot" onclick="goSlide('match-villains',21)"></div></div>
+      </div>
+      <div class="detail-right">
+        <div class="detail-proj-name">Match Villians</div>
+        <div class="detail-studio">GoodJob Games · 2023</div>
+        <div class="detail-section-label">Art Direction</div><div class="credit-item">Semih Şen</div><div class="credit-role">Lead Game Artist</div>
+        <div class="detail-section-label">Concept Art</div><div class="credit-item">—</div>
+        <div class="detail-section-label">3D Art</div><div class="credit-item">—</div>
+        <div class="detail-section-label">About</div>
+        <div class="detail-desc">Mobile game art direction and visual identity design.</div>
+      </div>
+    </div>
+  </div>
+  <div class="detail-page" id="detail-wonder-blast">
+    <div class="detail-header"><button class="port-back" onclick="closeDetail('game')"><i class="ti ti-arrow-left"></i> Game Art</button></div>
+    <div class="detail-inner">
+      <div class="detail-left">
+        <div class="detail-left-title">Stores</div>
+        <a class="store-btn" href="https://apps.apple.com/tr/app/wonder-blast/id1559972235" target="_blank"><i class="ti ti-brand-apple"></i><span>App Store</span></a>
+        <a class="store-btn" href="https://play.google.com/store/apps/details?id=com.goodjobgames.thebigday" target="_blank"><i class="ti ti-brand-google-play"></i><span>Google Play</span></a>
+      </div>
+      <div class="detail-center">
+        <div class="detail-slider" id="slider-wonder-blast">
+          <div class="detail-slide"><img src="assets/images/wonder-blast/slide-1.jpg" alt="wonder-blast visual 1" loading="lazy"></div>
+<div class="detail-slide"><img src="assets/images/wonder-blast/slide-2.jpg" alt="wonder-blast visual 2" loading="lazy"></div>
+<div class="detail-slide"><img src="assets/images/wonder-blast/slide-3.jpg" alt="wonder-blast visual 3" loading="lazy"></div>
+<div class="detail-slide"><img src="assets/images/wonder-blast/slide-4.jpg" alt="wonder-blast visual 4" loading="lazy"></div>
+<div class="detail-slide"><img src="assets/images/wonder-blast/slide-5.jpg" alt="wonder-blast visual 5" loading="lazy"></div>
+<div class="detail-slide"><img src="assets/images/wonder-blast/slide-6.jpg" alt="wonder-blast visual 6" loading="lazy"></div>
+<div class="detail-slide"><img src="assets/images/wonder-blast/slide-7.jpg" alt="wonder-blast visual 7" loading="lazy"></div>
+<div class="detail-slide"><img src="assets/images/wonder-blast/slide-8.jpg" alt="wonder-blast visual 8" loading="lazy"></div>
+<div class="detail-slide"><img src="assets/images/wonder-blast/slide-9.jpg" alt="wonder-blast visual 9" loading="lazy"></div>
+<div class="detail-slide"><img src="assets/images/wonder-blast/slide-10.jpg" alt="wonder-blast visual 10" loading="lazy"></div>
+<div class="detail-slide"><img src="assets/images/wonder-blast/slide-11.jpg" alt="wonder-blast visual 11" loading="lazy"></div>
+<div class="detail-slide"><img src="assets/images/wonder-blast/slide-12.jpg" alt="wonder-blast visual 12" loading="lazy"></div>
+<div class="detail-slide"><img src="assets/images/wonder-blast/slide-13.jpg" alt="wonder-blast visual 13" loading="lazy"></div>
+<div class="detail-slide"><img src="assets/images/wonder-blast/slide-14.jpg" alt="wonder-blast visual 14" loading="lazy"></div>
+<div class="detail-slide"><img src="assets/images/wonder-blast/slide-15.jpg" alt="wonder-blast visual 15" loading="lazy"></div>
+<div class="detail-slide"><img src="assets/images/wonder-blast/slide-16.jpg" alt="wonder-blast visual 16" loading="lazy"></div>
+<div class="detail-slide"><img src="assets/images/wonder-blast/slide-17.jpg" alt="wonder-blast visual 17" loading="lazy"></div>
+<div class="detail-slide"><img src="assets/images/wonder-blast/slide-18.jpg" alt="wonder-blast visual 18" loading="lazy"></div>
+<div class="detail-slide"><img src="assets/images/wonder-blast/slide-19.jpg" alt="wonder-blast visual 19" loading="lazy"></div>
+<div class="detail-slide"><img src="assets/images/wonder-blast/slide-20.jpg" alt="wonder-blast visual 20" loading="lazy"></div>
+<div class="detail-slide"><img src="assets/images/wonder-blast/slide-21.jpg" alt="wonder-blast visual 21" loading="lazy"></div>
+<div class="detail-slide"><img src="assets/images/wonder-blast/slide-22.jpg" alt="wonder-blast visual 22" loading="lazy"></div>
+<div class="detail-slide"><img src="assets/images/wonder-blast/slide-23.jpg" alt="wonder-blast visual 23" loading="lazy"></div>
+<div class="detail-slide"><img src="assets/images/wonder-blast/slide-24.jpg" alt="wonder-blast visual 24" loading="lazy"></div>
+<div class="detail-slide"><img src="assets/images/wonder-blast/slide-25.jpg" alt="wonder-blast visual 25" loading="lazy"></div>
+
+        </div>
+        <button class="slider-arrow slider-prev" onclick="slide('wonder-blast',-1)"><i class="ti ti-chevron-left"></i></button>
+        <button class="slider-arrow slider-next" onclick="slide('wonder-blast',1)"><i class="ti ti-chevron-right"></i></button>
+        <div class="slider-nav" id="dots-wonder-blast"><div class="slider-dot  active" onclick="goSlide('wonder-blast',0)"></div><div class="slider-dot" onclick="goSlide('wonder-blast',1)"></div><div class="slider-dot" onclick="goSlide('wonder-blast',2)"></div><div class="slider-dot" onclick="goSlide('wonder-blast',3)"></div><div class="slider-dot" onclick="goSlide('wonder-blast',4)"></div><div class="slider-dot" onclick="goSlide('wonder-blast',5)"></div><div class="slider-dot" onclick="goSlide('wonder-blast',6)"></div><div class="slider-dot" onclick="goSlide('wonder-blast',7)"></div><div class="slider-dot" onclick="goSlide('wonder-blast',8)"></div><div class="slider-dot" onclick="goSlide('wonder-blast',9)"></div><div class="slider-dot" onclick="goSlide('wonder-blast',10)"></div><div class="slider-dot" onclick="goSlide('wonder-blast',11)"></div><div class="slider-dot" onclick="goSlide('wonder-blast',12)"></div><div class="slider-dot" onclick="goSlide('wonder-blast',13)"></div><div class="slider-dot" onclick="goSlide('wonder-blast',14)"></div><div class="slider-dot" onclick="goSlide('wonder-blast',15)"></div><div class="slider-dot" onclick="goSlide('wonder-blast',16)"></div><div class="slider-dot" onclick="goSlide('wonder-blast',17)"></div><div class="slider-dot" onclick="goSlide('wonder-blast',18)"></div><div class="slider-dot" onclick="goSlide('wonder-blast',19)"></div><div class="slider-dot" onclick="goSlide('wonder-blast',20)"></div><div class="slider-dot" onclick="goSlide('wonder-blast',21)"></div><div class="slider-dot" onclick="goSlide('wonder-blast',22)"></div><div class="slider-dot" onclick="goSlide('wonder-blast',23)"></div><div class="slider-dot" onclick="goSlide('wonder-blast',24)"></div></div>
+      </div>
+      <div class="detail-right">
+        <div class="detail-proj-name">Wonder Blast</div>
+        <div class="detail-studio">GoodJob Games · 2022</div>
+        <div class="detail-section-label">Art Direction</div><div class="credit-item">Semih Şen</div><div class="credit-role">Lead Game Artist</div>
+        <div class="detail-section-label">Concept Art</div><div class="credit-item">—</div>
+        <div class="detail-section-label">3D Art</div><div class="credit-item">—</div>
+        <div class="detail-section-label">About</div>
+        <div class="detail-desc">Mobile game art direction and visual identity design.</div>
+      </div>
+    </div>
+  </div>
+  <div class="detail-page" id="detail-personal1">
+    <div class="detail-header"><button class="port-back" onclick="closeDetail('personal')"><i class="ti ti-arrow-left"></i> Personal Works</button></div>
+    <div class="detail-inner">
+      <div class="detail-left"><div class="detail-left-title">Type</div><div style="font-size:11px;font-weight:600;color:var(--muted);font-family:var(--font);padding:4px 0;">Personal Project</div></div>
+      <div class="detail-center">
+        <div class="detail-slider" id="slider-personal1">
+          <div class="detail-slide"><img src="assets/images/personal/1-slide-1.jpg" alt="Personal Work 1 visual 1" loading="lazy"></div>
+<div class="detail-slide"><img src="assets/images/personal/1-slide-2.jpg" alt="Personal Work 1 visual 2" loading="lazy"></div>
+<div class="detail-slide"><img src="assets/images/personal/1-slide-3.jpg" alt="Personal Work 1 visual 3" loading="lazy"></div>
+<div class="detail-slide"><img src="assets/images/personal/1-slide-4.jpg" alt="Personal Work 1 visual 4" loading="lazy"></div>
+<div class="detail-slide"><img src="assets/images/personal/1-slide-5.jpg" alt="Personal Work 1 visual 5" loading="lazy"></div>
+<div class="detail-slide"><img src="assets/images/personal/1-slide-6.jpg" alt="Personal Work 1 visual 6" loading="lazy"></div>
+<div class="detail-slide"><img src="assets/images/personal/1-slide-7.jpg" alt="Personal Work 1 visual 7" loading="lazy"></div>
+
+        </div>
+        <button class="slider-arrow slider-prev" onclick="slide('personal1',-1)"><i class="ti ti-chevron-left"></i></button>
+        <button class="slider-arrow slider-next" onclick="slide('personal1',1)"><i class="ti ti-chevron-right"></i></button>
+        <div class="slider-nav" id="dots-personal1"><div class="slider-dot  active" onclick="goSlide('personal1',0)"></div><div class="slider-dot" onclick="goSlide('personal1',1)"></div><div class="slider-dot" onclick="goSlide('personal1',2)"></div><div class="slider-dot" onclick="goSlide('personal1',3)"></div><div class="slider-dot" onclick="goSlide('personal1',4)"></div><div class="slider-dot" onclick="goSlide('personal1',5)"></div><div class="slider-dot" onclick="goSlide('personal1',6)"></div></div>
+      </div>
+      <div class="detail-right">
+        <div class="detail-proj-name">Personal Work 1</div>
+        <div class="detail-studio">Personal Work</div>
+        <div class="detail-section-label">Art Direction</div><div class="credit-item">Semih Şen</div>
+        <div class="detail-section-label">About</div>
+        <div class="detail-desc">Character & concept studies.</div>
+      </div>
+    </div>
+  </div>
+  <div class="detail-page" id="detail-personal2">
+    <div class="detail-header"><button class="port-back" onclick="closeDetail('personal')"><i class="ti ti-arrow-left"></i> Personal Works</button></div>
+    <div class="detail-inner">
+      <div class="detail-left"><div class="detail-left-title">Type</div><div style="font-size:11px;font-weight:600;color:var(--muted);font-family:var(--font);padding:4px 0;">Personal Project</div></div>
+      <div class="detail-center">
+        <div class="detail-slider" id="slider-personal2">
+          <div class="detail-slide"><img src="assets/images/personal/2-slide-1.jpg" alt="Personal Work 2 visual 1" loading="lazy"></div>
+<div class="detail-slide"><img src="assets/images/personal/2-slide-2.jpg" alt="Personal Work 2 visual 2" loading="lazy"></div>
+
+        </div>
+        <button class="slider-arrow slider-prev" onclick="slide('personal2',-1)"><i class="ti ti-chevron-left"></i></button>
+        <button class="slider-arrow slider-next" onclick="slide('personal2',1)"><i class="ti ti-chevron-right"></i></button>
+        <div class="slider-nav" id="dots-personal2"><div class="slider-dot  active" onclick="goSlide('personal2',0)"></div><div class="slider-dot" onclick="goSlide('personal2',1)"></div></div>
+      </div>
+      <div class="detail-right">
+        <div class="detail-proj-name">Personal Work 2</div>
+        <div class="detail-studio">Personal Work</div>
+        <div class="detail-section-label">Art Direction</div><div class="credit-item">Semih Şen</div>
+        <div class="detail-section-label">About</div>
+        <div class="detail-desc">Personal illustration project.</div>
+      </div>
+    </div>
+  </div>
+  <div class="detail-page" id="detail-personal3">
+    <div class="detail-header"><button class="port-back" onclick="closeDetail('personal')"><i class="ti ti-arrow-left"></i> Personal Works</button></div>
+    <div class="detail-inner">
+      <div class="detail-left"><div class="detail-left-title">Type</div><div style="font-size:11px;font-weight:600;color:var(--muted);font-family:var(--font);padding:4px 0;">Personal Project</div></div>
+      <div class="detail-center">
+        <div class="detail-slider" id="slider-personal3">
+          <div class="detail-slide"><img src="assets/images/personal/3-slide-1.jpg" alt="Personal Work 3 visual 1" loading="lazy"></div>
+<div class="detail-slide"><img src="assets/images/personal/3-slide-2.jpg" alt="Personal Work 3 visual 2" loading="lazy"></div>
+<div class="detail-slide"><img src="assets/images/personal/3-slide-3.jpg" alt="Personal Work 3 visual 3" loading="lazy"></div>
+<div class="detail-slide"><img src="assets/images/personal/3-slide-4.jpg" alt="Personal Work 3 visual 4" loading="lazy"></div>
+<div class="detail-slide"><img src="assets/images/personal/3-slide-5.jpg" alt="Personal Work 3 visual 5" loading="lazy"></div>
+
+        </div>
+        <button class="slider-arrow slider-prev" onclick="slide('personal3',-1)"><i class="ti ti-chevron-left"></i></button>
+        <button class="slider-arrow slider-next" onclick="slide('personal3',1)"><i class="ti ti-chevron-right"></i></button>
+        <div class="slider-nav" id="dots-personal3"><div class="slider-dot  active" onclick="goSlide('personal3',0)"></div><div class="slider-dot" onclick="goSlide('personal3',1)"></div><div class="slider-dot" onclick="goSlide('personal3',2)"></div><div class="slider-dot" onclick="goSlide('personal3',3)"></div><div class="slider-dot" onclick="goSlide('personal3',4)"></div></div>
+      </div>
+      <div class="detail-right">
+        <div class="detail-proj-name">Personal Work 3</div>
+        <div class="detail-studio">Personal Work</div>
+        <div class="detail-section-label">Art Direction</div><div class="credit-item">Semih Şen</div>
+        <div class="detail-section-label">About</div>
+        <div class="detail-desc">Character design exploration.</div>
+      </div>
+    </div>
+  </div>
+  <div class="detail-page" id="detail-personal4">
+    <div class="detail-header"><button class="port-back" onclick="closeDetail('personal')"><i class="ti ti-arrow-left"></i> Personal Works</button></div>
+    <div class="detail-inner">
+      <div class="detail-left"><div class="detail-left-title">Type</div><div style="font-size:11px;font-weight:600;color:var(--muted);font-family:var(--font);padding:4px 0;">Personal Project</div></div>
+      <div class="detail-center">
+        <div class="detail-slider" id="slider-personal4">
+          <div class="detail-slide"><img src="assets/images/personal/4-slide-1.jpg" alt="Personal Work 4 visual 1" loading="lazy"></div>
+<div class="detail-slide"><img src="assets/images/personal/4-slide-2.jpg" alt="Personal Work 4 visual 2" loading="lazy"></div>
+<div class="detail-slide"><img src="assets/images/personal/4-slide-3.jpg" alt="Personal Work 4 visual 3" loading="lazy"></div>
+<div class="detail-slide"><img src="assets/images/personal/4-slide-4.jpg" alt="Personal Work 4 visual 4" loading="lazy"></div>
+<div class="detail-slide"><img src="assets/images/personal/4-slide-5.jpg" alt="Personal Work 4 visual 5" loading="lazy"></div>
+
+        </div>
+        <button class="slider-arrow slider-prev" onclick="slide('personal4',-1)"><i class="ti ti-chevron-left"></i></button>
+        <button class="slider-arrow slider-next" onclick="slide('personal4',1)"><i class="ti ti-chevron-right"></i></button>
+        <div class="slider-nav" id="dots-personal4"><div class="slider-dot  active" onclick="goSlide('personal4',0)"></div><div class="slider-dot" onclick="goSlide('personal4',1)"></div><div class="slider-dot" onclick="goSlide('personal4',2)"></div><div class="slider-dot" onclick="goSlide('personal4',3)"></div><div class="slider-dot" onclick="goSlide('personal4',4)"></div></div>
+      </div>
+      <div class="detail-right">
+        <div class="detail-proj-name">Personal Work 4</div>
+        <div class="detail-studio">Personal Work</div>
+        <div class="detail-section-label">Art Direction</div><div class="credit-item">Semih Şen</div>
+        <div class="detail-section-label">About</div>
+        <div class="detail-desc">Photography & visual study.</div>
+      </div>
+    </div>
+  </div>
+  <div class="detail-page" id="detail-personal5">
+    <div class="detail-header"><button class="port-back" onclick="closeDetail('personal')"><i class="ti ti-arrow-left"></i> Personal Works</button></div>
+    <div class="detail-inner">
+      <div class="detail-left"><div class="detail-left-title">Type</div><div style="font-size:11px;font-weight:600;color:var(--muted);font-family:var(--font);padding:4px 0;">Personal Project</div></div>
+      <div class="detail-center">
+        <div class="detail-slider" id="slider-personal5">
+          <div class="detail-slide"><img src="assets/images/personal/5-slide-1.jpg" alt="Personal Work 5 visual 1" loading="lazy"></div>
+
+        </div>
+        <button class="slider-arrow slider-prev" onclick="slide('personal5',-1)"><i class="ti ti-chevron-left"></i></button>
+        <button class="slider-arrow slider-next" onclick="slide('personal5',1)"><i class="ti ti-chevron-right"></i></button>
+        <div class="slider-nav" id="dots-personal5"><div class="slider-dot  active" onclick="goSlide('personal5',0)"></div></div>
+      </div>
+      <div class="detail-right">
+        <div class="detail-proj-name">Personal Work 5</div>
+        <div class="detail-studio">Personal Work</div>
+        <div class="detail-section-label">Art Direction</div><div class="credit-item">Semih Şen</div>
+        <div class="detail-section-label">About</div>
+        <div class="detail-desc">Personal artwork.</div>
+      </div>
+    </div>
+  </div>
+  <div class="detail-page" id="detail-personal6">
+    <div class="detail-header"><button class="port-back" onclick="closeDetail('personal')"><i class="ti ti-arrow-left"></i> Personal Works</button></div>
+    <div class="detail-inner">
+      <div class="detail-left"><div class="detail-left-title">Type</div><div style="font-size:11px;font-weight:600;color:var(--muted);font-family:var(--font);padding:4px 0;">Personal Project</div></div>
+      <div class="detail-center">
+        <div class="detail-slider" id="slider-personal6">
+          <div class="detail-slide"><img src="assets/images/personal/6-slide-1.jpg" alt="Personal Work 6 visual 1" loading="lazy"></div>
+<div class="detail-slide"><img src="assets/images/personal/6-slide-2.jpg" alt="Personal Work 6 visual 2" loading="lazy"></div>
+<div class="detail-slide"><img src="assets/images/personal/6-slide-3.jpg" alt="Personal Work 6 visual 3" loading="lazy"></div>
+<div class="detail-slide"><img src="assets/images/personal/6-slide-4.jpg" alt="Personal Work 6 visual 4" loading="lazy"></div>
+
+        </div>
+        <button class="slider-arrow slider-prev" onclick="slide('personal6',-1)"><i class="ti ti-chevron-left"></i></button>
+        <button class="slider-arrow slider-next" onclick="slide('personal6',1)"><i class="ti ti-chevron-right"></i></button>
+        <div class="slider-nav" id="dots-personal6"><div class="slider-dot  active" onclick="goSlide('personal6',0)"></div><div class="slider-dot" onclick="goSlide('personal6',1)"></div><div class="slider-dot" onclick="goSlide('personal6',2)"></div><div class="slider-dot" onclick="goSlide('personal6',3)"></div></div>
+      </div>
+      <div class="detail-right">
+        <div class="detail-proj-name">Personal Work 6</div>
+        <div class="detail-studio">Personal Work</div>
+        <div class="detail-section-label">Art Direction</div><div class="credit-item">Semih Şen</div>
+        <div class="detail-section-label">About</div>
+        <div class="detail-desc">Personal artwork series.</div>
+      </div>
+    </div>
+  </div>
+  <div class="detail-page" id="detail-personal7">
+    <div class="detail-header"><button class="port-back" onclick="closeDetail('personal')"><i class="ti ti-arrow-left"></i> Personal Works</button></div>
+    <div class="detail-inner">
+      <div class="detail-left"><div class="detail-left-title">Type</div><div style="font-size:11px;font-weight:600;color:var(--muted);font-family:var(--font);padding:4px 0;">Personal Project</div></div>
+      <div class="detail-center">
+        <div class="detail-slider" id="slider-personal7">
+          <div class="detail-slide"><img src="assets/images/personal/7-slide-1.jpg" alt="Personal Work 7 visual 1" loading="lazy"></div>
+<div class="detail-slide"><img src="assets/images/personal/7-slide-2.jpg" alt="Personal Work 7 visual 2" loading="lazy"></div>
+<div class="detail-slide"><img src="assets/images/personal/7-slide-3.jpg" alt="Personal Work 7 visual 3" loading="lazy"></div>
+<div class="detail-slide"><img src="assets/images/personal/7-slide-4.jpg" alt="Personal Work 7 visual 4" loading="lazy"></div>
+<div class="detail-slide"><img src="assets/images/personal/7-slide-5.jpg" alt="Personal Work 7 visual 5" loading="lazy"></div>
+<div class="detail-slide"><img src="assets/images/personal/7-slide-6.jpg" alt="Personal Work 7 visual 6" loading="lazy"></div>
+
+        </div>
+        <button class="slider-arrow slider-prev" onclick="slide('personal7',-1)"><i class="ti ti-chevron-left"></i></button>
+        <button class="slider-arrow slider-next" onclick="slide('personal7',1)"><i class="ti ti-chevron-right"></i></button>
+        <div class="slider-nav" id="dots-personal7"><div class="slider-dot  active" onclick="goSlide('personal7',0)"></div><div class="slider-dot" onclick="goSlide('personal7',1)"></div><div class="slider-dot" onclick="goSlide('personal7',2)"></div><div class="slider-dot" onclick="goSlide('personal7',3)"></div><div class="slider-dot" onclick="goSlide('personal7',4)"></div><div class="slider-dot" onclick="goSlide('personal7',5)"></div></div>
+      </div>
+      <div class="detail-right">
+        <div class="detail-proj-name">Personal Work 7</div>
+        <div class="detail-studio">Personal Work</div>
+        <div class="detail-section-label">Art Direction</div><div class="credit-item">Semih Şen</div>
+        <div class="detail-section-label">About</div>
+        <div class="detail-desc">Personal artwork series.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RESUME -->
+  <div class="page" id="page-resume">
+    <div class="resume-layout">
+      <div class="resume-left">
+        <div class="resume-img-ph" id="resume-img">
+          <i class="ti ti-file-cv"></i><span>CV Görseli</span>
+        </div>
+      </div>
+      <div class="resume-right">
+        <div>
+          <div class="resume-eyebrow">Experience</div>
+          <div class="resume-item"><div class="resume-year">2024 — Now</div><div><div class="resume-title">Lead Game Artist</div><div class="resume-company">Grand Games</div><div class="resume-desc">Art direction and team lead across Magic Sort, Car Match, and Block Out.</div></div></div>
+          <div class="resume-item"><div class="resume-year">2022 — 2024</div><div><div class="resume-title">2D Game Artist</div><div class="resume-company">GoodJob Games</div><div class="resume-desc">Wonder Blast and Match Villians. Character design, UI art, visual development.</div></div></div>
+          <div class="resume-item"><div class="resume-year">2019 — 2022</div><div><div class="resume-title">Concept Artist</div><div class="resume-company">Freelance & Animation</div><div class="resume-desc">Character designs and background concepts across multiple studios.</div></div></div>
+        </div>
+        <div>
+          <div class="resume-eyebrow">Skills</div>
+          <div class="skills-grid">
+            <div class="skill-tag">Concept Art</div><div class="skill-tag">UI / UX</div>
+            <div class="skill-tag">Art Direction</div><div class="skill-tag">Character Design</div>
+            <div class="skill-tag">Visual Identity</div><div class="skill-tag">Team Lead</div>
+            <div class="skill-tag">Photoshop</div><div class="skill-tag">Illustrator</div>
+            <div class="skill-tag">Figma</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+<script src="assets/main.js"></script>
+</body>
+</html>

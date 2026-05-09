@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin — semihsen.art</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&family=Inter:wght@400;500;600&display=swap');
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{--bg:#0a0910;--bg2:#14131a;--bg3:#1c1b24;--text:#f0eeee;--muted:#888680;--accent:#4a90e2;--accent2:#c8a96e;--border:rgba(255,255,255,0.08);--success:#5bc49a;--danger:#e25555;--font:'Inter',sans-serif;--font-head:'Rajdhani',sans-serif;}
+body{background:var(--bg);color:var(--text);font-family:var(--font);display:flex;min-height:100vh;}
+.sidebar{width:230px;min-width:230px;background:var(--bg2);border-right:0.5px solid var(--border);display:flex;flex-direction:column;}
+.logo{padding:24px;border-bottom:0.5px solid var(--border);}
+.logo-name{font-family:var(--font-head);font-size:15px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;}
+.logo-sub{font-size:9px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:var(--accent);margin-top:3px;}
+nav{padding:12px 0;flex:1;overflow-y:auto;}
+.nl{font-size:9px;font-weight:600;letter-spacing:0.16em;color:var(--muted);text-transform:uppercase;padding:10px 20px 4px;}
+.ni{display:flex;align-items:center;gap:9px;padding:9px 20px;cursor:pointer;border-left:2px solid transparent;color:var(--muted);font-size:12px;font-weight:500;transition:all 0.15s;}
+.ni i{font-size:15px;}
+.ni:hover{background:var(--bg3);color:var(--text);}
+.ni.active{background:var(--bg3);color:var(--accent);border-left-color:var(--accent);}
+.sidebar-foot{padding:16px 20px;border-top:0.5px solid var(--border);font-size:11px;color:var(--muted);}
+.main{flex:1;overflow-y:auto;background:var(--bg);}
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:18px 32px;border-bottom:0.5px solid var(--border);position:sticky;top:0;background:var(--bg);z-index:10;}
+.topbar-title{font-family:var(--font-head);font-size:17px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;}
+.panel{display:none;padding:28px 32px;}
+.panel.active{display:block;}
+.card{background:var(--bg2);border:0.5px solid var(--border);border-radius:8px;padding:22px;margin-bottom:18px;}
+.card-title{font-family:var(--font-head);font-size:10px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--accent2);margin-bottom:16px;}
+/* UPLOAD ZONE */
+.upload-zone{border:1px dashed rgba(255,255,255,0.14);border-radius:6px;padding:20px;text-align:center;cursor:pointer;position:relative;background:var(--bg3);transition:border-color 0.2s;}
+.upload-zone:hover{border-color:var(--accent);}
+.upload-zone input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
+.upload-zone i{font-size:26px;color:var(--muted);opacity:0.4;display:block;margin-bottom:6px;}
+.upload-zone span{font-size:11px;color:var(--muted);}
+/* IMAGE GRID */
+.img-grid{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px;}
+.img-thumb{width:100px;height:100px;border-radius:4px;overflow:hidden;position:relative;border:0.5px solid var(--border);}
+.img-thumb img{width:100%;height:100%;object-fit:cover;}
+.img-del{position:absolute;top:4px;right:4px;background:rgba(226,85,85,0.9);border:none;color:#fff;width:22px;height:22px;border-radius:50%;cursor:pointer;font-size:12px;display:flex;align-items:center;justify-content:center;}
+/* SLIDER */
+.sr{display:flex;align-items:center;gap:14px;margin-bottom:14px;}
+.sr:last-child{margin-bottom:0;}
+.sl{font-size:12px;color:var(--muted);min-width:170px;}
+.sv{font-size:12px;font-weight:600;color:var(--text);min-width:48px;text-align:right;}
+input[type=range]{flex:1;accent-color:var(--accent);}
+input[type=text],input[type=url],textarea,select{background:var(--bg3);border:0.5px solid var(--border);color:var(--text);padding:8px 12px;border-radius:4px;font-size:12px;font-family:var(--font);outline:none;width:100%;transition:border-color 0.2s;}
+input[type=text]:focus,input[type=url]:focus,textarea:focus{border-color:var(--accent);}
+textarea{resize:vertical;min-height:70px;}
+.fg{margin-bottom:12px;}
+.fl{font-size:10px;color:var(--muted);margin-bottom:5px;font-weight:500;}
+.fg2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;}
+.btn{padding:9px 18px;border:none;border-radius:4px;font-size:12px;font-weight:600;cursor:pointer;font-family:var(--font);transition:opacity 0.2s;display:inline-flex;align-items:center;gap:6px;}
+.btn-primary{background:var(--accent);color:#fff;}
+.btn-primary:hover{opacity:0.85;}
+.btn-ghost{background:transparent;border:0.5px solid var(--border);color:var(--muted);}
+.btn-ghost:hover{color:var(--text);border-color:rgba(255,255,255,0.2);}
+.notif{position:fixed;bottom:22px;right:22px;padding:11px 18px;border-radius:6px;font-size:13px;font-weight:600;z-index:999;transform:translateY(60px);opacity:0;transition:all 0.3s;pointer-events:none;display:flex;align-items:center;gap:8px;}
+.notif.ok{background:var(--success);color:#0a0910;}
+.notif.err{background:var(--danger);color:#fff;}
+.notif.show{transform:translateY(0);opacity:1;}
+.spinner{display:none;width:16px;height:16px;border:2px solid rgba(255,255,255,0.3);border-top-color:#fff;border-radius:50%;animation:spin 0.6s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.loading .spinner{display:inline-block;}
+.store-row{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+.store-row i{font-size:18px;color:var(--accent);flex-shrink:0;}
+</style>
+</head>
+<body>
+
+<aside class="sidebar">
+  <div class="logo">
+    <div class="logo-name">Semih Şen</div>
+    <div class="logo-sub">Admin Panel</div>
+  </div>
+  <nav>
+    <div class="nl">Site</div>
+    <div class="ni active" onclick="sw('settings',this)"><i class="ti ti-settings"></i> Boyut Ayarları</div>
+    <div class="ni" onclick="sw('hero',this)"><i class="ti ti-photo"></i> Hero Görseli</div>
+    <div class="ni" onclick="sw('resume',this)"><i class="ti ti-id-badge"></i> Resume</div>
+    <div class="nl">Game Art</div>
+    <div class="ni" onclick="sw('block-out',this)"><i class="ti ti-squares"></i> Block Out</div>
+    <div class="ni" onclick="sw('car-match',this)"><i class="ti ti-car"></i> Car Match</div>
+    <div class="ni" onclick="sw('magic-sort',this)"><i class="ti ti-puzzle"></i> Magic Sort</div>
+    <div class="ni" onclick="sw('match-villains',this)"><i class="ti ti-sword"></i> Match Villians</div>
+    <div class="ni" onclick="sw('wonder-blast',this)"><i class="ti ti-bolt"></i> Wonder Blast</div>
+    <div class="nl">Personal Works</div>
+    <div class="ni" onclick="sw('p1',this)"><i class="ti ti-brush"></i> Personal 1</div>
+    <div class="ni" onclick="sw('p2',this)"><i class="ti ti-brush"></i> Personal 2</div>
+    <div class="ni" onclick="sw('p3',this)"><i class="ti ti-brush"></i> Personal 3</div>
+    <div class="ni" onclick="sw('p4',this)"><i class="ti ti-brush"></i> Personal 4</div>
+    <div class="ni" onclick="sw('p5',this)"><i class="ti ti-brush"></i> Personal 5</div>
+    <div class="ni" onclick="sw('p6',this)"><i class="ti ti-brush"></i> Personal 6</div>
+    <div class="ni" onclick="sw('p7',this)"><i class="ti ti-brush"></i> Personal 7</div>
+  </nav>
+  <div class="sidebar-foot">semihsen.art · v2</div>
+</aside>
+
+<main class="main">
+  <div class="topbar">
+    <div class="topbar-title" id="topbar-title">Boyut Ayarları</div>
+  </div>
+
+  <!-- SETTINGS -->
+  <div class="panel active" id="panel-settings">
+    <div class="card">
+      <div class="card-title">Navigation Bar</div>
+      <div class="sr"><span class="sl">Nav yüksekliği</span><input type="range" min="48" max="180" value="88" oninput="updS(this,'nav-height-v','nav_height')"><span class="sv" id="nav-height-v">88px</span></div>
+      <div class="sr"><span class="sl">İsim font boyutu</span><input type="range" min="12" max="48" value="20" oninput="updS(this,'nav-logo-v','nav_logo_size')"><span class="sv" id="nav-logo-v">20px</span></div>
+      <div class="sr"><span class="sl">Alt başlık font boyutu</span><input type="range" min="7" max="20" value="10" oninput="updS(this,'nav-sub-v','nav_sub_size')"><span class="sv" id="nav-sub-v">10px</span></div>
+      <div class="sr"><span class="sl">Link font boyutu</span><input type="range" min="10" max="28" value="14" oninput="updS(this,'nav-link-v','nav_link_size')"><span class="sv" id="nav-link-v">14px</span></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Hero & Şerit</div>
+      <div class="sr"><span class="sl">Hero yüksekliği</span><input type="range" min="200" max="900" value="500" oninput="updS(this,'hero-h-v','hero_height')"><span class="sv" id="hero-h-v">500px</span></div>
+      <div class="sr"><span class="sl">Alt şerit yüksekliği</span><input type="range" min="60" max="300" value="110" oninput="updS(this,'thumb-h-v','thumb_height')"><span class="sv" id="thumb-h-v">110px</span></div>
+    </div>
+    <button class="btn btn-primary" onclick="saveSettings()"><i class="ti ti-device-floppy"></i> Kaydet</button>
+  </div>
+
+  <!-- HERO -->
+  <div class="panel" id="panel-hero">
+    <div class="card">
+      <div class="card-title">Hero Görseli</div>
+      <div id="hero-preview" style="margin-bottom:14px;"></div>
+      <div class="upload-zone">
+        <input type="file" accept="image/*" onchange="uploadHero(this)">
+        <i class="ti ti-photo"></i>
+        <span>Hero görselini buraya sürükle veya tıkla</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- RESUME -->
+  <div class="panel" id="panel-resume">
+    <div class="card">
+      <div class="card-title">CV Görseli</div>
+      <div id="resume-preview" style="margin-bottom:14px;"></div>
+      <div class="upload-zone">
+        <input type="file" accept="image/*" onchange="uploadResume(this)">
+        <i class="ti ti-file-cv"></i>
+        <span>CV görselini buraya sürükle veya tıkla</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- GAME ART PANELS -->
+  <div id="game-panels"></div>
+
+  <!-- PERSONAL PANELS -->
+  <div id="personal-panels"></div>
+
+</main>
+
+<div class="notif" id="notif"></div>
+
+<script>
+const API = window.location.origin;
+let db = {};
+
+// Veriyi yükle
+async function loadDB() {
+  try {
+    const r = await fetch(`${API}/api/data`);
+    db = await r.json();
+    renderGamePanels();
+    renderPersonalPanels();
+    loadSettings();
+    loadHeroPreview();
+    loadResumePreview();
+  } catch(e) { showNotif('Sunucuya bağlanılamadı', 'err'); }
+}
+
+function loadSettings() {
+  const s = db.settings || {};
+  const map = {
+    'nav_height': ['nav-height-v', 88],
+    'nav_logo_size': ['nav-logo-v', 20],
+    'nav_sub_size': ['nav-sub-v', 10],
+    'nav_link_size': ['nav-link-v', 14],
+    'hero_height': ['hero-h-v', 500],
+    'thumb_height': ['thumb-h-v', 110],
+  };
+  for (const [key, [elId, def]] of Object.entries(map)) {
+    const val = s[key] ? parseInt(s[key]) : def;
+    const el = document.getElementById(elId);
+    if (el) { el.textContent = val + 'px'; el.previousElementSibling.value = val; }
+  }
+}
+
+function updS(input, valId, key) {
+  const v = input.value + 'px';
+  document.getElementById(valId).textContent = v;
+  if (!db.settings) db.settings = {};
+  db.settings[key] = v;
+}
+
+async function saveSettings() {
+  try {
+    await fetch(`${API}/api/settings`, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(db.settings) });
+    showNotif('Ayarlar kaydedildi!', 'ok');
+  } catch(e) { showNotif('Hata: ' + e.message, 'err'); }
+}
+
+function loadHeroPreview() {
+  const el = document.getElementById('hero-preview');
+  if (db.hero && db.hero.url) {
+    el.innerHTML = `<img src="${db.hero.url}" style="width:100%;max-height:200px;object-fit:cover;border-radius:4px;">`;
+  }
+}
+
+function loadResumePreview() {
+  const el = document.getElementById('resume-preview');
+  if (db.resume && db.resume.url) {
+    el.innerHTML = `<img src="${db.resume.url}" style="width:200px;border-radius:4px;">`;
+  }
+}
+
+async function uploadHero(input) {
+  const file = input.files[0]; if (!file) return;
+  const fd = new FormData(); fd.append('image', file);
+  showNotif('Yükleniyor...', 'ok');
+  try {
+    const r = await fetch(`${API}/api/upload/hero`, { method:'POST', body:fd });
+    const d = await r.json();
+    if (d.ok) { db.hero = { url: d.url }; loadHeroPreview(); showNotif('Hero güncellendi!', 'ok'); }
+  } catch(e) { showNotif('Hata: ' + e.message, 'err'); }
+}
+
+async function uploadResume(input) {
+  const file = input.files[0]; if (!file) return;
+  const fd = new FormData(); fd.append('image', file);
+  showNotif('Yükleniyor...', 'ok');
+  try {
+    const r = await fetch(`${API}/api/upload/resume`, { method:'POST', body:fd });
+    const d = await r.json();
+    if (d.ok) { db.resume = { url: d.url }; loadResumePreview(); showNotif('CV güncellendi!', 'ok'); }
+  } catch(e) { showNotif('Hata: ' + e.message, 'err'); }
+}
+
+function renderGamePanels() {
+  const keys = ['block-out','car-match','magic-sort','match-villains','wonder-blast'];
+  let html = '';
+  for (const key of keys) {
+    const p = db.projects[key] || {};
+    const slides = (p.slides || []).map((s,i) =>
+      `<div class="img-thumb"><img src="${s.url}"><button class="img-del" onclick="delSlide('${key}',${i})"><i class="ti ti-x"></i></button></div>`
+    ).join('');
+    const grids = (p.grid || []).map((g,i) =>
+      `<div class="img-thumb"><img src="${g.url}"><button class="img-del" onclick="delGrid('${key}',${i})"><i class="ti ti-x"></i></button></div>`
+    ).join('');
+    html += `
+    <div class="panel" id="panel-${key}">
+      <div class="card">
+        <div class="card-title">Proje Bilgileri</div>
+        <div class="fg2">
+          <div class="fg"><div class="fl">Proje Adı</div><input type="text" id="${key}-name" value="${p.name||''}"></div>
+          <div class="fg"><div class="fl">Stüdyo</div><input type="text" id="${key}-studio" value="${p.studio||''}"></div>
+          <div class="fg"><div class="fl">Yıl</div><input type="text" id="${key}-year" value="${p.year||''}"></div>
+        </div>
+        <div class="fg"><div class="fl">Açıklama</div><textarea id="${key}-about">${p.about||''}</textarea></div>
+        <div class="fg"><div class="fl">Art Direction</div><input type="text" id="${key}-art_direction" value="${(p.credits||{}).art_direction||'Semih Şen'}"></div>
+        <div class="fg2">
+          <div class="fg"><div class="fl">Concept Art</div><input type="text" id="${key}-concept_art" value="${(p.credits||{}).concept_art||''}"></div>
+          <div class="fg"><div class="fl">3D Art</div><input type="text" id="${key}-art_3d" value="${(p.credits||{}).art_3d||''}"></div>
+        </div>
+        <div class="store-row"><i class="ti ti-brand-apple"></i><input type="url" id="${key}-ios" value="${p.ios||''}" placeholder="App Store URL"></div>
+        <div class="store-row"><i class="ti ti-brand-google-play"></i><input type="url" id="${key}-android" value="${p.android||''}" placeholder="Google Play URL"></div>
+        <button class="btn btn-primary" style="margin-top:12px;" onclick="saveProject('${key}')"><i class="ti ti-device-floppy"></i> Kaydet</button>
+      </div>
+      <div class="card">
+        <div class="card-title">Izgara Görselleri (2×2, maks 4)</div>
+        <div class="img-grid" id="${key}-grid">${grids}</div>
+        <div class="upload-zone" style="margin-top:12px;">
+          <input type="file" accept="image/*" multiple onchange="uploadGrid('${key}',this)">
+          <i class="ti ti-plus"></i><span>Izgara görseli ekle</span>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">Slider Görselleri</div>
+        <div class="img-grid" id="${key}-slides">${slides}</div>
+        <div class="upload-zone" style="margin-top:12px;">
+          <input type="file" accept="image/*" multiple onchange="uploadSlides('${key}',this)">
+          <i class="ti ti-plus"></i><span>Slider görseli ekle (çoklu seçim yapabilirsin)</span>
+        </div>
+      </div>
+    </div>`;
+  }
+  document.getElementById('game-panels').innerHTML = html;
+}
+
+function renderPersonalPanels() {
+  let html = '';
+  for (let num = 1; num <= 7; num++) {
+    const p = (db.personal || {})[String(num)] || {};
+    const slides = (p.slides || []).map((s,i) =>
+      `<div class="img-thumb"><img src="${s.url}"><button class="img-del" onclick="delPersonalSlide(${num},${i})"><i class="ti ti-x"></i></button></div>`
+    ).join('');
+    html += `
+    <div class="panel" id="panel-p${num}">
+      <div class="card">
+        <div class="card-title">Personal Work ${num}</div>
+        <div class="fg"><div class="fl">Proje Adı</div><input type="text" id="p${num}-name" value="${p.name||''}"></div>
+        <div class="fg"><div class="fl">Açıklama</div><textarea id="p${num}-about">${p.about||''}</textarea></div>
+        <button class="btn btn-primary" style="margin-top:12px;" onclick="savePersonal(${num})"><i class="ti ti-device-floppy"></i> Kaydet</button>
+      </div>
+      <div class="card">
+        <div class="card-title">Slider Görselleri</div>
+        <div class="img-grid" id="p${num}-slides">${slides}</div>
+        <div class="upload-zone" style="margin-top:12px;">
+          <input type="file" accept="image/*" multiple onchange="uploadPersonalSlides(${num},this)">
+          <i class="ti ti-plus"></i><span>Görsel ekle</span>
+        </div>
+      </div>
+    </div>`;
+  }
+  document.getElementById('personal-panels').innerHTML = html;
+}
+
+async function saveProject(key) {
+  const data = {
+    name: document.getElementById(`${key}-name`).value,
+    studio: document.getElementById(`${key}-studio`).value,
+    year: document.getElementById(`${key}-year`).value,
+    about: document.getElementById(`${key}-about`).value,
+    ios: document.getElementById(`${key}-ios`).value,
+    android: document.getElementById(`${key}-android`).value,
+    credits: {
+      art_direction: document.getElementById(`${key}-art_direction`).value,
+      concept_art: document.getElementById(`${key}-concept_art`).value,
+      art_3d: document.getElementById(`${key}-art_3d`).value,
+    }
+  };
+  try {
+    await fetch(`${API}/api/project/${key}`, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(data) });
+    showNotif('Kaydedildi!', 'ok');
+  } catch(e) { showNotif('Hata!', 'err'); }
+}
+
+async function savePersonal(num) {
+  const data = { name: document.getElementById(`p${num}-name`).value, about: document.getElementById(`p${num}-about`).value };
+  try {
+    await fetch(`${API}/api/personal/${num}`, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(data) });
+    showNotif('Kaydedildi!', 'ok');
+  } catch(e) { showNotif('Hata!', 'err'); }
+}
+
+async function uploadSlides(key, input) {
+  const files = Array.from(input.files);
+  showNotif(`${files.length} görsel yükleniyor...`, 'ok');
+  for (const file of files) {
+    const fd = new FormData(); fd.append('image', file);
+    const r = await fetch(`${API}/api/upload/project/${key}/slide`, { method:'POST', body:fd });
+    const d = await r.json();
+    if (d.ok && d.slides) {
+      db.projects[key].slides = d.slides;
+      document.getElementById(`${key}-slides`).innerHTML = d.slides.map((s,i) =>
+        `<div class="img-thumb"><img src="${s.url}"><button class="img-del" onclick="delSlide('${key}',${i})"><i class="ti ti-x"></i></button></div>`
+      ).join('');
+    }
+  }
+  showNotif('Tüm görseller yüklendi!', 'ok');
+}
+
+async function uploadGrid(key, input) {
+  const files = Array.from(input.files);
+  for (const file of files) {
+    const fd = new FormData(); fd.append('image', file);
+    const r = await fetch(`${API}/api/upload/project/${key}/grid`, { method:'POST', body:fd });
+    const d = await r.json();
+    if (d.ok && d.grid) {
+      db.projects[key].grid = d.grid;
+      document.getElementById(`${key}-grid`).innerHTML = d.grid.map((g,i) =>
+        `<div class="img-thumb"><img src="${g.url}"><button class="img-del" onclick="delGrid('${key}',${i})"><i class="ti ti-x"></i></button></div>`
+      ).join('');
+    }
+  }
+  showNotif('Izgara güncellendi!', 'ok');
+}
+
+async function delSlide(key, idx) {
+  if (!confirm('Bu görseli sil?')) return;
+  const r = await fetch(`${API}/api/project/${key}/slide/${idx}`, { method:'DELETE' });
+  const d = await r.json();
+  if (d.ok) {
+    db.projects[key].slides = d.slides;
+    document.getElementById(`${key}-slides`).innerHTML = d.slides.map((s,i) =>
+      `<div class="img-thumb"><img src="${s.url}"><button class="img-del" onclick="delSlide('${key}',${i})"><i class="ti ti-x"></i></button></div>`
+    ).join('');
+    showNotif('Silindi!', 'ok');
+  }
+}
+
+async function delGrid(key, idx) {
+  if (!confirm('Bu görseli sil?')) return;
+  showNotif('Siliniyor...', 'ok');
+}
+
+async function uploadPersonalSlides(num, input) {
+  const files = Array.from(input.files);
+  showNotif(`${files.length} görsel yükleniyor...`, 'ok');
+  for (const file of files) {
+    const fd = new FormData(); fd.append('image', file);
+    const r = await fetch(`${API}/api/upload/personal/${num}/slide`, { method:'POST', body:fd });
+    const d = await r.json();
+    if (d.ok && d.slides) {
+      document.getElementById(`p${num}-slides`).innerHTML = d.slides.map((s,i) =>
+        `<div class="img-thumb"><img src="${s.url}"><button class="img-del" onclick="delPersonalSlide(${num},${i})"><i class="ti ti-x"></i></button></div>`
+      ).join('');
+    }
+  }
+  showNotif('Yüklendi!', 'ok');
+}
+
+async function delPersonalSlide(num, idx) {
+  if (!confirm('Sil?')) return;
+  const r = await fetch(`${API}/api/personal/${num}/slide/${idx}`, { method:'DELETE' });
+  const d = await r.json();
+  if (d.ok) {
+    document.getElementById(`p${num}-slides`).innerHTML = d.slides.map((s,i) =>
+      `<div class="img-thumb"><img src="${s.url}"><button class="img-del" onclick="delPersonalSlide(${num},${i})"><i class="ti ti-x"></i></button></div>`
+    ).join('');
+    showNotif('Silindi!', 'ok');
+  }
+}
+
+function sw(id, el) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.ni').forEach(n => n.classList.remove('active'));
+  document.getElementById('panel-' + id).classList.add('active');
+  document.getElementById('topbar-title').textContent = el.textContent.trim();
+  el.classList.add('active');
+}
+
+function showNotif(msg, type) {
+  const n = document.getElementById('notif');
+  n.className = `notif ${type} show`;
+  n.innerHTML = `<i class="ti ti-${type==='ok'?'check':'alert-circle'}"></i> ${msg}`;
+  clearTimeout(n._t);
+  n._t = setTimeout(() => n.classList.remove('show'), 2500);
+}
+
+loadDB();
+</script>
+</body>
+</html>
