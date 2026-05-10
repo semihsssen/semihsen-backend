@@ -262,3 +262,62 @@ document.addEventListener('keydown', function(e) {
 });
 
 loadSiteData();
+
+// Personal Works izgara
+function applyPersonal(personal) {
+  if (!personal) return;
+  const grid = document.getElementById("personal-grid");
+  if (!grid) return;
+  grid.innerHTML = "";
+  const colors = ["g1","g2","g3","g4","g5","g6"];
+  let idx = 0;
+  for (const [key, proj] of Object.entries(personal)) {
+    const div = document.createElement("div");
+    div.className = "game-item " + colors[idx % colors.length];
+    div.onclick = () => openPersonalDetail(key);
+    const slides = proj.slides || [];
+    let ih = "";
+    if (slides.length > 0) {
+      slides.slice(0,4).forEach(s => { ih += "<div class=\"inner-cell\"><img src=\"" + s.url + "\" loading=\"lazy\"></div>"; });
+      for (let i = slides.length; i < 4; i++) ih += "<div class=\"inner-cell inner-cell-ph\"><i class=\"ti ti-photo\"></i></div>";
+    } else {
+      for (let i = 0; i < 4; i++) ih += "<div class=\"inner-cell inner-cell-ph\"><i class=\"ti ti-photo\"></i></div>";
+    }
+    div.innerHTML = "<div class=\"inner-grid\">" + ih + "</div><div class=\"grid-overlay\"><div class=\"grid-title\">" + (proj.name || "Personal Work") + "</div></div>";
+    grid.appendChild(div);
+    idx++;
+  }
+}
+
+let currentPersonalKey = null;
+let personalSlideIdx = 0;
+
+function openPersonalDetail(key) {
+  if (!siteDB || !siteDB.personal[key]) return;
+  currentPersonalKey = key;
+  const proj = siteDB.personal[key];
+  const titleEl = document.getElementById("personal-detail-title");
+  if (titleEl) titleEl.textContent = proj.name || "Personal Work";
+  const slider = document.getElementById("personal-slider");
+  const dots = document.getElementById("personal-slider-dots");
+  if (!slider) return;
+  const slides = proj.slides || [];
+  slider.innerHTML = slides.map((s,i) => "<div class=\"slide\" style=\"background-image:url(" + s.url + ");display:" + (i===0?"block":"none") + "\"></div>").join("");
+  personalSlideIdx = 0;
+  if (dots) dots.innerHTML = slides.map((_,i) => "<div class=\"dot" + (i===0?" active":"") + "\"></div>").join("");
+  showPage("personal-detail");
+}
+
+function slidePersonal(dir) {
+  if (!siteDB || !currentPersonalKey) return;
+  const proj = siteDB.personal[currentPersonalKey] || {};
+  const slides = proj.slides || [];
+  if (slides.length === 0) return;
+  const items = document.querySelectorAll("#personal-slider .slide");
+  const dotsEl = document.querySelectorAll("#personal-slider-dots .dot");
+  if (items[personalSlideIdx]) items[personalSlideIdx].style.display = "none";
+  if (dotsEl[personalSlideIdx]) dotsEl[personalSlideIdx].classList.remove("active");
+  personalSlideIdx = (personalSlideIdx + dir + slides.length) % slides.length;
+  if (items[personalSlideIdx]) items[personalSlideIdx].style.display = "block";
+  if (dotsEl[personalSlideIdx]) dotsEl[personalSlideIdx].classList.add("active");
+}
