@@ -1,323 +1,209 @@
-// Slider index per work
-const sliderIndex = {};
-
-// Global data
+// semihsen.art - main.js
 let siteDB = null;
 
 async function loadSiteData() {
-    try {
-          const r = await fetch('/api/data');
-          siteDB = await r.json();
-          applySettings(siteDB.settings);
-          applyHero(siteDB.hero);
-          applyResume(siteDB.resume);
-          applyGameGrid(siteDB.projects);
-          applyPersonal(siteDB.personal);
-    } catch(e) {
-          console.log('API baglantisi yok, statik mod.');
-    }
+  try {
+    const r = await fetch('/api/data');
+    siteDB = await r.json();
+    applySettings(siteDB.settings);
+    applyColors(siteDB.settings);
+    applyHero(siteDB.hero);
+    applyResume(siteDB.resume);
+    applyGameGrid(siteDB.projects);
+    applyPersonal(siteDB.personal);
+  } catch(e) {
+    console.log('API baglantisi yok, statik mod.');
+  }
 }
 
 function applySettings(s) {
-    if (!s) return;
-    const root = document.documentElement.style;
-    if (s.nav_height) root.setProperty('--nav-height', s.nav_height);
-    if (s.nav_logo_size) root.setProperty('--nav-logo-size', s.nav_logo_size);
-    if (s.nav_sub_size) root.setProperty('--nav-sub-size', s.nav_sub_size);
-    if (s.nav_link_size) root.setProperty('--nav-link-size', s.nav_link_size);
-    if (s.hero_height) root.setProperty('--hero-height', s.hero_height);
-    if (s.thumb_height) root.setProperty('--thumb-height', s.thumb_height);
+  if (!s) return;
+  const r = document.documentElement.style;
+  if (s.nav_height) r.setProperty('--nav-height', s.nav_height);
+  if (s.nav_logo_size) r.setProperty('--nav-logo-size', s.nav_logo_size);
+  if (s.nav_sub_size) r.setProperty('--nav-sub-size', s.nav_sub_size);
+  if (s.nav_link_size) r.setProperty('--nav-link-size', s.nav_link_size);
+  if (s.hero_height) r.setProperty('--hero-height', s.hero_height);
+  if (s.thumb_height) r.setProperty('--thumb-height', s.thumb_height);
+  if (s.nav_logo_x) r.setProperty('--nav-logo-x', s.nav_logo_x + 'px');
+  if (s.nav_logo_y) r.setProperty('--nav-logo-y', s.nav_logo_y + 'px');
+}
+
+function applyColors(s) {
+  if (!s) return;
+  const r = document.documentElement.style;
+  if (s.color_bg) r.setProperty('--bg', s.color_bg);
+  if (s.color_bg2) r.setProperty('--bg2', s.color_bg2);
+  if (s.color_text) r.setProperty('--text', s.color_text);
+  if (s.color_muted) r.setProperty('--muted', s.color_muted);
+  if (s.color_accent) r.setProperty('--accent', s.color_accent);
 }
 
 function applyHero(hero) {
-    if (!hero || !hero.url) return;
-    const el = document.getElementById('hero-img');
-    if (!el) return;
-    el.style.backgroundImage = `url(${hero.url})`;
-    el.style.backgroundSize = 'cover';
-    el.style.backgroundPosition = 'center';
-    const ph = el.querySelector('.hero-ph-label');
-    if (ph) ph.style.display = 'none';
+  if (!hero || !hero.url) return;
+  const el = document.getElementById('hero-img');
+  if (!el) return;
+  el.style.backgroundImage = 'url(' + hero.url + ')';
+  el.style.backgroundSize = 'cover';
+  el.style.backgroundPosition = 'center';
+  const ph = el.querySelector('.hero-ph-label');
+  if (ph) ph.style.display = 'none';
 }
 
 function applyResume(resume) {
-    if (!resume || !resume.url) return;
-    const el = document.getElementById('resume-img');
-    if (!el) return;
-    el.style.backgroundImage = `url(${resume.url})`;
-    el.style.backgroundSize = 'cover';
-    el.style.backgroundPosition = 'center';
-    const ph = el.querySelector('.resume-img-ph');
-    if (ph) ph.style.display = 'none';
+  if (!resume || !resume.url) return;
+  const el = document.getElementById('resume-img');
+  if (!el) return;
+  el.style.backgroundImage = 'url(' + resume.url + ')';
+  el.style.backgroundSize = 'cover';
+  el.style.backgroundPosition = 'center';
+  const ph = el.querySelector('.resume-img-ph');
+  if (ph) ph.style.display = 'none';
 }
 
-// Game Art izgara: her oyun icin tek kapak gorseli + isim
+// Game Art: 5 oyun kapak izgarasi
 function applyGameGrid(projects) {
-    if (!projects) return;
-    const grid = document.getElementById('game-art-grid');
-    if (!grid) return;
-    grid.innerHTML = '';
-    for (const [key, proj] of Object.entries(projects)) {
-          const coverUrl = proj.cover && proj.cover.url ? proj.cover.url : '';
-          const div = document.createElement('div');
-          div.className = 'game-cover-item';
-          div.onclick = () => openGameDetail(key);
-          div.innerHTML = `
-                <div class="game-cover-img" style="${coverUrl ? 'background-image:url(' + coverUrl + ');background-size:cover;background-position:center;' : ''}">
-                        ${!coverUrl ? '<div class="cover-ph"><i class="ti ti-photo"></i></div>' : ''}
-                              </div>
-                                    <div class="game-cover-label">${proj.name || key}</div>
-                                        `;
-          grid.appendChild(div);
-    }
-}
-
-// Oyun detay sayfasi: o oyunun isleri izgara halinde
-function openGameDetail(key) {
-    if (!siteDB || !siteDB.projects[key]) return;
-    const proj = siteDB.projects[key];
-    currentGameKey = key;
-
-  // Header
-  const titleEl = document.getElementById('game-detail-title');
-    if (titleEl) titleEl.textContent = proj.name || key;
-    const backBtn = document.getElementById('game-detail-back');
-    if (backBtn) backBtn.onclick = () => showPage('game');
-
-  // Works izgara
-  const worksGrid = document.getElementById('game-works-grid');
-    if (!worksGrid) return;
-    worksGrid.innerHTML = '';
-
-  if (!proj.works || proj.works.length === 0) {
-        worksGrid.innerHTML = '<div class="works-empty">Henuz is eklenmemis</div>';
-  } else {
-        proj.works.forEach((work, wi) => {
-                const thumbUrl = work.thumbnail && work.thumbnail.url ? work.thumbnail.url : '';
-                const div = document.createElement('div');
-                div.className = 'work-thumb-item';
-                div.onclick = () => openWorkSlider(key, wi);
-                div.innerHTML = `
-                        <div class="work-thumb-img" style="${thumbUrl ? 'background-image:url(' + thumbUrl + ');background-size:cover;background-position:center;' : ''}">
-                                  ${!thumbUrl ? '<div class="cover-ph"><i class="ti ti-photo"></i></div>' : ''}
-                                          </div>
-                                                  <div class="work-thumb-label">${work.name || ('Work ' + (wi + 1))}</div>
-                                                        `;
-                worksGrid.appendChild(div);
-        });
+  if (!projects) return;
+  const grid = document.getElementById('game-art-grid');
+  if (!grid) return;
+  grid.innerHTML = '';
+  for (const [key, proj] of Object.entries(projects)) {
+    const coverUrl = proj.cover && proj.cover.url ? proj.cover.url : '';
+    const div = document.createElement('div');
+    div.className = 'game-cover-item';
+    div.onclick = () => openGameDetail(key);
+    div.innerHTML = '<div class="game-cover-img" style="' + (coverUrl ? 'background-image:url(' + coverUrl + ');background-size:cover;background-position:center;' : '') + '">' + (!coverUrl ? '<div class="cover-ph"><i class="ti ti-photo"></i></div>' : '') + '</div><div class="game-cover-label">' + (proj.name || key) + '</div>';
+    grid.appendChild(div);
   }
-
-  showPage('game-detail');
 }
 
 let currentGameKey = null;
-let currentWorkIndex = null;
 
-// Work slider acma
-function openWorkSlider(key, wi) {
-    const proj = siteDB && siteDB.projects[key];
-    if (!proj || !proj.works[wi]) return;
-    currentGameKey = key;
-    currentWorkIndex = wi;
-    const work = proj.works[wi];
-    const sliderEl = document.getElementById('work-slider');
-    const dotsEl = document.getElementById('work-slider-dots');
-    const titleEl = document.getElementById('work-slider-title');
-
-  if (titleEl) titleEl.textContent = work.name || ('Work ' + (wi + 1));
-
-  const slides = work.slides || [];
-    const slKey = key + '-' + wi;
-    sliderIndex[slKey] = 0;
-
-  if (sliderEl) {
-        if (slides.length > 0) {
-                sliderEl.innerHTML = slides.map(s =>
-                          `<div class="detail-slide"><img src="${s.url}" alt="" loading="lazy"></div>`
-                                                      ).join('');
-                sliderEl.style.transform = 'translateX(0%)';
-        } else {
-                sliderEl.innerHTML = '<div class="detail-slide slide-empty"><i class="ti ti-photo"></i><span>Gorsel yok</span></div>';
-        }
+// Oyuna tiklayin ca: o oyunun tum isleri sonsuz izgara
+function openGameDetail(key) {
+  if (!siteDB || !siteDB.projects[key]) return;
+  currentGameKey = key;
+  const proj = siteDB.projects[key];
+  const titleEl = document.getElementById('game-detail-title');
+  if (titleEl) titleEl.textContent = proj.name || key;
+  const grid = document.getElementById('game-works-grid');
+  if (!grid) return;
+  grid.innerHTML = '';
+  if (!proj.works || proj.works.length === 0) {
+    grid.innerHTML = '<div style="padding:40px;color:var(--muted);font-family:var(--font);font-size:12px;">Henuz is eklenmemis</div>';
+  } else {
+    proj.works.forEach((work, wi) => {
+      const thumbUrl = work.thumbnail && work.thumbnail.url ? work.thumbnail.url : '';
+      const div = document.createElement('div');
+      div.className = 'work-inf-item';
+      div.onclick = () => openWorkDetail(key, wi);
+      div.innerHTML = thumbUrl ? '<img class="work-inf-img" src="' + thumbUrl + '" loading="lazy">' : '<div class="work-inf-ph"><i class="ti ti-photo"></i></div>';
+      grid.appendChild(div);
+    });
   }
+  showPage('game-detail');
+}
 
-  if (dotsEl) {
-        dotsEl.innerHTML = slides.map((_,i) =>
-                `<div class="slider-dot ${i===0?'active':''}" onclick="goWorkSlide(${i})"></div>`
-                                          ).join('');
+// Is'e tiklayin ca: kare gorseller scroll ile asagidan asagiya
+function openWorkDetail(key, wi) {
+  if (!siteDB || !siteDB.projects[key]) return;
+  const proj = siteDB.projects[key];
+  const work = proj.works[wi];
+  if (!work) return;
+  const titleEl = document.getElementById('work-detail-title');
+  if (titleEl) titleEl.textContent = work.name || (proj.name + ' — Work ' + (wi + 1));
+  const backTitle = document.getElementById('work-slider-back-title');
+  if (backTitle) backTitle.textContent = proj.name || key;
+  // Store butonlari
+  const storeBtns = document.getElementById('work-store-btns');
+  if (storeBtns) {
+    let btnsHTML = '';
+    if (proj.ios) btnsHTML += '<a class="store-btn" href="' + proj.ios + '" target="_blank"><i class="ti ti-brand-apple"></i><div class="store-btn-text"><span class="store-btn-label">Download on the</span><span class="store-btn-name">App Store</span></div></a>';
+    if (proj.android) btnsHTML += '<a class="store-btn" href="' + proj.android + '" target="_blank"><i class="ti ti-brand-google-play"></i><div class="store-btn-text"><span class="store-btn-label">Get it on</span><span class="store-btn-name">Google Play</span></div></a>';
+    storeBtns.innerHTML = btnsHTML;
   }
-
+  // Sag panel: proje bilgileri
+  const infoPanel = document.getElementById('work-info-panel');
+  if (infoPanel) {
+    const cr = proj.credits || {};
+    let credHTML = '';
+    if (cr.art_direction) credHTML += '<div class="credit-row"><span class="credit-label">Art Direction</span><span class="credit-value">' + cr.art_direction + '</span></div>';
+    if (cr.concept_art) credHTML += '<div class="credit-row"><span class="credit-label">Concept Art</span><span class="credit-value">' + cr.concept_art + '</span></div>';
+    if (cr.art_3d) credHTML += '<div class="credit-row"><span class="credit-label">3D Art</span><span class="credit-value">' + cr.art_3d + '</span></div>';
+    infoPanel.innerHTML = '<div class="work-info-name">' + (proj.name || key) + '</div><div class="work-info-studio">' + (proj.studio || '') + (proj.year ? ' · ' + proj.year : '') + '</div>' + (credHTML ? '<div class="work-info-credits">' + credHTML + '</div>' : '') + (proj.about ? '<div class="work-info-about">' + proj.about + '</div>' : '');
+  }
+  // Gorsel kareleri: her biri 1:1 oranda, scroll ile
+  const scrollEl = document.getElementById('work-slides-scroll');
+  if (scrollEl) {
+    const slides = work.slides || [];
+    if (slides.length === 0) {
+      scrollEl.innerHTML = '<div class="work-slide-item"><div class="work-slide-ph"><i class="ti ti-photo"></i></div></div>';
+    } else {
+      scrollEl.innerHTML = slides.map(s => '<div class="work-slide-item"><img src="' + s.url + '" loading="lazy" style="width:100%;height:100%;object-fit:cover;"></div>').join('');
+    }
+  }
   showPage('work-detail');
 }
-
-function slideWork(dir) {
-    if (currentGameKey === null || currentWorkIndex === null) return;
-    const slKey = currentGameKey + '-' + currentWorkIndex;
-    const s = document.getElementById('work-slider');
-    const d = document.getElementById('work-slider-dots');
-    if (!s) return;
-    const c = s.children.length;
-    sliderIndex[slKey] = ((sliderIndex[slKey] || 0) + dir + c) % c;
-    s.style.transform = `translateX(-${sliderIndex[slKey] * 100}%)`;
-    if (d) d.querySelectorAll('.slider-dot').forEach((x, i) => x.classList.toggle('active', i === sliderIndex[slKey]));
-}
-
-function goWorkSlide(idx) {
-    if (currentGameKey === null || currentWorkIndex === null) return;
-    const slKey = currentGameKey + '-' + currentWorkIndex;
-    sliderIndex[slKey] = idx;
-    const s = document.getElementById('work-slider');
-    const d = document.getElementById('work-slider-dots');
-    if (!s) return;
-    s.style.transform = `translateX(-${idx * 100}%)`;
-    if (d) d.querySelectorAll('.slider-dot').forEach((x, i) => x.classList.toggle('active', i === idx));
-}
-
-function applyPersonal(personal) {
-    if (!personal) return;
-    for (const [num, proj] of Object.entries(personal)) {
-          const slider = document.getElementById(`slider-personal${num}`);
-          if (slider && proj.slides && proj.slides.length > 0) {
-                  slider.innerHTML = proj.slides.map(s =>
-                            `<div class="detail-slide"><img src="${s.url}" alt="" loading="lazy"></div>`
-                                                           ).join('');
-                  const dots = document.getElementById(`dots-personal${num}`);
-                  if (dots) {
-                            dots.innerHTML = proj.slides.map((_,i) =>
-                                        `<div class="slider-dot ${i===0?'active':''}" onclick="goSlide('personal${num}',${i})"></div>`
-                                                                     ).join('');
-                  }
-          }
-          if (proj.name) {
-                  const nameEl = document.querySelector(`#detail-personal${num} .detail-proj-name`);
-                  if (nameEl) nameEl.textContent = proj.name;
-          }
-          if (proj.about) {
-                  const descEl = document.querySelector(`#detail-personal${num} .detail-desc`);
-                  if (descEl) descEl.textContent = proj.about;
-          }
-    }
-}
-
-// Navigasyon
-function showPage(id) {
-    document.querySelectorAll('.page, .detail-page').forEach(p => p.classList.remove('active'));
-    document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
-
-  const m = { home:'nav-home', portfolio:'nav-portfolio', game:'nav-portfolio', 'game-detail':'nav-portfolio', 'work-detail':'nav-portfolio', personal:'nav-portfolio', resume:'nav-resume' };
-    if (m[id]) {
-          const navEl = document.getElementById(m[id]);
-          if (navEl) navEl.classList.add('active');
-    }
-
-  const el = document.getElementById('page-' + id) || document.getElementById('detail-' + id);
-    if (el) el.classList.add('active');
-    window.scrollTo(0,0);
-}
-
-function openDetail(key) {
-    showPage('game-detail');
-}
-
-function closeDetail(back) { showPage(back); }
-
-// Personal slider (eski sistem)
-function slide(key, dir) {
-    const s = document.getElementById('slider-' + key);
-    const d = document.getElementById('dots-' + key);
-    if (!s) return;
-    const c = s.children.length;
-    sliderIndex[key] = ((sliderIndex[key] || 0) + dir + c) % c;
-    s.style.transform = `translateX(-${sliderIndex[key] * 100}%)`;
-    if (d) d.querySelectorAll('.slider-dot').forEach((x,i) => x.classList.toggle('active', i === sliderIndex[key]));
-}
-
-function goSlide(key, idx) {
-    sliderIndex[key] = idx;
-    const s = document.getElementById('slider-' + key);
-    const d = document.getElementById('dots-' + key);
-    if (!s) return;
-    s.style.transform = `translateX(-${idx * 100}%)`;
-    if (d) d.querySelectorAll('.slider-dot').forEach((x,i) => x.classList.toggle('active', i === idx));
-}
-
-document.addEventListener('keydown', function(e) {
-    const activePage = document.querySelector('.page.active, .detail-page.active');
-    if (!activePage) return;
-    const pageId = activePage.id;
-
-                            if (pageId === 'page-work-detail') {
-                                  if (e.key === 'ArrowLeft') slideWork(-1);
-                                  if (e.key === 'ArrowRight') slideWork(1);
-                                  if (e.key === 'Escape') showPage('game-detail');
-                                  return;
-                            }
-
-                            const activeDetail = document.querySelector('.detail-page.active');
-    if (!activeDetail) return;
-    const key = activeDetail.id.replace('detail-', '');
-    if (e.key === 'ArrowLeft') slide(key, -1);
-    if (e.key === 'ArrowRight') slide(key, 1);
-    if (e.key === 'Escape') { const b = activeDetail.querySelector('.port-back'); if (b) b.click(); }
-});
-
-loadSiteData();
 
 // Personal Works izgara
 function applyPersonal(personal) {
   if (!personal) return;
-  const grid = document.getElementById("personal-grid");
+  const grid = document.getElementById('personal-grid');
   if (!grid) return;
-  grid.innerHTML = "";
-  const colors = ["g1","g2","g3","g4","g5","g6"];
+  grid.innerHTML = '';
+  const colors = ['g1','g2','g3','g4','g5','g6'];
   let idx = 0;
   for (const [key, proj] of Object.entries(personal)) {
-    const div = document.createElement("div");
-    div.className = "game-item " + colors[idx % colors.length];
+    const div = document.createElement('div');
+    div.className = 'game-item ' + colors[idx % colors.length];
     div.onclick = () => openPersonalDetail(key);
     const slides = proj.slides || [];
-    let ih = "";
+    let ih = '';
     if (slides.length > 0) {
-      slides.slice(0,4).forEach(s => { ih += "<div class=\"inner-cell\"><img src=\"" + s.url + "\" loading=\"lazy\"></div>"; });
-      for (let i = slides.length; i < 4; i++) ih += "<div class=\"inner-cell inner-cell-ph\"><i class=\"ti ti-photo\"></i></div>";
+      slides.slice(0,4).forEach(s => { ih += '<div class="inner-cell"><img src="' + s.url + '" loading="lazy"></div>'; });
+      for (let i = slides.length; i < 4; i++) ih += '<div class="inner-cell inner-cell-ph"><i class="ti ti-photo"></i></div>';
     } else {
-      for (let i = 0; i < 4; i++) ih += "<div class=\"inner-cell inner-cell-ph\"><i class=\"ti ti-photo\"></i></div>";
+      for (let i = 0; i < 4; i++) ih += '<div class="inner-cell inner-cell-ph"><i class="ti ti-photo"></i></div>';
     }
-    div.innerHTML = "<div class=\"inner-grid\">" + ih + "</div><div class=\"grid-overlay\"><div class=\"grid-title\">" + (proj.name || "Personal Work") + "</div></div>";
+    div.innerHTML = '<div class="inner-grid">' + ih + '</div><div class="grid-overlay"><div class="grid-title">' + (proj.name || 'Personal Work') + '</div></div>';
     grid.appendChild(div);
     idx++;
   }
 }
 
 let currentPersonalKey = null;
-let personalSlideIdx = 0;
 
 function openPersonalDetail(key) {
   if (!siteDB || !siteDB.personal[key]) return;
   currentPersonalKey = key;
   const proj = siteDB.personal[key];
-  const titleEl = document.getElementById("personal-detail-title");
-  if (titleEl) titleEl.textContent = proj.name || "Personal Work";
-  const slider = document.getElementById("personal-slider");
-  const dots = document.getElementById("personal-slider-dots");
-  if (!slider) return;
+  const titleEl = document.getElementById('personal-detail-title');
+  if (titleEl) titleEl.textContent = proj.name || 'Personal Work';
+  const scrollEl = document.getElementById('personal-slides-scroll');
+  if (!scrollEl) return;
   const slides = proj.slides || [];
-  slider.innerHTML = slides.map((s,i) => "<div class=\"slide\" style=\"background-image:url(" + s.url + ");display:" + (i===0?"block":"none") + "\"></div>").join("");
-  personalSlideIdx = 0;
-  if (dots) dots.innerHTML = slides.map((_,i) => "<div class=\"dot" + (i===0?" active":"") + "\"></div>").join("");
-  showPage("personal-detail");
+  if (slides.length === 0) {
+    scrollEl.innerHTML = '<div class="work-slide-item"><div class="work-slide-ph"><i class="ti ti-photo"></i></div></div>';
+  } else {
+    scrollEl.innerHTML = slides.map(s => '<div class="work-slide-item"><img src="' + s.url + '" loading="lazy" style="width:100%;height:100%;object-fit:cover;"></div>').join('');
+  }
+  showPage('personal-detail');
 }
 
-function slidePersonal(dir) {
-  if (!siteDB || !currentPersonalKey) return;
-  const proj = siteDB.personal[currentPersonalKey] || {};
-  const slides = proj.slides || [];
-  if (slides.length === 0) return;
-  const items = document.querySelectorAll("#personal-slider .slide");
-  const dotsEl = document.querySelectorAll("#personal-slider-dots .dot");
-  if (items[personalSlideIdx]) items[personalSlideIdx].style.display = "none";
-  if (dotsEl[personalSlideIdx]) dotsEl[personalSlideIdx].classList.remove("active");
-  personalSlideIdx = (personalSlideIdx + dir + slides.length) % slides.length;
-  if (items[personalSlideIdx]) items[personalSlideIdx].style.display = "block";
-  if (dotsEl[personalSlideIdx]) dotsEl[personalSlideIdx].classList.add("active");
+// Sayfa goster/gizle
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+  const navMap = { home:'nav-home', portfolio:'nav-portfolio', game:'nav-portfolio', 'game-detail':'nav-portfolio', 'work-detail':'nav-portfolio', personal:'nav-portfolio', 'personal-detail':'nav-portfolio', resume:'nav-resume' };
+  if (navMap[id]) {
+    const navEl = document.getElementById(navMap[id]);
+    if (navEl) navEl.classList.add('active');
+  }
+  const el = document.getElementById('page-' + id);
+  if (el) {
+    el.classList.add('active');
+    window.scrollTo(0, 0);
+  }
 }
+
+loadSiteData();
