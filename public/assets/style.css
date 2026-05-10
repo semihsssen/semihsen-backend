@@ -270,3 +270,45 @@ html, body { background: var(--bg); margin: 0; padding: 0; }
 .resume-job-projects { font-size: 10px; font-weight: 600; color: var(--muted); font-family: var(--font); opacity: 0.7; margin-top: 2px; }
 .skills-grid { display: flex; flex-wrap: wrap; gap: 8px; }
 .skill-tag { padding: 5px 12px; border: 0.5px solid var(--border); border-radius: 3px; font-size: 10px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; font-family: var(--font); }
+
+/* Yeni: works sonsuz izgara + scroll kare slider */
+
+/* WORKS SONSUZ IZGARA (game-detail sayfasi) */
+.works-inf-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 2px; }
+.work-inf-item { aspect-ratio: 1/1; position: relative; overflow: hidden; cursor: pointer; background: var(--bg2); transition: opacity 0.2s; }
+.work-inf-item:hover { opacity: 0.85; }
+.work-inf-img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.work-inf-ph { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: var(--bg2); }
+.work-inf-ph i { font-size: 28px; opacity: 0.08; color: var(--text); }
+
+/* WORK DETAIL - SCROLL BAZLI KARE SLIDER SAYFASI */
+.work-slider-page { display: flex; flex: 1; min-height: 0; padding: 0 60px 60px; gap: 32px; }
+.work-slider-left { width: 140px; min-width: 140px; flex-shrink: 0; padding-top: 4px; }
+.work-slider-center { flex: 1; min-width: 0; }
+.work-slider-right { width: 220px; min-width: 220px; flex-shrink: 0; padding-top: 4px; }
+
+/* Kaydirarak gozlenebilir kareler */
+.work-slides-scroll { display: flex; flex-direction: column; gap: 12px; }
+.work-slide-item { width: 100%; aspect-ratio: 1/1; background: var(--bg2); border-radius: 4px; overflow: hidden; border: 0.5px solid var(--border); flex-shrink: 0; }
+.work-slide-item img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.work-slide-ph { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; }
+.work-slide-ph i { font-size: 40px; opacity: 0.07; color: var(--text); }
+
+/* STORE BUTONLAR */
+.store-btns { display: flex; flex-direction: column; gap: 8px; }
+.store-btn { display: flex; align-items: center; gap: 8px; padding: 9px 12px; border: 0.5px solid var(--border); border-radius: 4px; cursor: pointer; background: var(--bg2); transition: border-color 0.2s; text-decoration: none; }
+.store-btn:hover { border-color: var(--accent); }
+.store-btn i { font-size: 16px; color: var(--accent); }
+.store-btn-text { display: flex; flex-direction: column; }
+.store-btn-label { font-size: 8px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; font-family: var(--font); }
+.store-btn-name { font-size: 11px; color: var(--text); font-weight: 700; font-family: var(--font); }
+
+/* WORK INFO PANEL */
+.work-info { display: flex; flex-direction: column; gap: 14px; }
+.work-info-name { font-size: 16px; font-weight: 700; color: var(--text); font-family: var(--font); text-transform: uppercase; letter-spacing: 0.08em; line-height: 1.2; }
+.work-info-studio { font-size: 10px; font-weight: 600; color: var(--accent); text-transform: uppercase; letter-spacing: 0.14em; font-family: var(--font); }
+.work-info-credits { display: flex; flex-direction: column; gap: 8px; margin-top: 4px; border-top: 0.5px solid var(--border); padding-top: 12px; }
+.credit-row { display: flex; flex-direction: column; gap: 2px; }
+.credit-label { font-size: 8px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.14em; font-family: var(--font); }
+.credit-value { font-size: 11px; font-weight: 600; color: var(--text); font-family: var(--font); opacity: 0.85; }
+.work-info-about { font-size: 11px; font-weight: 500; color: var(--muted); font-family: var(--font); line-height: 1.7; border-top: 0.5px solid var(--border); padding-top: 12px; }
