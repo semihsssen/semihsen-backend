@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Admin — semihsen.art</title>
+<title>Admin - semihsen.art</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&family=Inter:wght@400;500;600&display=swap');
@@ -22,28 +22,25 @@ nav{padding:12px 0;flex:1;overflow-y:auto;}
 .ni.active{background:var(--bg3);color:var(--accent);border-left-color:var(--accent);}
 .sidebar-foot{padding:16px 20px;border-top:0.5px solid var(--border);font-size:11px;color:var(--muted);}
 .main{flex:1;overflow-y:auto;background:var(--bg);}
-.topbar{display:flex;align-items:center;justify-content:space-between;padding:18px 32px;border-bottom:0.5px solid var(--border);position:sticky;top:0;background:var(--bg);z-index:10;}
+.topbar{display:flex;align-items:center;padding:18px 32px;border-bottom:0.5px solid var(--border);position:sticky;top:0;background:var(--bg);z-index:10;}
 .topbar-title{font-family:var(--font-head);font-size:17px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;}
 .panel{display:none;padding:28px 32px;}
 .panel.active{display:block;}
 .card{background:var(--bg2);border:0.5px solid var(--border);border-radius:8px;padding:22px;margin-bottom:18px;}
 .card-title{font-family:var(--font-head);font-size:10px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--accent2);margin-bottom:16px;}
-/* UPLOAD ZONE */
 .upload-zone{border:1px dashed rgba(255,255,255,0.14);border-radius:6px;padding:20px;text-align:center;cursor:pointer;position:relative;background:var(--bg3);transition:border-color 0.2s;}
 .upload-zone:hover{border-color:var(--accent);}
 .upload-zone input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
 .upload-zone i{font-size:26px;color:var(--muted);opacity:0.4;display:block;margin-bottom:6px;}
 .upload-zone span{font-size:11px;color:var(--muted);}
-/* IMAGE GRID */
 .img-grid{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px;}
 .img-thumb{width:100px;height:100px;border-radius:4px;overflow:hidden;position:relative;border:0.5px solid var(--border);}
 .img-thumb img{width:100%;height:100%;object-fit:cover;}
 .img-del{position:absolute;top:4px;right:4px;background:rgba(226,85,85,0.9);border:none;color:#fff;width:22px;height:22px;border-radius:50%;cursor:pointer;font-size:12px;display:flex;align-items:center;justify-content:center;}
-/* SLIDER */
 .sr{display:flex;align-items:center;gap:14px;margin-bottom:14px;}
 .sr:last-child{margin-bottom:0;}
-.sl{font-size:12px;color:var(--muted);min-width:170px;}
-.sv{font-size:12px;font-weight:600;color:var(--text);min-width:48px;text-align:right;}
+.sl{font-size:12px;color:var(--muted);min-width:180px;}
+.sv{font-size:12px;font-weight:600;color:var(--text);min-width:52px;text-align:right;}
 input[type=range]{flex:1;accent-color:var(--accent);}
 input[type=text],input[type=url],textarea,select{background:var(--bg3);border:0.5px solid var(--border);color:var(--text);padding:8px 12px;border-radius:4px;font-size:12px;font-family:var(--font);outline:none;width:100%;transition:border-color 0.2s;}
 input[type=text]:focus,input[type=url]:focus,textarea:focus{border-color:var(--accent);}
@@ -54,394 +51,511 @@ textarea{resize:vertical;min-height:70px;}
 .btn{padding:9px 18px;border:none;border-radius:4px;font-size:12px;font-weight:600;cursor:pointer;font-family:var(--font);transition:opacity 0.2s;display:inline-flex;align-items:center;gap:6px;}
 .btn-primary{background:var(--accent);color:#fff;}
 .btn-primary:hover{opacity:0.85;}
-.btn-ghost{background:transparent;border:0.5px solid var(--border);color:var(--muted);}
-.btn-ghost:hover{color:var(--text);border-color:rgba(255,255,255,0.2);}
 .notif{position:fixed;bottom:22px;right:22px;padding:11px 18px;border-radius:6px;font-size:13px;font-weight:600;z-index:999;transform:translateY(60px);opacity:0;transition:all 0.3s;pointer-events:none;display:flex;align-items:center;gap:8px;}
 .notif.ok{background:var(--success);color:#0a0910;}
 .notif.err{background:var(--danger);color:#fff;}
 .notif.show{transform:translateY(0);opacity:1;}
-.spinner{display:none;width:16px;height:16px;border:2px solid rgba(255,255,255,0.3);border-top-color:#fff;border-radius:50%;animation:spin 0.6s linear infinite;}
-@keyframes spin{to{transform:rotate(360deg);}}
-.loading .spinner{display:inline-block;}
 .store-row{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
 .store-row i{font-size:18px;color:var(--accent);flex-shrink:0;}
+.color-grid{display:flex;flex-direction:column;gap:12px;}
+.color-row{display:flex;align-items:center;justify-content:space-between;}
+.cl{font-size:12px;color:var(--muted);min-width:170px;}
+.color-pick-wrap{display:flex;align-items:center;gap:12px;}
+input[type=color]{width:40px;height:30px;border:0.5px solid var(--border);border-radius:4px;background:none;cursor:pointer;padding:2px;}
+.color-hex{font-size:11px;color:var(--text);font-family:monospace;min-width:64px;letter-spacing:0.05em;}
 </style>
 </head>
 <body>
-
 <aside class="sidebar">
-  <div class="logo">
-    <div class="logo-name">Semih Şen</div>
-    <div class="logo-sub">Admin Panel</div>
-  </div>
-  <nav>
-    <div class="nl">Site</div>
-    <div class="ni active" onclick="sw('settings',this)"><i class="ti ti-settings"></i> Boyut Ayarları</div>
-    <div class="ni" onclick="sw('hero',this)"><i class="ti ti-photo"></i> Hero Görseli</div>
-    <div class="ni" onclick="sw('resume',this)"><i class="ti ti-id-badge"></i> Resume</div>
-    <div class="nl">Game Art</div>
-    <div class="ni" onclick="sw('block-out',this)"><i class="ti ti-squares"></i> Block Out</div>
-    <div class="ni" onclick="sw('car-match',this)"><i class="ti ti-car"></i> Car Match</div>
-    <div class="ni" onclick="sw('magic-sort',this)"><i class="ti ti-puzzle"></i> Magic Sort</div>
-    <div class="ni" onclick="sw('match-villains',this)"><i class="ti ti-sword"></i> Match Villians</div>
-    <div class="ni" onclick="sw('wonder-blast',this)"><i class="ti ti-bolt"></i> Wonder Blast</div>
-    <div class="nl">Personal Works</div>
-    <div class="ni" onclick="sw('p1',this)"><i class="ti ti-brush"></i> Personal 1</div>
-    <div class="ni" onclick="sw('p2',this)"><i class="ti ti-brush"></i> Personal 2</div>
-    <div class="ni" onclick="sw('p3',this)"><i class="ti ti-brush"></i> Personal 3</div>
-    <div class="ni" onclick="sw('p4',this)"><i class="ti ti-brush"></i> Personal 4</div>
-    <div class="ni" onclick="sw('p5',this)"><i class="ti ti-brush"></i> Personal 5</div>
-    <div class="ni" onclick="sw('p6',this)"><i class="ti ti-brush"></i> Personal 6</div>
-    <div class="ni" onclick="sw('p7',this)"><i class="ti ti-brush"></i> Personal 7</div>
-  </nav>
-  <div class="sidebar-foot">semihsen.art · v2</div>
+<div class="logo"><div class="logo-name">Semih Sen</div><div class="logo-sub">Admin Panel</div></div>
+<nav>
+<div class="nl">Site</div>
+<div class="ni active" onclick="sw('settings',this)"><i class="ti ti-settings"></i> Boyut & Renk</div>
+<div class="ni" onclick="sw('hero',this)"><i class="ti ti-photo"></i> Hero Gorseli</div>
+<div class="ni" onclick="sw('resume',this)"><i class="ti ti-id-badge"></i> Resume</div>
+<div class="nl">Game Art</div>
+<div class="ni" onclick="sw('block-out',this)"><i class="ti ti-squares"></i> Block Out</div>
+<div class="ni" onclick="sw('car-match',this)"><i class="ti ti-car"></i> Car Match</div>
+<div class="ni" onclick="sw('magic-sort',this)"><i class="ti ti-puzzle"></i> Magic Sort</div>
+<div class="ni" onclick="sw('match-villains',this)"><i class="ti ti-sword"></i> Match Villians</div>
+<div class="ni" onclick="sw('wonder-blast',this)"><i class="ti ti-bolt"></i> Wonder Blast</div>
+<div class="nl">Personal Works</div>
+<div class="ni" onclick="sw('p1',this)"><i class="ti ti-brush"></i> Personal 1</div>
+<div class="ni" onclick="sw('p2',this)"><i class="ti ti-brush"></i> Personal 2</div>
+<div class="ni" onclick="sw('p3',this)"><i class="ti ti-brush"></i> Personal 3</div>
+<div class="ni" onclick="sw('p4',this)"><i class="ti ti-brush"></i> Personal 4</div>
+<div class="ni" onclick="sw('p5',this)"><i class="ti ti-brush"></i> Personal 5</div>
+<div class="ni" onclick="sw('p6',this)"><i class="ti ti-brush"></i> Personal 6</div>
+<div class="ni" onclick="sw('p7',this)"><i class="ti ti-brush"></i> Personal 7</div>
+</nav>
+<div class="sidebar-foot">semihsen.art - v2</div>
 </aside>
-
 <main class="main">
-  <div class="topbar">
-    <div class="topbar-title" id="topbar-title">Boyut Ayarları</div>
-  </div>
+<div class="topbar"><div class="topbar-title" id="topbar-title">Boyut & Renk Ayarlari</div></div>
 
-  <!-- SETTINGS -->
-  <div class="panel active" id="panel-settings">
-    <div class="card">
-      <div class="card-title">Navigation Bar</div>
-      <div class="sr"><span class="sl">Nav yüksekliği</span><input type="range" min="48" max="180" value="88" oninput="updS(this,'nav-height-v','nav_height')"><span class="sv" id="nav-height-v">88px</span></div>
-      <div class="sr"><span class="sl">İsim font boyutu</span><input type="range" min="12" max="48" value="20" oninput="updS(this,'nav-logo-v','nav_logo_size')"><span class="sv" id="nav-logo-v">20px</span></div>
-      <div class="sr"><span class="sl">Alt başlık font boyutu</span><input type="range" min="7" max="20" value="10" oninput="updS(this,'nav-sub-v','nav_sub_size')"><span class="sv" id="nav-sub-v">10px</span></div>
-      <div class="sr"><span class="sl">Link font boyutu</span><input type="range" min="10" max="28" value="14" oninput="updS(this,'nav-link-v','nav_link_size')"><span class="sv" id="nav-link-v">14px</span></div>
-    </div>
-    <div class="card">
-      <div class="card-title">Hero & Şerit</div>
-      <div class="sr"><span class="sl">Hero yüksekliği</span><input type="range" min="200" max="900" value="500" oninput="updS(this,'hero-h-v','hero_height')"><span class="sv" id="hero-h-v">500px</span></div>
-      <div class="sr"><span class="sl">Alt şerit yüksekliği</span><input type="range" min="60" max="300" value="110" oninput="updS(this,'thumb-h-v','thumb_height')"><span class="sv" id="thumb-h-v">110px</span></div>
-    </div>
-    <button class="btn btn-primary" onclick="saveSettings()"><i class="ti ti-device-floppy"></i> Kaydet</button>
-  </div>
+<div class="panel active" id="panel-settings">
+<div class="card">
+<div class="card-title">Navigation Bar</div>
+<div class="sr"><span class="sl">Nav yuksekligi</span><input type="range" min="48" max="180" value="88" oninput="updS(this,'nav-height-v','nav_height')"><span class="sv" id="nav-height-v">88px</span></div>
+<div class="sr"><span class="sl">Isim font boyutu</span><input type="range" min="12" max="48" value="20" oninput="updS(this,'nav-logo-v','nav_logo_size')"><span class="sv" id="nav-logo-v">20px</span></div>
+<div class="sr"><span class="sl">Alt baslik font boyutu</span><input type="range" min="7" max="20" value="10" oninput="updS(this,'nav-sub-v','nav_sub_size')"><span class="sv" id="nav-sub-v">10px</span></div>
+<div class="sr"><span class="sl">Link font boyutu</span><input type="range" min="10" max="28" value="14" oninput="updS(this,'nav-link-v','nav_link_size')"><span class="sv" id="nav-link-v">14px</span></div>
+</div>
+<div class="card">
+<div class="card-title">Hero & Serit</div>
+<div class="sr"><span class="sl">Hero yuksekligi</span><input type="range" min="200" max="900" value="500" oninput="updS(this,'hero-h-v','hero_height')"><span class="sv" id="hero-h-v">500px</span></div>
+<div class="sr"><span class="sl">Alt serit yuksekligi</span><input type="range" min="60" max="300" value="110" oninput="updS(this,'thumb-h-v','thumb_height')"><span class="sv" id="thumb-h-v">110px</span></div>
+</div>
+<div class="card">
+<div class="card-title">Renk Paleti</div>
+<div class="color-grid">
+<div class="color-row"><span class="cl">Arkaplan (koyu)</span><div class="color-pick-wrap"><input type="color" id="col-bg" value="#0e0d11" oninput="prevCol('bg',this)"><span class="color-hex" id="col-bg-hex">#0e0d11</span></div></div>
+<div class="color-row"><span class="cl">Arkaplan 2 (kartlar)</span><div class="color-pick-wrap"><input type="color" id="col-bg2" value="#19181d" oninput="prevCol('bg2',this)"><span class="color-hex" id="col-bg2-hex">#19181d</span></div></div>
+<div class="color-row"><span class="cl">Metin</span><div class="color-pick-wrap"><input type="color" id="col-text" value="#f0eeee" oninput="prevCol('text',this)"><span class="color-hex" id="col-text-hex">#f0eeee</span></div></div>
+<div class="color-row"><span class="cl">Soluk metin</span><div class="color-pick-wrap"><input type="color" id="col-muted" value="#888680" oninput="prevCol('muted',this)"><span class="color-hex" id="col-muted-hex">#888680</span></div></div>
+<div class="color-row"><span class="cl">Vurgu / Accent (mavi)</span><div class="color-pick-wrap"><input type="color" id="col-accent" value="#4a90e2" oninput="prevCol('accent',this)"><span class="color-hex" id="col-accent-hex">#4a90e2</span></div></div>
+</div>
+</div>
+<div class="card">
+<div class="card-title">Font Pozisyonu (Nav)</div>
+<div class="sr"><span class="sl">Logo - Yatay (sol/sag)</span><input type="range" min="-300" max="300" value="0" oninput="updFP(this,'fpx-v','nav_logo_x')"><span class="sv" id="fpx-v">0px</span></div>
+<div class="sr"><span class="sl">Logo - Dikey (yukari/asagi)</span><input type="range" min="-100" max="100" value="0" oninput="updFP(this,'fpy-v','nav_logo_y')"><span class="sv" id="fpy-v">0px</span></div>
+<div class="sr"><span class="sl">Alt baslik - Yatay</span><input type="range" min="-300" max="300" value="0" oninput="updFP(this,'fsx-v','nav_sub_x')"><span class="sv" id="fsx-v">0px</span></div>
+<div class="sr"><span class="sl">Alt baslik - Dikey</span><input type="range" min="-100" max="100" value="0" oninput="updFP(this,'fsy-v','nav_sub_y')"><span class="sv" id="fsy-v">0px</span></div>
+</div>
+<button class="btn btn-primary" onclick="saveSettings()"><i class="ti ti-device-floppy"></i> Kaydet</button>
+</div>
 
-  <!-- HERO -->
-  <div class="panel" id="panel-hero">
-    <div class="card">
-      <div class="card-title">Hero Görseli</div>
-      <div id="hero-preview" style="margin-bottom:14px;"></div>
-      <div class="upload-zone">
-        <input type="file" accept="image/*" onchange="uploadHero(this)">
-        <i class="ti ti-photo"></i>
-        <span>Hero görselini buraya sürükle veya tıkla</span>
-      </div>
-    </div>
-  </div>
+<div class="panel" id="panel-hero">
+<div class="card">
+<div class="card-title">Hero Gorseli</div>
+<div class="upload-zone" id="hero-zone"><input type="file" accept="image/*" onchange="uploadHero(this)"><i class="ti ti-cloud-upload"></i><span>Hero gorselini buraya surukle veya tikla</span></div>
+<div id="hero-preview" style="margin-top:12px;"></div>
+</div>
+</div>
 
-  <!-- RESUME -->
-  <div class="panel" id="panel-resume">
-    <div class="card">
-      <div class="card-title">CV Görseli</div>
-      <div id="resume-preview" style="margin-bottom:14px;"></div>
-      <div class="upload-zone">
-        <input type="file" accept="image/*" onchange="uploadResume(this)">
-        <i class="ti ti-file-cv"></i>
-        <span>CV görselini buraya sürükle veya tıkla</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- GAME ART PANELS -->
-  <div id="game-panels"></div>
-
-  <!-- PERSONAL PANELS -->
-  <div id="personal-panels"></div>
-
+<div class="panel" id="panel-resume">
+<div class="card">
+<div class="card-title">CV Gorseli</div>
+<div class="upload-zone"><input type="file" accept="image/*" onchange="uploadResume(this)"><i class="ti ti-cloud-upload"></i><span>CV gorselini buraya surukle veya tikla</span></div>
+<div id="resume-preview" style="margin-top:12px;"></div>
+</div>
+</div>
+<div class="panel" id="panel-block-out">
+<div class="card">
+<div class="card-title">Proje Bilgileri</div>
+<div class="fg2"><div class="fg"><div class="fl">Proje Adi</div><input type="text" id="block-out-name" value="Block Out"></div><div class="fg"><div class="fl">Studyo</div><input type="text" id="block-out-studio" value=""></div></div>
+<div class="fg"><div class="fl">Yil</div><input type="text" id="block-out-year" value=""></div>
+<div class="fg"><div class="fl">Aciklama</div><textarea id="block-out-about"></textarea></div>
+<div class="fg2"><div class="fg"><div class="fl">Art Direction</div><input type="text" id="block-out-ad" value="Semih Sen"></div><div class="fg"><div class="fl">Concept Art</div><input type="text" id="block-out-ca" value=""></div></div>
+<div class="fg"><div class="fl">3D Art</div><input type="text" id="block-out-3d" value=""></div>
+<div class="store-row"><i class="ti ti-brand-apple"></i><input type="url" id="block-out-ios" placeholder="App Store URL"></div>
+<div class="store-row"><i class="ti ti-brand-google-play"></i><input type="url" id="block-out-android" placeholder="Google Play URL"></div>
+<button class="btn btn-primary" style="margin-top:12px;" onclick="saveProj('block-out')"><i class="ti ti-device-floppy"></i> Kaydet</button>
+</div>
+<div class="card">
+<div class="card-title">Kapak Gorseli</div>
+<div class="upload-zone"><input type="file" accept="image/*" onchange="uploadCover('block-out',this)"><i class="ti ti-cloud-upload"></i><span>Kapak gorseli (izgara karesinde gorunur)</span></div>
+<div id="block-out-cover-preview" style="margin-top:12px;"></div>
+</div>
+<div class="card" id="block-out-works-card">
+<div class="card-title">Isler (thumbnail izgarasi)</div>
+<div class="upload-zone"><input type="file" accept="image/*" multiple onchange="uploadWork('block-out',this)"><i class="ti ti-cloud-upload"></i><span>Is thumbnail'lari (coklu secim yapabilirsin)</span></div>
+<div class="img-grid" id="block-out-works-grid"></div>
+</div>
+<div class="card">
+<div class="card-title">Slider Gorselleri (is detay sayfasi)</div>
+<div class="upload-zone"><input type="file" accept="image/*" multiple onchange="uploadSlides('block-out',this)"><i class="ti ti-cloud-upload"></i><span>Buyuk gorsel slider'lari (coklu secim)</span></div>
+<div class="img-grid" id="block-out-slides-grid"></div>
+</div>
+</div>
+<div class="panel" id="panel-car-match">
+<div class="card">
+<div class="card-title">Proje Bilgileri</div>
+<div class="fg2"><div class="fg"><div class="fl">Proje Adi</div><input type="text" id="car-match-name" value="Car Match"></div><div class="fg"><div class="fl">Studyo</div><input type="text" id="car-match-studio" value=""></div></div>
+<div class="fg"><div class="fl">Yil</div><input type="text" id="car-match-year" value=""></div>
+<div class="fg"><div class="fl">Aciklama</div><textarea id="car-match-about"></textarea></div>
+<div class="fg2"><div class="fg"><div class="fl">Art Direction</div><input type="text" id="car-match-ad" value="Semih Sen"></div><div class="fg"><div class="fl">Concept Art</div><input type="text" id="car-match-ca" value=""></div></div>
+<div class="fg"><div class="fl">3D Art</div><input type="text" id="car-match-3d" value=""></div>
+<div class="store-row"><i class="ti ti-brand-apple"></i><input type="url" id="car-match-ios" placeholder="App Store URL"></div>
+<div class="store-row"><i class="ti ti-brand-google-play"></i><input type="url" id="car-match-android" placeholder="Google Play URL"></div>
+<button class="btn btn-primary" style="margin-top:12px;" onclick="saveProj('car-match')"><i class="ti ti-device-floppy"></i> Kaydet</button>
+</div>
+<div class="card">
+<div class="card-title">Kapak Gorseli</div>
+<div class="upload-zone"><input type="file" accept="image/*" onchange="uploadCover('car-match',this)"><i class="ti ti-cloud-upload"></i><span>Kapak gorseli (izgara karesinde gorunur)</span></div>
+<div id="car-match-cover-preview" style="margin-top:12px;"></div>
+</div>
+<div class="card" id="car-match-works-card">
+<div class="card-title">Isler (thumbnail izgarasi)</div>
+<div class="upload-zone"><input type="file" accept="image/*" multiple onchange="uploadWork('car-match',this)"><i class="ti ti-cloud-upload"></i><span>Is thumbnail'lari (coklu secim yapabilirsin)</span></div>
+<div class="img-grid" id="car-match-works-grid"></div>
+</div>
+<div class="card">
+<div class="card-title">Slider Gorselleri (is detay sayfasi)</div>
+<div class="upload-zone"><input type="file" accept="image/*" multiple onchange="uploadSlides('car-match',this)"><i class="ti ti-cloud-upload"></i><span>Buyuk gorsel slider'lari (coklu secim)</span></div>
+<div class="img-grid" id="car-match-slides-grid"></div>
+</div>
+</div>
+<div class="panel" id="panel-magic-sort">
+<div class="card">
+<div class="card-title">Proje Bilgileri</div>
+<div class="fg2"><div class="fg"><div class="fl">Proje Adi</div><input type="text" id="magic-sort-name" value="Magic Sort"></div><div class="fg"><div class="fl">Studyo</div><input type="text" id="magic-sort-studio" value=""></div></div>
+<div class="fg"><div class="fl">Yil</div><input type="text" id="magic-sort-year" value=""></div>
+<div class="fg"><div class="fl">Aciklama</div><textarea id="magic-sort-about"></textarea></div>
+<div class="fg2"><div class="fg"><div class="fl">Art Direction</div><input type="text" id="magic-sort-ad" value="Semih Sen"></div><div class="fg"><div class="fl">Concept Art</div><input type="text" id="magic-sort-ca" value=""></div></div>
+<div class="fg"><div class="fl">3D Art</div><input type="text" id="magic-sort-3d" value=""></div>
+<div class="store-row"><i class="ti ti-brand-apple"></i><input type="url" id="magic-sort-ios" placeholder="App Store URL"></div>
+<div class="store-row"><i class="ti ti-brand-google-play"></i><input type="url" id="magic-sort-android" placeholder="Google Play URL"></div>
+<button class="btn btn-primary" style="margin-top:12px;" onclick="saveProj('magic-sort')"><i class="ti ti-device-floppy"></i> Kaydet</button>
+</div>
+<div class="card">
+<div class="card-title">Kapak Gorseli</div>
+<div class="upload-zone"><input type="file" accept="image/*" onchange="uploadCover('magic-sort',this)"><i class="ti ti-cloud-upload"></i><span>Kapak gorseli (izgara karesinde gorunur)</span></div>
+<div id="magic-sort-cover-preview" style="margin-top:12px;"></div>
+</div>
+<div class="card" id="magic-sort-works-card">
+<div class="card-title">Isler (thumbnail izgarasi)</div>
+<div class="upload-zone"><input type="file" accept="image/*" multiple onchange="uploadWork('magic-sort',this)"><i class="ti ti-cloud-upload"></i><span>Is thumbnail'lari (coklu secim yapabilirsin)</span></div>
+<div class="img-grid" id="magic-sort-works-grid"></div>
+</div>
+<div class="card">
+<div class="card-title">Slider Gorselleri (is detay sayfasi)</div>
+<div class="upload-zone"><input type="file" accept="image/*" multiple onchange="uploadSlides('magic-sort',this)"><i class="ti ti-cloud-upload"></i><span>Buyuk gorsel slider'lari (coklu secim)</span></div>
+<div class="img-grid" id="magic-sort-slides-grid"></div>
+</div>
+</div>
+<div class="panel" id="panel-match-villains">
+<div class="card">
+<div class="card-title">Proje Bilgileri</div>
+<div class="fg2"><div class="fg"><div class="fl">Proje Adi</div><input type="text" id="match-villains-name" value="Match Villians"></div><div class="fg"><div class="fl">Studyo</div><input type="text" id="match-villains-studio" value=""></div></div>
+<div class="fg"><div class="fl">Yil</div><input type="text" id="match-villains-year" value=""></div>
+<div class="fg"><div class="fl">Aciklama</div><textarea id="match-villains-about"></textarea></div>
+<div class="fg2"><div class="fg"><div class="fl">Art Direction</div><input type="text" id="match-villains-ad" value="Semih Sen"></div><div class="fg"><div class="fl">Concept Art</div><input type="text" id="match-villains-ca" value=""></div></div>
+<div class="fg"><div class="fl">3D Art</div><input type="text" id="match-villains-3d" value=""></div>
+<div class="store-row"><i class="ti ti-brand-apple"></i><input type="url" id="match-villains-ios" placeholder="App Store URL"></div>
+<div class="store-row"><i class="ti ti-brand-google-play"></i><input type="url" id="match-villains-android" placeholder="Google Play URL"></div>
+<button class="btn btn-primary" style="margin-top:12px;" onclick="saveProj('match-villains')"><i class="ti ti-device-floppy"></i> Kaydet</button>
+</div>
+<div class="card">
+<div class="card-title">Kapak Gorseli</div>
+<div class="upload-zone"><input type="file" accept="image/*" onchange="uploadCover('match-villains',this)"><i class="ti ti-cloud-upload"></i><span>Kapak gorseli (izgara karesinde gorunur)</span></div>
+<div id="match-villains-cover-preview" style="margin-top:12px;"></div>
+</div>
+<div class="card" id="match-villains-works-card">
+<div class="card-title">Isler (thumbnail izgarasi)</div>
+<div class="upload-zone"><input type="file" accept="image/*" multiple onchange="uploadWork('match-villains',this)"><i class="ti ti-cloud-upload"></i><span>Is thumbnail'lari (coklu secim yapabilirsin)</span></div>
+<div class="img-grid" id="match-villains-works-grid"></div>
+</div>
+<div class="card">
+<div class="card-title">Slider Gorselleri (is detay sayfasi)</div>
+<div class="upload-zone"><input type="file" accept="image/*" multiple onchange="uploadSlides('match-villains',this)"><i class="ti ti-cloud-upload"></i><span>Buyuk gorsel slider'lari (coklu secim)</span></div>
+<div class="img-grid" id="match-villains-slides-grid"></div>
+</div>
+</div>
+<div class="panel" id="panel-wonder-blast">
+<div class="card">
+<div class="card-title">Proje Bilgileri</div>
+<div class="fg2"><div class="fg"><div class="fl">Proje Adi</div><input type="text" id="wonder-blast-name" value="Wonder Blast"></div><div class="fg"><div class="fl">Studyo</div><input type="text" id="wonder-blast-studio" value=""></div></div>
+<div class="fg"><div class="fl">Yil</div><input type="text" id="wonder-blast-year" value=""></div>
+<div class="fg"><div class="fl">Aciklama</div><textarea id="wonder-blast-about"></textarea></div>
+<div class="fg2"><div class="fg"><div class="fl">Art Direction</div><input type="text" id="wonder-blast-ad" value="Semih Sen"></div><div class="fg"><div class="fl">Concept Art</div><input type="text" id="wonder-blast-ca" value=""></div></div>
+<div class="fg"><div class="fl">3D Art</div><input type="text" id="wonder-blast-3d" value=""></div>
+<div class="store-row"><i class="ti ti-brand-apple"></i><input type="url" id="wonder-blast-ios" placeholder="App Store URL"></div>
+<div class="store-row"><i class="ti ti-brand-google-play"></i><input type="url" id="wonder-blast-android" placeholder="Google Play URL"></div>
+<button class="btn btn-primary" style="margin-top:12px;" onclick="saveProj('wonder-blast')"><i class="ti ti-device-floppy"></i> Kaydet</button>
+</div>
+<div class="card">
+<div class="card-title">Kapak Gorseli</div>
+<div class="upload-zone"><input type="file" accept="image/*" onchange="uploadCover('wonder-blast',this)"><i class="ti ti-cloud-upload"></i><span>Kapak gorseli (izgara karesinde gorunur)</span></div>
+<div id="wonder-blast-cover-preview" style="margin-top:12px;"></div>
+</div>
+<div class="card" id="wonder-blast-works-card">
+<div class="card-title">Isler (thumbnail izgarasi)</div>
+<div class="upload-zone"><input type="file" accept="image/*" multiple onchange="uploadWork('wonder-blast',this)"><i class="ti ti-cloud-upload"></i><span>Is thumbnail'lari (coklu secim yapabilirsin)</span></div>
+<div class="img-grid" id="wonder-blast-works-grid"></div>
+</div>
+<div class="card">
+<div class="card-title">Slider Gorselleri (is detay sayfasi)</div>
+<div class="upload-zone"><input type="file" accept="image/*" multiple onchange="uploadSlides('wonder-blast',this)"><i class="ti ti-cloud-upload"></i><span>Buyuk gorsel slider'lari (coklu secim)</span></div>
+<div class="img-grid" id="wonder-blast-slides-grid"></div>
+</div>
+</div>
+<div class="panel" id="panel-p1">
+<div class="card">
+<div class="card-title">Personal Work 1</div>
+<div class="fg"><div class="fl">Isim</div><input type="text" id="p1-name" value="Personal Work 1"></div>
+<div class="fg"><div class="fl">Aciklama</div><textarea id="p1-about"></textarea></div>
+<button class="btn btn-primary" style="margin-top:12px;" onclick="savePersonal(1)"><i class="ti ti-device-floppy"></i> Kaydet</button>
+</div>
+<div class="card">
+<div class="card-title">Slider Gorselleri</div>
+<div class="upload-zone"><input type="file" accept="image/*" multiple onchange="uploadPersonalSlides(1,this)"><i class="ti ti-cloud-upload"></i><span>Slider gorsellerini buraya surukle (coklu)</span></div>
+<div class="img-grid" id="p1-slides-grid"></div>
+</div>
+</div>
+<div class="panel" id="panel-p2">
+<div class="card">
+<div class="card-title">Personal Work 2</div>
+<div class="fg"><div class="fl">Isim</div><input type="text" id="p2-name" value="Personal Work 2"></div>
+<div class="fg"><div class="fl">Aciklama</div><textarea id="p2-about"></textarea></div>
+<button class="btn btn-primary" style="margin-top:12px;" onclick="savePersonal(2)"><i class="ti ti-device-floppy"></i> Kaydet</button>
+</div>
+<div class="card">
+<div class="card-title">Slider Gorselleri</div>
+<div class="upload-zone"><input type="file" accept="image/*" multiple onchange="uploadPersonalSlides(2,this)"><i class="ti ti-cloud-upload"></i><span>Slider gorsellerini buraya surukle (coklu)</span></div>
+<div class="img-grid" id="p2-slides-grid"></div>
+</div>
+</div>
+<div class="panel" id="panel-p3">
+<div class="card">
+<div class="card-title">Personal Work 3</div>
+<div class="fg"><div class="fl">Isim</div><input type="text" id="p3-name" value="Personal Work 3"></div>
+<div class="fg"><div class="fl">Aciklama</div><textarea id="p3-about"></textarea></div>
+<button class="btn btn-primary" style="margin-top:12px;" onclick="savePersonal(3)"><i class="ti ti-device-floppy"></i> Kaydet</button>
+</div>
+<div class="card">
+<div class="card-title">Slider Gorselleri</div>
+<div class="upload-zone"><input type="file" accept="image/*" multiple onchange="uploadPersonalSlides(3,this)"><i class="ti ti-cloud-upload"></i><span>Slider gorsellerini buraya surukle (coklu)</span></div>
+<div class="img-grid" id="p3-slides-grid"></div>
+</div>
+</div>
+<div class="panel" id="panel-p4">
+<div class="card">
+<div class="card-title">Personal Work 4</div>
+<div class="fg"><div class="fl">Isim</div><input type="text" id="p4-name" value="Personal Work 4"></div>
+<div class="fg"><div class="fl">Aciklama</div><textarea id="p4-about"></textarea></div>
+<button class="btn btn-primary" style="margin-top:12px;" onclick="savePersonal(4)"><i class="ti ti-device-floppy"></i> Kaydet</button>
+</div>
+<div class="card">
+<div class="card-title">Slider Gorselleri</div>
+<div class="upload-zone"><input type="file" accept="image/*" multiple onchange="uploadPersonalSlides(4,this)"><i class="ti ti-cloud-upload"></i><span>Slider gorsellerini buraya surukle (coklu)</span></div>
+<div class="img-grid" id="p4-slides-grid"></div>
+</div>
+</div>
+<div class="panel" id="panel-p5">
+<div class="card">
+<div class="card-title">Personal Work 5</div>
+<div class="fg"><div class="fl">Isim</div><input type="text" id="p5-name" value="Personal Work 5"></div>
+<div class="fg"><div class="fl">Aciklama</div><textarea id="p5-about"></textarea></div>
+<button class="btn btn-primary" style="margin-top:12px;" onclick="savePersonal(5)"><i class="ti ti-device-floppy"></i> Kaydet</button>
+</div>
+<div class="card">
+<div class="card-title">Slider Gorselleri</div>
+<div class="upload-zone"><input type="file" accept="image/*" multiple onchange="uploadPersonalSlides(5,this)"><i class="ti ti-cloud-upload"></i><span>Slider gorsellerini buraya surukle (coklu)</span></div>
+<div class="img-grid" id="p5-slides-grid"></div>
+</div>
+</div>
+<div class="panel" id="panel-p6">
+<div class="card">
+<div class="card-title">Personal Work 6</div>
+<div class="fg"><div class="fl">Isim</div><input type="text" id="p6-name" value="Personal Work 6"></div>
+<div class="fg"><div class="fl">Aciklama</div><textarea id="p6-about"></textarea></div>
+<button class="btn btn-primary" style="margin-top:12px;" onclick="savePersonal(6)"><i class="ti ti-device-floppy"></i> Kaydet</button>
+</div>
+<div class="card">
+<div class="card-title">Slider Gorselleri</div>
+<div class="upload-zone"><input type="file" accept="image/*" multiple onchange="uploadPersonalSlides(6,this)"><i class="ti ti-cloud-upload"></i><span>Slider gorsellerini buraya surukle (coklu)</span></div>
+<div class="img-grid" id="p6-slides-grid"></div>
+</div>
+</div>
+<div class="panel" id="panel-p7">
+<div class="card">
+<div class="card-title">Personal Work 7</div>
+<div class="fg"><div class="fl">Isim</div><input type="text" id="p7-name" value="Personal Work 7"></div>
+<div class="fg"><div class="fl">Aciklama</div><textarea id="p7-about"></textarea></div>
+<button class="btn btn-primary" style="margin-top:12px;" onclick="savePersonal(7)"><i class="ti ti-device-floppy"></i> Kaydet</button>
+</div>
+<div class="card">
+<div class="card-title">Slider Gorselleri</div>
+<div class="upload-zone"><input type="file" accept="image/*" multiple onchange="uploadPersonalSlides(7,this)"><i class="ti ti-cloud-upload"></i><span>Slider gorsellerini buraya surukle (coklu)</span></div>
+<div class="img-grid" id="p7-slides-grid"></div>
+</div>
+</div>
+<div class="notif" id="notif"><i class="ti ti-check"></i><span id="notif-msg">Kaydedildi</span></div>
 </main>
-
-<div class="notif" id="notif"></div>
-
 <script>
-const API = window.location.origin;
-let db = {};
-
-// Veriyi yükle
-async function loadDB() {
-  try {
-    const r = await fetch(`${API}/api/data`);
-    db = await r.json();
-    renderGamePanels();
-    renderPersonalPanels();
-    loadSettings();
-    loadHeroPreview();
-    loadResumePreview();
-  } catch(e) { showNotif('Sunucuya bağlanılamadı', 'err'); }
-}
-
-function loadSettings() {
-  const s = db.settings || {};
-  const map = {
-    'nav_height': ['nav-height-v', 88],
-    'nav_logo_size': ['nav-logo-v', 20],
-    'nav_sub_size': ['nav-sub-v', 10],
-    'nav_link_size': ['nav-link-v', 14],
-    'hero_height': ['hero-h-v', 500],
-    'thumb_height': ['thumb-h-v', 110],
-  };
-  for (const [key, [elId, def]] of Object.entries(map)) {
-    const val = s[key] ? parseInt(s[key]) : def;
-    const el = document.getElementById(elId);
-    if (el) { el.textContent = val + 'px'; el.previousElementSibling.value = val; }
-  }
-}
-
-function updS(input, valId, key) {
-  const v = input.value + 'px';
-  document.getElementById(valId).textContent = v;
-  if (!db.settings) db.settings = {};
-  db.settings[key] = v;
-}
-
-async function saveSettings() {
-  try {
-    await fetch(`${API}/api/settings`, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(db.settings) });
-    showNotif('Ayarlar kaydedildi!', 'ok');
-  } catch(e) { showNotif('Hata: ' + e.message, 'err'); }
-}
-
-function loadHeroPreview() {
-  const el = document.getElementById('hero-preview');
-  if (db.hero && db.hero.url) {
-    el.innerHTML = `<img src="${db.hero.url}" style="width:100%;max-height:200px;object-fit:cover;border-radius:4px;">`;
-  }
-}
-
-function loadResumePreview() {
-  const el = document.getElementById('resume-preview');
-  if (db.resume && db.resume.url) {
-    el.innerHTML = `<img src="${db.resume.url}" style="width:200px;border-radius:4px;">`;
-  }
-}
-
-async function uploadHero(input) {
-  const file = input.files[0]; if (!file) return;
-  const fd = new FormData(); fd.append('image', file);
-  showNotif('Yükleniyor...', 'ok');
-  try {
-    const r = await fetch(`${API}/api/upload/hero`, { method:'POST', body:fd });
-    const d = await r.json();
-    if (d.ok) { db.hero = { url: d.url }; loadHeroPreview(); showNotif('Hero güncellendi!', 'ok'); }
-  } catch(e) { showNotif('Hata: ' + e.message, 'err'); }
-}
-
-async function uploadResume(input) {
-  const file = input.files[0]; if (!file) return;
-  const fd = new FormData(); fd.append('image', file);
-  showNotif('Yükleniyor...', 'ok');
-  try {
-    const r = await fetch(`${API}/api/upload/resume`, { method:'POST', body:fd });
-    const d = await r.json();
-    if (d.ok) { db.resume = { url: d.url }; loadResumePreview(); showNotif('CV güncellendi!', 'ok'); }
-  } catch(e) { showNotif('Hata: ' + e.message, 'err'); }
-}
-
-function renderGamePanels() {
-  const keys = ['block-out','car-match','magic-sort','match-villains','wonder-blast'];
-  let html = '';
-  for (const key of keys) {
-    const p = db.projects[key] || {};
-    const slides = (p.slides || []).map((s,i) =>
-      `<div class="img-thumb"><img src="${s.url}"><button class="img-del" onclick="delSlide('${key}',${i})"><i class="ti ti-x"></i></button></div>`
-    ).join('');
-    const grids = (p.grid || []).map((g,i) =>
-      `<div class="img-thumb"><img src="${g.url}"><button class="img-del" onclick="delGrid('${key}',${i})"><i class="ti ti-x"></i></button></div>`
-    ).join('');
-    html += `
-    <div class="panel" id="panel-${key}">
-      <div class="card">
-        <div class="card-title">Proje Bilgileri</div>
-        <div class="fg2">
-          <div class="fg"><div class="fl">Proje Adı</div><input type="text" id="${key}-name" value="${p.name||''}"></div>
-          <div class="fg"><div class="fl">Stüdyo</div><input type="text" id="${key}-studio" value="${p.studio||''}"></div>
-          <div class="fg"><div class="fl">Yıl</div><input type="text" id="${key}-year" value="${p.year||''}"></div>
-        </div>
-        <div class="fg"><div class="fl">Açıklama</div><textarea id="${key}-about">${p.about||''}</textarea></div>
-        <div class="fg"><div class="fl">Art Direction</div><input type="text" id="${key}-art_direction" value="${(p.credits||{}).art_direction||'Semih Şen'}"></div>
-        <div class="fg2">
-          <div class="fg"><div class="fl">Concept Art</div><input type="text" id="${key}-concept_art" value="${(p.credits||{}).concept_art||''}"></div>
-          <div class="fg"><div class="fl">3D Art</div><input type="text" id="${key}-art_3d" value="${(p.credits||{}).art_3d||''}"></div>
-        </div>
-        <div class="store-row"><i class="ti ti-brand-apple"></i><input type="url" id="${key}-ios" value="${p.ios||''}" placeholder="App Store URL"></div>
-        <div class="store-row"><i class="ti ti-brand-google-play"></i><input type="url" id="${key}-android" value="${p.android||''}" placeholder="Google Play URL"></div>
-        <button class="btn btn-primary" style="margin-top:12px;" onclick="saveProject('${key}')"><i class="ti ti-device-floppy"></i> Kaydet</button>
-      </div>
-      <div class="card">
-        <div class="card-title">Izgara Görselleri (2×2, maks 4)</div>
-        <div class="img-grid" id="${key}-grid">${grids}</div>
-        <div class="upload-zone" style="margin-top:12px;">
-          <input type="file" accept="image/*" multiple onchange="uploadGrid('${key}',this)">
-          <i class="ti ti-plus"></i><span>Izgara görseli ekle</span>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-title">Slider Görselleri</div>
-        <div class="img-grid" id="${key}-slides">${slides}</div>
-        <div class="upload-zone" style="margin-top:12px;">
-          <input type="file" accept="image/*" multiple onchange="uploadSlides('${key}',this)">
-          <i class="ti ti-plus"></i><span>Slider görseli ekle (çoklu seçim yapabilirsin)</span>
-        </div>
-      </div>
-    </div>`;
-  }
-  document.getElementById('game-panels').innerHTML = html;
-}
-
-function renderPersonalPanels() {
-  let html = '';
-  for (let num = 1; num <= 7; num++) {
-    const p = (db.personal || {})[String(num)] || {};
-    const slides = (p.slides || []).map((s,i) =>
-      `<div class="img-thumb"><img src="${s.url}"><button class="img-del" onclick="delPersonalSlide(${num},${i})"><i class="ti ti-x"></i></button></div>`
-    ).join('');
-    html += `
-    <div class="panel" id="panel-p${num}">
-      <div class="card">
-        <div class="card-title">Personal Work ${num}</div>
-        <div class="fg"><div class="fl">Proje Adı</div><input type="text" id="p${num}-name" value="${p.name||''}"></div>
-        <div class="fg"><div class="fl">Açıklama</div><textarea id="p${num}-about">${p.about||''}</textarea></div>
-        <button class="btn btn-primary" style="margin-top:12px;" onclick="savePersonal(${num})"><i class="ti ti-device-floppy"></i> Kaydet</button>
-      </div>
-      <div class="card">
-        <div class="card-title">Slider Görselleri</div>
-        <div class="img-grid" id="p${num}-slides">${slides}</div>
-        <div class="upload-zone" style="margin-top:12px;">
-          <input type="file" accept="image/*" multiple onchange="uploadPersonalSlides(${num},this)">
-          <i class="ti ti-plus"></i><span>Görsel ekle</span>
-        </div>
-      </div>
-    </div>`;
-  }
-  document.getElementById('personal-panels').innerHTML = html;
-}
-
-async function saveProject(key) {
-  const data = {
-    name: document.getElementById(`${key}-name`).value,
-    studio: document.getElementById(`${key}-studio`).value,
-    year: document.getElementById(`${key}-year`).value,
-    about: document.getElementById(`${key}-about`).value,
-    ios: document.getElementById(`${key}-ios`).value,
-    android: document.getElementById(`${key}-android`).value,
-    credits: {
-      art_direction: document.getElementById(`${key}-art_direction`).value,
-      concept_art: document.getElementById(`${key}-concept_art`).value,
-      art_3d: document.getElementById(`${key}-art_3d`).value,
-    }
-  };
-  try {
-    await fetch(`${API}/api/project/${key}`, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(data) });
-    showNotif('Kaydedildi!', 'ok');
-  } catch(e) { showNotif('Hata!', 'err'); }
-}
-
-async function savePersonal(num) {
-  const data = { name: document.getElementById(`p${num}-name`).value, about: document.getElementById(`p${num}-about`).value };
-  try {
-    await fetch(`${API}/api/personal/${num}`, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(data) });
-    showNotif('Kaydedildi!', 'ok');
-  } catch(e) { showNotif('Hata!', 'err'); }
-}
-
-async function uploadSlides(key, input) {
-  const files = Array.from(input.files);
-  showNotif(`${files.length} görsel yükleniyor...`, 'ok');
-  for (const file of files) {
-    const fd = new FormData(); fd.append('image', file);
-    const r = await fetch(`${API}/api/upload/project/${key}/slide`, { method:'POST', body:fd });
-    const d = await r.json();
-    if (d.ok && d.slides) {
-      db.projects[key].slides = d.slides;
-      document.getElementById(`${key}-slides`).innerHTML = d.slides.map((s,i) =>
-        `<div class="img-thumb"><img src="${s.url}"><button class="img-del" onclick="delSlide('${key}',${i})"><i class="ti ti-x"></i></button></div>`
-      ).join('');
-    }
-  }
-  showNotif('Tüm görseller yüklendi!', 'ok');
-}
-
-async function uploadGrid(key, input) {
-  const files = Array.from(input.files);
-  for (const file of files) {
-    const fd = new FormData(); fd.append('image', file);
-    const r = await fetch(`${API}/api/upload/project/${key}/grid`, { method:'POST', body:fd });
-    const d = await r.json();
-    if (d.ok && d.grid) {
-      db.projects[key].grid = d.grid;
-      document.getElementById(`${key}-grid`).innerHTML = d.grid.map((g,i) =>
-        `<div class="img-thumb"><img src="${g.url}"><button class="img-del" onclick="delGrid('${key}',${i})"><i class="ti ti-x"></i></button></div>`
-      ).join('');
-    }
-  }
-  showNotif('Izgara güncellendi!', 'ok');
-}
-
-async function delSlide(key, idx) {
-  if (!confirm('Bu görseli sil?')) return;
-  const r = await fetch(`${API}/api/project/${key}/slide/${idx}`, { method:'DELETE' });
-  const d = await r.json();
-  if (d.ok) {
-    db.projects[key].slides = d.slides;
-    document.getElementById(`${key}-slides`).innerHTML = d.slides.map((s,i) =>
-      `<div class="img-thumb"><img src="${s.url}"><button class="img-del" onclick="delSlide('${key}',${i})"><i class="ti ti-x"></i></button></div>`
-    ).join('');
-    showNotif('Silindi!', 'ok');
-  }
-}
-
-async function delGrid(key, idx) {
-  if (!confirm('Bu görseli sil?')) return;
-  showNotif('Siliniyor...', 'ok');
-}
-
-async function uploadPersonalSlides(num, input) {
-  const files = Array.from(input.files);
-  showNotif(`${files.length} görsel yükleniyor...`, 'ok');
-  for (const file of files) {
-    const fd = new FormData(); fd.append('image', file);
-    const r = await fetch(`${API}/api/upload/personal/${num}/slide`, { method:'POST', body:fd });
-    const d = await r.json();
-    if (d.ok && d.slides) {
-      document.getElementById(`p${num}-slides`).innerHTML = d.slides.map((s,i) =>
-        `<div class="img-thumb"><img src="${s.url}"><button class="img-del" onclick="delPersonalSlide(${num},${i})"><i class="ti ti-x"></i></button></div>`
-      ).join('');
-    }
-  }
-  showNotif('Yüklendi!', 'ok');
-}
-
-async function delPersonalSlide(num, idx) {
-  if (!confirm('Sil?')) return;
-  const r = await fetch(`${API}/api/personal/${num}/slide/${idx}`, { method:'DELETE' });
-  const d = await r.json();
-  if (d.ok) {
-    document.getElementById(`p${num}-slides`).innerHTML = d.slides.map((s,i) =>
-      `<div class="img-thumb"><img src="${s.url}"><button class="img-del" onclick="delPersonalSlide(${num},${i})"><i class="ti ti-x"></i></button></div>`
-    ).join('');
-    showNotif('Silindi!', 'ok');
-  }
-}
-
+const S = {};
 function sw(id, el) {
   document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.ni').forEach(n => n.classList.remove('active'));
-  document.getElementById('panel-' + id).classList.add('active');
-  document.getElementById('topbar-title').textContent = el.textContent.trim();
-  el.classList.add('active');
+  const panel = document.getElementById('panel-' + id);
+  if (panel) panel.classList.add('active');
+  if (el) el.classList.add('active');
+  const titles = {settings:'Boyut & Renk Ayarlari',hero:'Hero Gorseli',resume:'Resume CV'};
+  document.getElementById('topbar-title').textContent = titles[id] || id;
+  if (['block-out','car-match','magic-sort','match-villains','wonder-blast'].includes(id)) loadProj(id);
+  if (id.startsWith('p') && !isNaN(id.slice(1))) loadPersonal(parseInt(id.slice(1)));
 }
-
-function showNotif(msg, type) {
+function notify(msg, ok=true) {
   const n = document.getElementById('notif');
-  n.className = `notif ${type} show`;
-  n.innerHTML = `<i class="ti ti-${type==='ok'?'check':'alert-circle'}"></i> ${msg}`;
-  clearTimeout(n._t);
-  n._t = setTimeout(() => n.classList.remove('show'), 2500);
+  document.getElementById('notif-msg').textContent = msg;
+  n.className = 'notif ' + (ok ? 'ok' : 'err') + ' show';
+  setTimeout(() => n.classList.remove('show'), 2500);
 }
-
-loadDB();
+function updS(input, labelId, key) {
+  const val = input.value + 'px';
+  document.getElementById(labelId).textContent = val;
+  S[key] = val;
+  fetch('/api/preview-settings', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(S)}).catch(()=>{});
+}
+function prevCol(key, input) {
+  const hex = input.value;
+  document.getElementById('col-' + key + '-hex').textContent = hex;
+  S['color_' + key] = hex;
+}
+function updFP(input, labelId, key) {
+  const val = parseInt(input.value);
+  document.getElementById(labelId).textContent = val + 'px';
+  S[key] = val;
+}
+async function saveSettings() {
+  const data = {
+    nav_height: document.getElementById('nav-height-v').textContent,
+    nav_logo_size: document.getElementById('nav-logo-v').textContent,
+    nav_sub_size: document.getElementById('nav-sub-v').textContent,
+    nav_link_size: document.getElementById('nav-link-v').textContent,
+    hero_height: document.getElementById('hero-h-v').textContent,
+    thumb_height: document.getElementById('thumb-h-v').textContent,
+    color_bg: document.getElementById('col-bg').value,
+    color_bg2: document.getElementById('col-bg2').value,
+    color_text: document.getElementById('col-text').value,
+    color_muted: document.getElementById('col-muted').value,
+    color_accent: document.getElementById('col-accent').value,
+    nav_logo_x: document.getElementById('fpx-v').textContent.replace('px',''),
+    nav_logo_y: document.getElementById('fpy-v').textContent.replace('px',''),
+    nav_sub_x: document.getElementById('fsx-v').textContent.replace('px',''),
+    nav_sub_y: document.getElementById('fsy-v').textContent.replace('px','')
+  };
+  try {
+    const r = await fetch('/api/settings', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});
+    const res = await r.json();
+    if (res.ok) notify('Ayarlar kaydedildi!');
+    else notify('Hata: ' + (res.error||'?'), false);
+  } catch(e) { notify('Baglanti hatasi', false); }
+}
+async function uploadHero(inp) {
+  const fd = new FormData();
+  fd.append('image', inp.files[0]);
+  try {
+    const r = await fetch('/api/upload/hero', {method:'POST',body:fd});
+    const res = await r.json();
+    if (res.ok) { notify('Hero yuklendi!'); document.getElementById('hero-preview').innerHTML = '<img src="'+res.url+'" style="max-width:100%;border-radius:6px;margin-top:8px;">'; }
+    else notify('Hata: ' + res.error, false);
+  } catch(e) { notify('Hata', false); }
+}
+async function uploadResume(inp) {
+  const fd = new FormData();
+  fd.append('image', inp.files[0]);
+  try {
+    const r = await fetch('/api/upload/resume', {method:'POST',body:fd});
+    const res = await r.json();
+    if (res.ok) { notify('Resume yuklendi!'); document.getElementById('resume-preview').innerHTML = '<img src="'+res.url+'" style="max-width:200px;border-radius:6px;margin-top:8px;">'; }
+    else notify('Hata: ' + res.error, false);
+  } catch(e) { notify('Hata', false); }
+}
+async function loadProj(key) {
+  try {
+    const r = await fetch('/api/data');
+    const db = await r.json();
+    const p = db.projects[key];
+    if (!p) return;
+    const f = (id, val) => { const el = document.getElementById(id); if (el) el.value = val || ''; };
+    f(key+'-name', p.name); f(key+'-studio', p.studio); f(key+'-year', p.year);
+    f(key+'-about', p.about); f(key+'-ios', p.ios); f(key+'-android', p.android);
+    if (p.credits) { f(key+'-ad', p.credits.art_direction); f(key+'-ca', p.credits.concept_art); f(key+'-3d', p.credits.art_3d); }
+    if (p.cover && p.cover.url) { const prev = document.getElementById(key+'-cover-preview'); if (prev) prev.innerHTML = '<img src="'+p.cover.url+'" style="max-width:160px;border-radius:4px;border:0.5px solid rgba(255,255,255,0.1);">'; }
+    const wg = document.getElementById(key+'-works-grid');
+    if (wg && p.works) { wg.innerHTML = p.works.map((w,i) => w.thumbnail && w.thumbnail.url ? '<div class="img-thumb"><img src="'+w.thumbnail.url+'"><button class="img-del" onclick="delWork(\'' + key + '\',' + i + ')"><i class="ti ti-x"></i></button></div>' : '').join(''); }
+    const sg = document.getElementById(key+'-slides-grid');
+    if (sg && p.works && p.works[0] && p.works[0].slides) { sg.innerHTML = p.works[0].slides.map((s,i) => '<div class="img-thumb"><img src="'+s.url+'"></div>').join(''); }
+  } catch(e) {}
+}
+async function saveProj(key) {
+  const g = id => { const el = document.getElementById(id); return el ? el.value : ''; };
+  const data = { name: g(key+'-name'), studio: g(key+'-studio'), year: g(key+'-year'), about: g(key+'-about'), ios: g(key+'-ios'), android: g(key+'-android'), credits: { art_direction: g(key+'-ad'), concept_art: g(key+'-ca'), art_3d: g(key+'-3d') } };
+  try {
+    const r = await fetch('/api/project/' + key, {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});
+    const res = await r.json();
+    if (res.ok) notify(data.name + ' kaydedildi!');
+    else notify('Hata: ' + (res.error||'?'), false);
+  } catch(e) { notify('Baglanti hatasi', false); }
+}
+async function uploadCover(key, inp) {
+  const fd = new FormData();
+  fd.append('image', inp.files[0]);
+  try {
+    const r = await fetch('/api/upload/cover/' + key, {method:'POST',body:fd});
+    const res = await r.json();
+    if (res.ok) { notify('Kapak yuklendi!'); const prev = document.getElementById(key+'-cover-preview'); if (prev) prev.innerHTML = '<img src="'+res.url+'" style="max-width:160px;border-radius:4px;">'; }
+    else notify('Hata: ' + res.error, false);
+  } catch(e) { notify('Hata', false); }
+}
+async function uploadWork(key, inp) {
+  for (const file of inp.files) {
+    const fd = new FormData();
+    fd.append('image', file);
+    try {
+      const r = await fetch('/api/upload/work/' + key, {method:'POST',body:fd});
+      const res = await r.json();
+      if (res.ok) { notify('Is eklendi!'); loadProj(key); }
+    } catch(e) {}
+  }
+}
+async function uploadSlides(key, inp) {
+  for (const file of inp.files) {
+    const fd = new FormData();
+    fd.append('image', file);
+    try {
+      const r = await fetch('/api/upload/slide/' + key + '/0', {method:'POST',body:fd});
+      const res = await r.json();
+      if (res.ok) notify('Slide eklendi!');
+    } catch(e) {}
+  }
+  setTimeout(() => loadProj(key), 1000);
+}
+async function delWork(key, idx) {
+  if (!confirm('Bu isi silmek istediginizden emin misiniz?')) return;
+  try {
+    const r = await fetch('/api/delete/work/' + key + '/' + idx, {method:'DELETE'});
+    const res = await r.json();
+    if (res.ok) { notify('Is silindi!'); loadProj(key); }
+  } catch(e) { notify('Hata', false); }
+}
+async function loadPersonal(num) {
+  try {
+    const r = await fetch('/api/data');
+    const db = await r.json();
+    const p = db.personal[String(num)];
+    if (!p) return;
+    const ne = document.getElementById('p'+num+'-name'); if (ne) ne.value = p.name || '';
+    const ae = document.getElementById('p'+num+'-about'); if (ae) ae.value = p.about || '';
+    const sg = document.getElementById('p'+num+'-slides-grid');
+    if (sg && p.slides) sg.innerHTML = p.slides.map(s => '<div class="img-thumb"><img src="'+s.url+'"></div>').join('');
+  } catch(e) {}
+}
+async function savePersonal(num) {
+  const name = document.getElementById('p'+num+'-name')?.value || '';
+  const about = document.getElementById('p'+num+'-about')?.value || '';
+  try {
+    const r = await fetch('/api/personal/' + num, {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name,about})});
+    const res = await r.json();
+    if (res.ok) notify(name + ' kaydedildi!');
+    else notify('Hata: ' + (res.error||'?'), false);
+  } catch(e) { notify('Baglanti hatasi', false); }
+}
+async function uploadPersonalSlides(num, inp) {
+  for (const file of inp.files) {
+    const fd = new FormData();
+    fd.append('image', file);
+    try {
+      const r = await fetch('/api/upload/personal/' + num, {method:'POST',body:fd});
+      const res = await r.json();
+      if (res.ok) notify('Gorsel eklendi!');
+    } catch(e) {}
+  }
+  setTimeout(() => loadPersonal(num), 1000);
+}
 </script>
 </body>
 </html>
