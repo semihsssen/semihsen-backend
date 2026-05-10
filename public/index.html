@@ -28,12 +28,45 @@
   <footer class="home-footer"><span class="footer-text">semihsen.art</span><div class="social-links"><a href="https://www.artstation.com/semihsssen" target="_blank">ArtStation</a><a href="https://www.behance.net/semihsssen" target="_blank">Behance</a><a href="https://www.instagram.com/semsssen" target="_blank">Instagram</a><a href="https://linkedin.com/in/semih-sen-191900179" target="_blank">LinkedIn</a></div></footer>
 </div>
 <div class="page" id="page-portfolio"><div class="port-select"><div class="port-cat" onclick="showPage('game')"><div class="port-cat-bg cat-game-bg"></div><div class="port-cat-overlay"></div><i class="ti ti-device-gamepad-2 port-cat-icon"></i><div class="port-cat-label"><div class="port-cat-title">Game Art</div><div class="port-cat-sub">5 Projects</div></div><div class="port-cat-accent"></div></div><div class="port-cat" onclick="showPage('personal')"><div class="port-cat-bg cat-personal-bg"></div><div class="port-cat-overlay"></div><i class="ti ti-brush port-cat-icon"></i><div class="port-cat-label"><div class="port-cat-title">Personal Works</div><div class="port-cat-sub">7 Projects</div></div><div class="port-cat-accent"></div></div></div></div>
-<div class="page" id="page-game"><div class="port-inner-header"><button class="port-back" onclick="showPage('portfolio')"><i class="ti ti-arrow-left"></i> Portfolio</button><div class="port-inner-title">Game Art</div></div><div class="game-covers-wrap"><div class="game-covers-grid" id="game-art-grid"></div></div></div>
-<div class="page" id="page-game-detail"><div class="port-inner-header"><button class="port-back" id="game-detail-back" onclick="showPage('game')"><i class="ti ti-arrow-left"></i> Game Art</button><div class="port-inner-title" id="game-detail-title">Oyun Adi</div></div><div class="game-covers-wrap"><div class="game-works-grid" id="game-works-grid"></div></div></div>
-<div class="page" id="page-work-detail"><div class="port-inner-header"><button class="port-back" onclick="showPage('game-detail')"><i class="ti ti-arrow-left"></i> <span id="work-slider-back-title">Game Art</span></button><div class="port-inner-title" id="work-detail-title"></div></div><div class="work-detail-layout"><div class="work-detail-left"><div class="store-btns" id="work-store-btns"></div></div><div class="work-detail-center"><div class="detail-slider-wrap"><div class="detail-slider" id="work-slider"></div><button class="slider-btn slider-btn-left" onclick="slideWork(-1)"><i class="ti ti-chevron-left"></i></button><button class="slider-btn slider-btn-right" onclick="slideWork(1)"><i class="ti ti-chevron-right"></i></button><div class="slider-dots" id="work-slider-dots"></div></div></div><div class="work-detail-right"><div class="work-info" id="work-info-panel"></div></div></div></div>
-<div class="page" id="page-personal"><div class="port-inner-header"><button class="port-back" onclick="showPage('portfolio')"><i class="ti ti-arrow-left"></i> Portfolio</button><div class="port-inner-title">Personal Works</div></div><div class="inf-grid-wrap"><div class="inf-grid" id="personal-grid"></div><div class="ghost-row"><div class="ghost-tile"></div><div class="ghost-tile"></div><div class="ghost-tile"></div><div class="ghost-tile"></div><div class="ghost-tile"></div></div><div class="ghost-row"><div class="ghost-tile"></div><div class="ghost-tile"></div><div class="ghost-tile"></div><div class="ghost-tile"></div><div class="ghost-tile"></div></div></div></div>
-<div class="page" id="page-personal-detail"><div class="port-inner-header"><button class="port-back" onclick="showPage('personal')"><i class="ti ti-arrow-left"></i> Personal Works</button><div class="port-inner-title" id="personal-detail-title">Personal Work</div></div><div class="detail-slider-wrap"><div class="detail-slider" id="personal-slider"></div><button class="slider-btn slider-btn-left" onclick="slidePersonal(-1)"><i class="ti ti-chevron-left"></i></button><button class="slider-btn slider-btn-right" onclick="slidePersonal(1)"><i class="ti ti-chevron-right"></i></button><div class="slider-dots" id="personal-slider-dots"></div></div></div>
-<div class="page" id="page-resume"><div class="resume-layout"><div class="resume-left"><div class="resume-img" id="resume-img"><div class="resume-img-ph"><i class="ti ti-file-cv"></i><span>CV Gorseli</span></div></div></div><div class="resume-right"><div class="resume-section"><div class="resume-section-title">Experience</div><div class="resume-job"><div class="resume-job-title">Lead Game Artist</div><div class="resume-job-company">Grand Games</div><div class="resume-job-year">2024 - Present</div><div class="resume-job-projects">Magic Sort, Car Match, Block Out</div></div><div class="resume-job"><div class="resume-job-title">Game Artist</div><div class="resume-job-company">GoodJob Games</div><div class="resume-job-year">2022 - 2023</div><div class="resume-job-projects">Match Villians, Wonder Blast</div></div></div><div class="resume-section"><div class="resume-section-title">Skills</div><div class="skills-grid"><div class="skill-tag">Art Direction</div><div class="skill-tag">Concept Art</div><div class="skill-tag">3D Art</div><div class="skill-tag">UI Design</div><div class="skill-tag">Visual Identity</div><div class="skill-tag">Character Design</div><div class="skill-tag">Environment Art</div><div class="skill-tag">Unity</div></div></div></div></div></div>
+<div class="page" id="page-game">
+  <div class="port-inner-header"><button class="port-back" onclick="showPage('portfolio')"><i class="ti ti-arrow-left"></i> Portfolio</button><div class="port-inner-title">Game Art</div></div>
+  <div class="game-covers-wrap"><div class="game-covers-grid" id="game-art-grid"></div></div>
+</div>
+<div class="page" id="page-game-detail">
+  <div class="port-inner-header"><button class="port-back" id="game-detail-back" onclick="showPage('game')"><i class="ti ti-arrow-left"></i> Game Art</button><div class="port-inner-title" id="game-detail-title"></div></div>
+  <div class="inf-grid-wrap"><div class="works-inf-grid" id="game-works-grid"></div><div class="ghost-row"><div class="ghost-tile"></div><div class="ghost-tile"></div><div class="ghost-tile"></div><div class="ghost-tile"></div><div class="ghost-tile"></div></div><div class="ghost-row"><div class="ghost-tile"></div><div class="ghost-tile"></div><div class="ghost-tile"></div><div class="ghost-tile"></div><div class="ghost-tile"></div></div></div>
+</div>
+<div class="page" id="page-work-detail">
+  <div class="port-inner-header"><button class="port-back" onclick="showPage('game-detail')"><i class="ti ti-arrow-left"></i> <span id="work-slider-back-title">Game Art</span></button><div class="port-inner-title" id="work-detail-title"></div></div>
+  <div class="work-slider-page">
+    <div class="work-slider-left"><div class="store-btns" id="work-store-btns"></div></div>
+    <div class="work-slider-center">
+      <div class="work-slides-scroll" id="work-slides-scroll"></div>
+    </div>
+    <div class="work-slider-right"><div class="work-info" id="work-info-panel"></div></div>
+  </div>
+</div>
+<div class="page" id="page-personal">
+  <div class="port-inner-header"><button class="port-back" onclick="showPage('portfolio')"><i class="ti ti-arrow-left"></i> Portfolio</button><div class="port-inner-title">Personal Works</div></div>
+  <div class="inf-grid-wrap"><div class="inf-grid" id="personal-grid"></div><div class="ghost-row"><div class="ghost-tile"></div><div class="ghost-tile"></div><div class="ghost-tile"></div><div class="ghost-tile"></div><div class="ghost-tile"></div></div><div class="ghost-row"><div class="ghost-tile"></div><div class="ghost-tile"></div><div class="ghost-tile"></div><div class="ghost-tile"></div><div class="ghost-tile"></div></div></div>
+</div>
+<div class="page" id="page-personal-detail">
+  <div class="port-inner-header"><button class="port-back" onclick="showPage('personal')"><i class="ti ti-arrow-left"></i> Personal Works</button><div class="port-inner-title" id="personal-detail-title">Personal Work</div></div>
+  <div class="work-slider-page">
+    <div class="work-slider-center" style="max-width:100%;">
+      <div class="work-slides-scroll" id="personal-slides-scroll"></div>
+    </div>
+  </div>
+</div>
+<div class="page" id="page-resume">
+  <div class="resume-layout">
+    <div class="resume-left"><div class="resume-img" id="resume-img"><div class="resume-img-ph"><i class="ti ti-file-cv"></i><span>CV Gorseli</span></div></div></div>
+    <div class="resume-right">
+      <div class="resume-section"><div class="resume-section-title">Experience</div><div class="resume-job"><div class="resume-job-title">Lead Game Artist</div><div class="resume-job-company">Grand Games</div><div class="resume-job-year">2024 - Present</div><div class="resume-job-projects">Magic Sort, Car Match, Block Out</div></div><div class="resume-job"><div class="resume-job-title">Game Artist</div><div class="resume-job-company">GoodJob Games</div><div class="resume-job-year">2022 - 2023</div><div class="resume-job-projects">Match Villians, Wonder Blast</div></div></div>
+      <div class="resume-section"><div class="resume-section-title">Skills</div><div class="skills-grid"><div class="skill-tag">Art Direction</div><div class="skill-tag">Concept Art</div><div class="skill-tag">3D Art</div><div class="skill-tag">UI Design</div><div class="skill-tag">Visual Identity</div><div class="skill-tag">Character Design</div><div class="skill-tag">Environment Art</div><div class="skill-tag">Unity</div></div></div>
+    </div>
+  </div>
+</div>
 </div>
 <script src="assets/main.js"></script>
 </body>
