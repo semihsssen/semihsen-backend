@@ -5,9 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>Project Editor – Portfolio CMS</title>
 <script src="https://cdn.tailwindcss.com"></script>
-<script>
-tailwind.config={theme:{extend:{colors:{zinc:{950:'#0a0a0f'}},fontFamily:{sans:['Inter','system-ui','sans-serif']}}}}
-</script>
+<script>tailwind.config={theme:{extend:{colors:{zinc:{950:'#0a0a0f'}},fontFamily:{sans:['Inter','system-ui','sans-serif']}}}}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
 <style>
@@ -28,22 +26,17 @@ body{background:#0f0f14;color:#e4e4e7;font-family:'Inter',sans-serif;min-height:
 .btn-secondary:hover{background:#3f3f46;}
 .btn-primary{background:#3b82f6;color:#fff;}
 .btn-primary:hover{background:#2563eb;}
-.btn-primary:disabled{background:#1d3454;color:#4b6fa3;cursor:not-allowed;}
+.btn-primary:disabled,.btn-publish:disabled{background:#1c2a3a;color:#3a5a7a;cursor:not-allowed;}
 .btn-publish{background:linear-gradient(135deg,#3b82f6,#06b6d4);color:#fff;}
 .btn-publish:hover{background:linear-gradient(135deg,#2563eb,#0891b2);}
-.btn-publish:disabled{background:#1c2a3a;color:#3a5a7a;cursor:not-allowed;}
-.tag{display:inline-flex;align-items:center;gap:4px;background:#27272a;border:1px solid #3f3f46;border-radius:6px;color:#a1a1aa;font-size:11px;font-weight:500;padding:3px 8px;}
+.tag{display:inline-flex;align-items:center;gap:4px;background:#27272a;border:1px solid #3f3f46;border-radius:6px;color:#a1a1aa;font-size:11px;font-weight:500;padding:3px 8px;cursor:pointer;}
 .tag.active{background:#1e3a5f;border-color:#3b82f6;color:#60a5fa;}
-.tag:hover{cursor:pointer;border-color:#52525b;}
-.tag.active:hover{border-color:#60a5fa;}
-.media-card{background:#09090b;border:1px solid #27272a;border-radius:8px;overflow:hidden;position:relative;group;}
+.media-card{background:#09090b;border:1px solid #27272a;border-radius:8px;overflow:hidden;position:relative;}
 .status-dot{width:7px;height:7px;border-radius:50%;display:inline-block;margin-right:6px;}
-.dot-draft{background:#f59e0b;}
-.dot-published{background:#22c55e;}
-.dot-hidden{background:#6b7280;}
-.richtext{min-height:160px;background:#09090b;border:1px solid #27272a;border-radius:8px;color:#e4e4e7;font-size:14px;line-height:1.6;padding:12px 14px;outline:none;resize:vertical;}
+.dot-draft{background:#f59e0b;}.dot-published{background:#22c55e;}.dot-hidden{background:#6b7280;}
+.richtext{min-height:160px;background:#09090b;border:1px solid #27272a;border-radius:8px;color:#e4e4e7;font-size:14px;line-height:1.65;padding:12px 14px;outline:none;resize:vertical;}
 .richtext:focus{border-color:#3b82f6;}
-.richtext[contenteditable]:empty:before{content:attr(data-placeholder);color:#52525b;}
+.richtext[contenteditable]:empty:before{content:attr(data-placeholder);color:#52525b;pointer-events:none;}
 .toolbar-btn{background:transparent;border:none;border-radius:5px;color:#71717a;cursor:pointer;font-size:13px;font-weight:600;padding:4px 8px;transition:all 0.1s;}
 .toolbar-btn:hover{background:#27272a;color:#e4e4e7;}
 .section-label{color:#71717a;font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:10px;}
@@ -53,143 +46,120 @@ body{background:#0f0f14;color:#e4e4e7;font-family:'Inter',sans-serif;min-height:
 .toggle input{opacity:0;width:0;height:0;}
 .slider-toggle{position:absolute;cursor:pointer;inset:0;background:#27272a;border-radius:20px;transition:0.2s;}
 .slider-toggle:before{content:'';position:absolute;height:14px;width:14px;left:3px;bottom:3px;background:#71717a;border-radius:50%;transition:0.2s;}
-input:checked + .slider-toggle{background:#3b82f6;}
-input:checked + .slider-toggle:before{transform:translateX(16px);background:#fff;}
+input:checked+.slider-toggle{background:#3b82f6;}
+input:checked+.slider-toggle:before{transform:translateX(16px);background:#fff;}
 .autosave{display:inline-flex;align-items:center;gap:5px;color:#52525b;font-size:12px;}
-.autosave.saving{color:#f59e0b;}
-.autosave.saved{color:#22c55e;}
 .progress-bar{height:3px;background:#3b82f6;border-radius:2px;transition:width 0.3s;}
 .drop-zone{border:2px dashed #27272a;border-radius:10px;padding:32px;text-align:center;transition:all 0.2s;cursor:pointer;}
 .drop-zone:hover,.drop-zone.dragover{border-color:#3b82f6;background:rgba(59,130,246,0.04);}
-.chip-remove{background:none;border:none;cursor:pointer;color:#71717a;font-size:11px;margin-left:2px;padding:0 2px;}
+.chip-remove{background:none;border:none;cursor:pointer;color:#71717a;font-size:11px;padding:0 2px;}
 .chip-remove:hover{color:#ef4444;}
 .preview-card{background:#18181b;border:1px solid #27272a;border-radius:12px;overflow:hidden;}
 .cover-badge{position:absolute;top:6px;left:6px;background:rgba(59,130,246,0.9);color:#fff;font-size:10px;font-weight:600;letter-spacing:0.05em;padding:2px 7px;border-radius:4px;}
-.delete-btn{position:absolute;top:6px;right:6px;background:rgba(0,0,0,0.7);border:none;border-radius:5px;color:#a1a1aa;cursor:pointer;font-size:11px;padding:4px 8px;opacity:0;transition:opacity 0.15s;}
+.delete-btn{position:absolute;top:6px;right:6px;background:rgba(0,0,0,0.75);border:none;border-radius:5px;color:#a1a1aa;cursor:pointer;font-size:11px;padding:4px 8px;opacity:0;transition:opacity 0.15s;}
 .media-card:hover .delete-btn{opacity:1;}
-.reorder-handle{position:absolute;top:6px;left:6px;background:rgba(0,0,0,0.7);border:none;border-radius:5px;color:#a1a1aa;cursor:grab;font-size:12px;padding:4px 7px;opacity:0;transition:opacity 0.15s;}
-.media-card:hover .reorder-handle{opacity:1;}
 select.input-base{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2371717a' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;background-size:16px;padding-right:32px;}
-.val-row{display:flex;align-items:center;gap:6px;font-size:12px;color:#71717a;}
+.val-row{display:flex;align-items:center;gap:8px;font-size:12px;color:#52525b;padding:4px 0;}
 .val-row.ok{color:#22c55e;}
-.val-row.fail{color:#52525b;}
+.val-icon{width:16px;height:16px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0;}
+.val-icon.ok{background:#14532d;color:#22c55e;}
+.val-icon.fail{background:#27272a;color:#52525b;}
 .tab-btn{background:transparent;border:none;border-radius:6px;color:#71717a;cursor:pointer;font-size:12px;font-weight:500;padding:5px 12px;transition:all 0.15s;}
 .tab-btn.active{background:#27272a;color:#e4e4e7;}
 </style>
 </head>
-<body class="min-h-screen">
+<body>
 <div id="app" class="flex flex-col min-h-screen">
 
 <!-- TOP BAR -->
-<header id="topbar" class="sticky top-0 z-50 flex items-center justify-between px-6 py-3" style="background:rgba(15,15,20,0.95);backdrop-filter:blur(10px);border-bottom:1px solid #27272a;">
-  <div class="flex items-center gap-4">
-    <button onclick="history.back()" class="btn btn-ghost" style="padding:6px 12px;font-size:12px;">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg>
-      Projects
-    </button>
+<header style="position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:10px 24px;background:rgba(15,15,20,0.96);backdrop-filter:blur(10px);border-bottom:1px solid #27272a;">
+  <div style="display:flex;align-items:center;gap:12px;">
+    <button onclick="history.back()" class="btn btn-ghost" style="padding:6px 12px;font-size:12px;">&#8592; Projects</button>
     <div style="width:1px;height:20px;background:#27272a;"></div>
     <h1 id="page-title" style="font-size:15px;font-weight:600;color:#e4e4e7;">New Project</h1>
   </div>
-  <div class="flex items-center gap-4">
-    <span id="autosave-status" class="autosave">
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="m9 12 2 2 4-4"/></svg>
-      All changes saved
-    </span>
+  <div style="display:flex;align-items:center;gap:10px;">
+    <span id="autosave-status" class="autosave">&#10003; All changes saved</span>
     <button class="btn btn-ghost" onclick="saveDraft()">Save Draft</button>
-    <button class="btn btn-secondary" onclick="previewProject()">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-      Preview
-    </button>
-    <button id="publish-btn" class="btn btn-publish" onclick="publishProject()" disabled>
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2 11 13"/><path d="M22 2 15 22 11 13 2 9l20-7z"/></svg>
-      Publish
-    </button>
+    <button class="btn btn-secondary" onclick="previewProject()">&#128065; Preview</button>
+    <button id="publish-btn" class="btn btn-publish" onclick="publishProject()" disabled>&#10148; Publish</button>
   </div>
 </header>
 
 <!-- MAIN LAYOUT -->
-<div class="flex flex-1 overflow-hidden" style="height:calc(100vh - 57px);">
+<div style="display:flex;flex:1;height:calc(100vh - 57px);overflow:hidden;">
 
-  <!-- LEFT: EDITOR + MEDIA -->
-  <main class="flex-1 overflow-y-auto px-6 py-6" style="max-width:780px;">
+  <!-- EDITOR COLUMN -->
+  <main style="flex:1;overflow-y:auto;padding:24px;max-width:800px;">
 
-    <!-- PROJECT INFO CARD -->
-    <div class="card p-6 mb-5">
+    <!-- PROJECT DETAILS -->
+    <div class="card" style="padding:24px;margin-bottom:20px;">
       <div class="section-label">Project Details</div>
-
-      <div class="mb-4">
+      <div style="margin-bottom:16px;">
         <label style="font-size:12px;color:#71717a;display:block;margin-bottom:6px;">Project Title *</label>
-        <input id="f-title" type="text" class="input-base" placeholder="e.g. Block Out – Mobile Game Art" style="font-size:18px;font-weight:600;padding:12px 14px;" oninput="onFieldChange()" />
+        <input id="f-title" type="text" class="input-base" placeholder="e.g. Block Out – Mobile Game Art" style="font-size:18px;font-weight:600;padding:12px 14px;" oninput="onFieldChange()"/>
       </div>
-
-      <div class="mb-4">
+      <div style="margin-bottom:16px;">
         <label style="font-size:12px;color:#71717a;display:block;margin-bottom:6px;">Short Subtitle</label>
-        <input id="f-subtitle" type="text" class="input-base" placeholder="One-line teaser shown on project cards" oninput="onFieldChange()" />
+        <input id="f-subtitle" type="text" class="input-base" placeholder="One-line teaser shown on project cards" oninput="onFieldChange()"/>
       </div>
-
-      <div class="mb-4">
+      <div style="margin-bottom:16px;">
         <label style="font-size:12px;color:#71717a;display:block;margin-bottom:6px;">Slug (URL)</label>
         <div style="display:flex;align-items:center;background:#09090b;border:1px solid #27272a;border-radius:8px;overflow:hidden;">
           <span style="padding:10px 12px;color:#52525b;font-size:13px;border-right:1px solid #27272a;white-space:nowrap;">semihsen.art/work/</span>
-          <input id="f-slug" type="text" placeholder="block-out-mobile-game" style="background:transparent;border:none;color:#e4e4e7;font-size:13px;padding:10px 12px;flex:1;outline:none;" oninput="onFieldChange()" />
+          <input id="f-slug" type="text" placeholder="block-out-mobile-game" style="background:transparent;border:none;color:#e4e4e7;font-size:13px;padding:10px 12px;flex:1;outline:none;" oninput="state.dirty=true;"/>
         </div>
       </div>
-
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:4px;">
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;">
         <div>
           <label style="font-size:12px;color:#71717a;display:block;margin-bottom:6px;">Role / Contribution</label>
-          <input id="f-role" type="text" class="input-base" placeholder="Lead Game Artist" oninput="onFieldChange()" />
+          <input id="f-role" type="text" class="input-base" placeholder="Lead Game Artist" oninput="triggerAutosave()"/>
         </div>
         <div>
           <label style="font-size:12px;color:#71717a;display:block;margin-bottom:6px;">Client / Company</label>
-          <input id="f-client" type="text" class="input-base" placeholder="Grand Games" oninput="onFieldChange()" />
+          <input id="f-client" type="text" class="input-base" placeholder="Grand Games" oninput="triggerAutosave()"/>
         </div>
         <div>
           <label style="font-size:12px;color:#71717a;display:block;margin-bottom:6px;">Year</label>
-          <input id="f-year" type="text" class="input-base" placeholder="2025" oninput="onFieldChange()" />
+          <input id="f-year" type="text" class="input-base" placeholder="2025" oninput="triggerAutosave()"/>
         </div>
       </div>
     </div>
 
-    <!-- DESCRIPTION CARD -->
-    <div class="card p-6 mb-5">
+    <!-- DESCRIPTION -->
+    <div class="card" style="padding:24px;margin-bottom:20px;">
       <div class="section-label">Description / Case Study</div>
       <div style="background:#09090b;border:1px solid #27272a;border-radius:8px;overflow:hidden;">
-        <div style="display:flex;align-items:center;gap:2px;padding:6px 8px;border-bottom:1px solid #1f1f23;">
-          <button class="toolbar-btn" onclick="fmt('bold')" title="Bold"><b>B</b></button>
-          <button class="toolbar-btn" onclick="fmt('italic')" title="Italic"><i>I</i></button>
-          <button class="toolbar-btn" onclick="fmt('underline')" title="Underline"><u>U</u></button>
+        <div style="display:flex;align-items:center;gap:2px;padding:6px 8px;border-bottom:1px solid #1f1f23;flex-wrap:wrap;">
+          <button class="toolbar-btn" onclick="fmt('bold')"><b>B</b></button>
+          <button class="toolbar-btn" onclick="fmt('italic')"><i>I</i></button>
+          <button class="toolbar-btn" onclick="fmt('underline')"><u>U</u></button>
           <div style="width:1px;height:16px;background:#27272a;margin:0 4px;"></div>
-          <button class="toolbar-btn" onclick="fmt('insertUnorderedList')" title="Bullet List">&#8226;&#8226;</button>
-          <button class="toolbar-btn" onclick="fmt('insertOrderedList')" title="Numbered">1.</button>
+          <button class="toolbar-btn" onclick="fmt('insertUnorderedList')">&#8226;</button>
+          <button class="toolbar-btn" onclick="fmt('insertOrderedList')">1.</button>
           <div style="width:1px;height:16px;background:#27272a;margin:0 4px;"></div>
           <button class="toolbar-btn" onclick="fmtBlock('H2')" style="font-size:11px;">H2</button>
           <button class="toolbar-btn" onclick="fmtBlock('H3')" style="font-size:11px;">H3</button>
           <button class="toolbar-btn" onclick="fmtBlock('P')" style="font-size:11px;">P</button>
           <div style="width:1px;height:16px;background:#27272a;margin:0 4px;"></div>
-          <button class="toolbar-btn" onclick="fmt('removeFormat')" style="font-size:11px;" title="Clear">Tx</button>
+          <button class="toolbar-btn" onclick="fmt('removeFormat')" title="Clear" style="font-size:11px;">Tx</button>
         </div>
-        <div id="f-desc" class="richtext" contenteditable="true" data-placeholder="Describe the project, your process, challenges, results..." oninput="onFieldChange()" style="border:none;border-radius:0;"></div>
+        <div id="f-desc" class="richtext" contenteditable="true" data-placeholder="Describe the project, your process, challenges, results..." oninput="onFieldChange()" style="border:none;border-radius:0;min-height:180px;"></div>
       </div>
     </div>
 
-    <!-- MEDIA UPLOAD CARD -->
-    <div class="card p-6 mb-5">
+    <!-- MEDIA -->
+    <div class="card" style="padding:24px;margin-bottom:20px;">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
         <div class="section-label" style="margin-bottom:0;">Media</div>
         <span style="font-size:12px;color:#52525b;" id="media-count">0 files</span>
       </div>
-
-      <div id="drop-zone" class="drop-zone mb-5" onclick="document.getElementById('file-input').click()" ondragover="onDragOver(event)" ondragleave="onDragLeave(event)" ondrop="onDrop(event)">
-        <div style="margin-bottom:10px;">
-          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#3f3f46" stroke-width="1.5" style="margin:0 auto 8px;display:block;"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
-        </div>
-        <p style="font-size:14px;font-weight:500;color:#71717a;margin-bottom:4px;">Drop images, GIFs, or videos here</p>
-        <p style="font-size:12px;color:#3f3f46;">or click to browse &nbsp;·&nbsp; PNG, JPG, GIF, MP4, WEBM up to 50MB</p>
-        <input type="file" id="file-input" multiple accept="image/*,video/*,image/gif" style="display:none;" onchange="onFileSelect(event)" />
+      <div id="drop-zone" class="drop-zone" style="margin-bottom:16px;" onclick="document.getElementById('file-input').click()" ondragover="onDragOver(event)" ondragleave="onDragLeave(event)" ondrop="onDrop(event)">
+        <div style="font-size:28px;margin-bottom:8px;color:#3f3f46;">&#128247;</div>
+        <p style="font-size:14px;font-weight:500;color:#71717a;margin-bottom:4px;">Drop images, GIFs or videos here</p>
+        <p style="font-size:12px;color:#3f3f46;">or click to browse &nbsp;&middot;&nbsp; PNG, JPG, GIF, MP4 up to 50MB</p>
+        <input type="file" id="file-input" multiple accept="image/*,video/*" style="display:none;" onchange="onFileSelect(event)"/>
       </div>
-
-      <!-- Upload Progress -->
       <div id="upload-progress-area" style="display:none;margin-bottom:16px;">
         <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
           <span style="font-size:12px;color:#a1a1aa;" id="upload-label">Uploading...</span>
@@ -199,36 +169,32 @@ select.input-base{appearance:none;background-image:url("data:image/svg+xml,%3Csv
           <div class="progress-bar" id="upload-progress-bar" style="width:0%;"></div>
         </div>
       </div>
-
-      <!-- Media Grid -->
       <div id="media-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px;"></div>
     </div>
 
   </main>
 
-  <!-- RIGHT: SIDEBAR -->
-  <aside class="overflow-y-auto" style="width:300px;border-left:1px solid #27272a;background:#141417;padding:0 20px;">
+  <!-- SIDEBAR -->
+  <aside style="width:290px;border-left:1px solid #27272a;background:#141417;overflow-y:auto;padding:0 18px;">
 
-    <!-- STATUS -->
     <div class="sidebar-section">
       <div class="section-label">Status</div>
-      <div style="display:flex;flex-direction:column;gap:6px;">
+      <div style="display:flex;flex-direction:column;gap:8px;">
         <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px;color:#a1a1aa;">
-          <input type="radio" name="status" value="draft" checked onchange="setStatus('draft')" style="accent-color:#3b82f6;"/>
+          <input type="radio" name="pub-status" value="draft" checked onchange="setStatus('draft')" style="accent-color:#3b82f6;"/>
           <span class="status-dot dot-draft"></span>Draft
         </label>
         <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px;color:#a1a1aa;">
-          <input type="radio" name="status" value="published" onchange="setStatus('published')" style="accent-color:#3b82f6;"/>
+          <input type="radio" name="pub-status" value="published" onchange="setStatus('published')" style="accent-color:#3b82f6;"/>
           <span class="status-dot dot-published"></span>Published
         </label>
         <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px;color:#a1a1aa;">
-          <input type="radio" name="status" value="hidden" onchange="setStatus('hidden')" style="accent-color:#3b82f6;"/>
+          <input type="radio" name="pub-status" value="hidden" onchange="setStatus('hidden')" style="accent-color:#3b82f6;"/>
           <span class="status-dot dot-hidden"></span>Hidden
         </label>
       </div>
     </div>
 
-    <!-- VISIBILITY TOGGLES -->
     <div class="sidebar-section">
       <div class="section-label">Visibility</div>
       <div style="display:flex;flex-direction:column;gap:12px;">
@@ -243,7 +209,6 @@ select.input-base{appearance:none;background-image:url("data:image/svg+xml,%3Csv
       </div>
     </div>
 
-    <!-- CATEGORY -->
     <div class="sidebar-section">
       <div class="section-label">Category *</div>
       <select id="f-category" class="input-base" onchange="onFieldChange()">
@@ -258,17 +223,15 @@ select.input-base{appearance:none;background-image:url("data:image/svg+xml,%3Csv
       </select>
     </div>
 
-    <!-- TAGS -->
     <div class="sidebar-section">
       <div class="section-label">Tags</div>
-      <div id="tags-container" style="display:flex;flex-wrap:wrap;gap:5px;margin-bottom:8px;min-height:24px;"></div>
+      <div id="tags-container" style="display:flex;flex-wrap:wrap;gap:5px;margin-bottom:8px;min-height:20px;"></div>
       <div style="display:flex;gap:6px;">
-        <input id="tag-input" type="text" class="input-base" placeholder="Add tag..." style="font-size:12px;padding:7px 10px;" onkeydown="onTagKey(event)" />
+        <input id="tag-input" type="text" class="input-base" placeholder="Add tag..." style="font-size:12px;padding:7px 10px;" onkeydown="onTagKey(event)"/>
         <button class="btn btn-secondary" style="padding:7px 12px;font-size:12px;flex-shrink:0;" onclick="addTag()">+</button>
       </div>
     </div>
 
-    <!-- SOFTWARE -->
     <div class="sidebar-section">
       <div class="section-label">Software Used</div>
       <div style="display:flex;flex-wrap:wrap;gap:5px;" id="software-chips">
@@ -285,18 +248,16 @@ select.input-base{appearance:none;background-image:url("data:image/svg+xml,%3Csv
       </div>
     </div>
 
-    <!-- PUBLISH DATE -->
     <div class="sidebar-section">
       <div class="section-label">Publish Date</div>
-      <input id="f-pubdate" type="date" class="input-base" style="font-size:12px;color-scheme:dark;" onchange="triggerAutosave()" />
+      <input id="f-pubdate" type="date" class="input-base" style="font-size:12px;color-scheme:dark;" onchange="triggerAutosave()"/>
     </div>
 
-    <!-- SEO -->
     <div class="sidebar-section">
       <div class="section-label">SEO</div>
       <div style="margin-bottom:10px;">
         <label style="font-size:11px;color:#52525b;display:block;margin-bottom:5px;">Meta Title</label>
-        <input id="f-seo-title" type="text" class="input-base" placeholder="SEO title (60 chars)" style="font-size:12px;" oninput="updateSEOCount()" />
+        <input id="f-seo-title" type="text" class="input-base" placeholder="SEO title (60 chars)" style="font-size:12px;" oninput="updateSEOCount()"/>
         <div id="seo-title-count" style="font-size:10px;color:#52525b;text-align:right;margin-top:3px;">0 / 60</div>
       </div>
       <div style="margin-bottom:10px;">
@@ -311,39 +272,25 @@ select.input-base{appearance:none;background-image:url("data:image/svg+xml,%3Csv
       </div>
     </div>
 
-    <!-- VALIDATION -->
     <div class="sidebar-section">
       <div class="section-label">Publish Checklist</div>
-      <div style="display:flex;flex-direction:column;gap:6px;">
-        <div id="v-title" class="val-row fail">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
-          Project title
-        </div>
-        <div id="v-cover" class="val-row fail">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
-          Cover image
-        </div>
-        <div id="v-cat" class="val-row fail">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
-          Category selected
-        </div>
-        <div id="v-desc" class="val-row fail">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
-          Description added
-        </div>
+      <div style="display:flex;flex-direction:column;gap:2px;">
+        <div id="v-title" class="val-row"><span class="val-icon fail">&#9679;</span><span>Project title</span></div>
+        <div id="v-cover" class="val-row"><span class="val-icon fail">&#9679;</span><span>Cover image</span></div>
+        <div id="v-cat" class="val-row"><span class="val-icon fail">&#9679;</span><span>Category selected</span></div>
+        <div id="v-desc" class="val-row"><span class="val-icon fail">&#9679;</span><span>Description added</span></div>
       </div>
     </div>
 
   </aside>
-
-</div><!-- END MAIN LAYOUT -->
-</div><!-- END APP -->
+</div>
+</div>
 
 <!-- PREVIEW MODAL -->
-<div id="preview-modal" style="display:none;position:fixed;inset:0;z-index:200;background:rgba(0,0,0,0.85);backdrop-filter:blur(4px);overflow-y:auto;padding:40px 20px;">
+<div id="preview-modal" style="display:none;position:fixed;inset:0;z-index:200;background:rgba(0,0,0,0.88);backdrop-filter:blur(4px);overflow-y:auto;padding:40px 20px;" onclick="if(event.target===this)closePreview()">
   <div style="max-width:860px;margin:0 auto;">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
-      <span style="font-size:13px;color:#71717a;">Preview Mode</span>
+      <span style="font-size:13px;color:#71717a;font-weight:500;">Preview Mode</span>
       <div style="display:flex;align-items:center;gap:8px;">
         <button id="tab-desktop" class="tab-btn active" onclick="setPreviewTab('desktop')">Desktop</button>
         <button id="tab-mobile" class="tab-btn" onclick="setPreviewTab('mobile')">Mobile</button>
@@ -351,28 +298,28 @@ select.input-base{appearance:none;background-image:url("data:image/svg+xml,%3Csv
       </div>
     </div>
     <div id="preview-wrapper" style="transition:max-width 0.3s;margin:0 auto;">
-      <div class="preview-card" style="overflow:hidden;">
-        <div id="prev-cover" style="height:220px;background:#27272a;display:flex;align-items:center;justify-content:center;position:relative;">
-          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#3f3f46" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
+      <div class="preview-card">
+        <div id="prev-cover" style="height:240px;background:#27272a;display:flex;align-items:center;justify-content:center;">
+          <span style="font-size:32px;opacity:0.3;">&#128247;</span>
         </div>
-        <div style="padding:20px;">
-          <div id="prev-cat-badge" style="display:none;margin-bottom:8px;">
-            <span style="background:#1e3a5f;border:1px solid #3b82f6;border-radius:5px;color:#60a5fa;font-size:10px;font-weight:600;letter-spacing:0.06em;padding:2px 8px;text-transform:uppercase;" id="prev-cat-text"></span>
+        <div style="padding:24px;">
+          <div id="prev-cat-badge" style="display:none;margin-bottom:10px;">
+            <span id="prev-cat-text" style="background:#1e3a5f;border:1px solid #3b82f6;border-radius:5px;color:#60a5fa;font-size:10px;font-weight:700;letter-spacing:0.07em;padding:3px 8px;text-transform:uppercase;"></span>
           </div>
-          <h2 id="prev-title" style="font-size:22px;font-weight:700;color:#f4f4f5;margin-bottom:6px;">Project Title</h2>
-          <p id="prev-subtitle" style="font-size:13px;color:#71717a;margin-bottom:12px;">Subtitle will appear here</p>
-          <p id="prev-desc-text" style="font-size:13px;color:#a1a1aa;line-height:1.65;"></p>
-          <div style="margin-top:16px;padding-top:16px;border-top:1px solid #27272a;display:flex;gap:16px;flex-wrap:wrap;">
+          <h2 id="prev-title" style="font-size:24px;font-weight:700;color:#f4f4f5;margin-bottom:6px;">Project Title</h2>
+          <p id="prev-subtitle" style="font-size:14px;color:#71717a;margin-bottom:14px;"></p>
+          <div id="prev-desc-text" style="font-size:14px;color:#a1a1aa;line-height:1.7;"></div>
+          <div style="margin-top:20px;padding-top:20px;border-top:1px solid #27272a;display:flex;gap:24px;flex-wrap:wrap;">
             <div id="prev-role-block" style="display:none;">
-              <div style="font-size:10px;color:#52525b;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:2px;">Role</div>
+              <div style="font-size:10px;color:#52525b;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:3px;">Role</div>
               <div id="prev-role" style="font-size:13px;color:#a1a1aa;"></div>
             </div>
             <div id="prev-client-block" style="display:none;">
-              <div style="font-size:10px;color:#52525b;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:2px;">Client</div>
+              <div style="font-size:10px;color:#52525b;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:3px;">Client</div>
               <div id="prev-client" style="font-size:13px;color:#a1a1aa;"></div>
             </div>
             <div id="prev-year-block" style="display:none;">
-              <div style="font-size:10px;color:#52525b;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:2px;">Year</div>
+              <div style="font-size:10px;color:#52525b;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:3px;">Year</div>
               <div id="prev-year" style="font-size:13px;color:#a1a1aa;"></div>
             </div>
           </div>
@@ -381,405 +328,324 @@ select.input-base{appearance:none;background-image:url("data:image/svg+xml,%3Csv
     </div>
   </div>
 </div>
+
+<!-- TOAST -->
+<div id="toast" style="position:fixed;bottom:28px;left:50%;transform:translateX(-50%);background:#18181b;border:1px solid #27272a;border-radius:10px;color:#e4e4e7;font-size:13px;font-weight:500;padding:10px 22px;z-index:999;box-shadow:0 8px 32px rgba(0,0,0,0.5);opacity:0;transition:opacity 0.3s;pointer-events:none;"></div>
+
 <script>
-// ── STATE ──────────────────────────────────────────────────────
-var state = {
-  title:'', subtitle:'', slug:'', role:'', client:'', year:'',
-  desc:'', category:'', status:'draft', tags:[], software:[],
-  featured:false, homepage:false, pubdate:'',
-  seoTitle:'', seoDesc:'', media:[], coverId:null,
-  dirty:false, autosaveTimer:null
-};
+var state={title:'',subtitle:'',slug:'',role:'',client:'',year:'',desc:'',category:'',status:'draft',tags:[],software:[],featured:false,homepage:false,pubdate:'',seoTitle:'',seoDesc:'',media:[],coverId:null,dirty:false,autosaveTimer:null};
 
-// ── INIT ───────────────────────────────────────────────────────
-window.addEventListener('DOMContentLoaded', function(){
-  // Set today's date as default publish date
-  var today = new Date().toISOString().split('T')[0];
-  document.getElementById('f-pubdate').value = today;
-  state.pubdate = today;
+window.addEventListener('DOMContentLoaded',function(){
+  var today=new Date().toISOString().split('T')[0];
+  document.getElementById('f-pubdate').value=today;
+  state.pubdate=today;
   validateAll();
-
-  // Demo: pre-fill with example data for showcase
-  setTimeout(function(){
-    document.getElementById('f-title').value = 'Block Out – Mobile Puzzle Game';
-    document.getElementById('f-subtitle').value = 'UI & Game Art Direction for a bold geometric puzzle experience';
-    document.getElementById('f-slug').value = 'block-out-mobile-puzzle-game';
-    document.getElementById('f-role').value = 'Lead Game Artist';
-    document.getElementById('f-client').value = 'Grand Games';
-    document.getElementById('f-year').value = '2025';
-    document.getElementById('f-category').value = 'game-art';
-    document.getElementById('f-seo-title').value = 'Block Out – Mobile Game Art | Semih Sen';
-    document.getElementById('f-seo-desc').value = 'Game art direction for Block Out, a geometric puzzle mobile game published by Grand Games in 2025.';
-    document.getElementById('f-desc').innerHTML = '<p>Block Out is a mobile puzzle game built around <b>geometric shapes and bold color theory</b>. As Lead Game Artist, I was responsible for the complete visual identity — from UI system to icon design and marketing art.</p><p style="margin-top:10px;">The challenge was creating a vibrant yet clean aesthetic that reads well at small screen sizes while maintaining a premium feel in the App Store.</p>';
-    updateSEOCount(); updateSEODescCount();
-    state.title = document.getElementById('f-title').value;
-    state.category = 'game-art';
-    state.desc = document.getElementById('f-desc').innerText;
-    // Add mock media
-    addMockMedia();
-    onFieldChange();
-  }, 300);
+  setTimeout(prefill,300);
 });
 
-function addMockMedia(){
-  var colors=['#1e3a5f','#1a3a2e','#3a1e1e','#2a1e3a'];
-  var names=['cover-art.jpg','ui-mockup.png','icon-design.png','marketing-banner.jpg'];
-  names.forEach(function(n,i){
-    state.media.push({id:Date.now()+i,name:n,type:'image',url:null,color:colors[i],caption:'',isCover:i===0,progress:100});
-  });
-  if(state.media.length>0) state.coverId=state.media[0].id;
-  renderMedia();
+function prefill(){
+  var fields={
+    'f-title':'Block Out – Mobile Puzzle Game Art',
+    'f-subtitle':'UI & Game Art Direction for a bold geometric puzzle experience',
+    'f-slug':'block-out-mobile-puzzle-game',
+    'f-role':'Lead Game Artist',
+    'f-client':'Grand Games',
+    'f-year':'2025',
+    'f-seo-title':'Block Out – Mobile Game Art | Semih Sen',
+    'f-seo-desc':'Complete game art direction for Block Out, a geometric puzzle mobile game by Grand Games (2025).'
+  };
+  for(var id in fields){var el=document.getElementById(id);if(el)el.value=fields[id];}
+  document.getElementById('f-category').value='game-art';
+  document.getElementById('f-desc').innerHTML='<p>Block Out is a mobile puzzle game built around <strong>geometric shapes and bold color theory</strong>. As Lead Game Artist, I was responsible for the full visual identity from UI system to icon and marketing art.</p>';
+  updateSEOCount();updateSEODescCount();
+  state.title='Block Out – Mobile Puzzle Game Art';
+  state.category='game-art';
+  state.desc='Block Out is a mobile puzzle game.';
+  addMockMedia();
+  onFieldChange();
 }
 
-// ── FIELD CHANGE ───────────────────────────────────────────────
+function addMockMedia(){
+  var items=[
+    {name:'cover-art.jpg',color:'#1a2a4a',isCover:true},
+    {name:'ui-mockup.png',color:'#1a3a2a',isCover:false},
+    {name:'icon-design.png',color:'#2a1a1a',isCover:false},
+    {name:'marketing-banner.jpg',color:'#1e1a2e',isCover:false}
+  ];
+  items.forEach(function(item,i){
+    var id=Date.now()+i;
+    state.media.push({id:id,name:item.name,type:'image',url:null,color:item.color,caption:'',isCover:item.isCover,progress:100});
+    if(item.isCover) state.coverId=id;
+  });
+  renderMedia();
+  validateAll();
+}
+
 function onFieldChange(){
-  state.title = document.getElementById('f-title').value.trim();
-  state.subtitle = document.getElementById('f-subtitle').value.trim();
-  state.category = document.getElementById('f-category').value;
-  state.desc = document.getElementById('f-desc').innerText.trim();
-  // Auto-generate slug from title
-  if(state.title && !state.dirty){
-    var slug = state.title.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
-    document.getElementById('f-slug').value = slug;
-    state.slug = slug;
+  state.title=(document.getElementById('f-title')||{}).value||'';
+  state.title=state.title.trim();
+  state.category=(document.getElementById('f-category')||{}).value||'';
+  var descEl=document.getElementById('f-desc');
+  state.desc=descEl?descEl.innerText.trim():'';
+  if(state.title&&!state.dirty){
+    var slug=state.title.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+    var slugEl=document.getElementById('f-slug');
+    if(slugEl) slugEl.value=slug;
+    state.slug=slug;
   }
-  // Update page title
-  document.getElementById('page-title').textContent = state.title || 'New Project';
+  var ptEl=document.getElementById('page-title');
+  if(ptEl) ptEl.textContent=state.title||'New Project';
   validateAll();
   triggerAutosave();
 }
 
-// ── VALIDATION ─────────────────────────────────────────────────
 function validateAll(){
-  var hasTitle = state.title.length > 0;
-  var hasCover = state.coverId !== null;
-  var hasCat = state.category !== '';
-  var hasDesc = state.desc.length > 10;
-  var ok = hasTitle && hasCover && hasCat && hasDesc;
-  setVal('v-title', hasTitle);
-  setVal('v-cover', hasCover);
-  setVal('v-cat', hasCat);
-  setVal('v-desc', hasDesc);
-  document.getElementById('publish-btn').disabled = !ok;
+  var hasTitle=state.title.length>0;
+  var hasCover=state.coverId!==null;
+  var hasCat=state.category!=='';
+  var hasDesc=state.desc.length>10;
+  setVal('v-title',hasTitle);
+  setVal('v-cover',hasCover);
+  setVal('v-cat',hasCat);
+  setVal('v-desc',hasDesc);
+  var pub=document.getElementById('publish-btn');
+  if(pub) pub.disabled=!(hasTitle&&hasCover&&hasCat&&hasDesc);
 }
 
-function setVal(id, pass){
-  var el = document.getElementById(id);
+function setVal(id,pass){
+  var el=document.getElementById(id);
   if(!el) return;
-  el.className = 'val-row ' + (pass ? 'ok' : 'fail');
-  var icon = pass
-    ? '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>'
-    : '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>';
-  var labels={'v-title':'Project title','v-cover':'Cover image','v-cat':'Category selected','v-desc':'Description added'};
-  el.innerHTML = icon + ' ' + labels[id];
+  el.className='val-row'+(pass?' ok':'');
+  var icon=el.querySelector('.val-icon');
+  if(icon){
+    icon.className='val-icon '+(pass?'ok':'fail');
+    icon.textContent=pass?'✓':'●';
+  }
 }
 
-// ── AUTOSAVE ───────────────────────────────────────────────────
 function triggerAutosave(){
-  var el = document.getElementById('autosave-status');
-  el.className='autosave saving';
-  el.innerHTML='<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg> Saving...';
+  var el=document.getElementById('autosave-status');
+  if(el){el.className='autosave';el.textContent='Saving...';}
   clearTimeout(state.autosaveTimer);
-  state.autosaveTimer = setTimeout(function(){
-    el.className='autosave saved';
-    el.innerHTML='<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="m9 12 2 2 4-4"/></svg> All changes saved';
-    setTimeout(function(){
-      el.className='autosave';
-      el.innerHTML='<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="m9 12 2 2 4-4"/></svg> All changes saved';
-    }, 2500);
-  }, 1200);
+  state.autosaveTimer=setTimeout(function(){
+    if(el){el.textContent='✓ All changes saved';}
+  },1200);
 }
 
-// ── RICH TEXT ──────────────────────────────────────────────────
-function fmt(cmd){ document.execCommand(cmd); document.getElementById('f-desc').focus(); }
-function fmtBlock(tag){ document.execCommand('formatBlock',false,tag); document.getElementById('f-desc').focus(); }
+function fmt(cmd){document.execCommand(cmd);document.getElementById('f-desc').focus();}
+function fmtBlock(tag){document.execCommand('formatBlock',false,tag);document.getElementById('f-desc').focus();}
+function setStatus(s){state.status=s;triggerAutosave();}
 
-// ── STATUS ─────────────────────────────────────────────────────
-function setStatus(s){ state.status = s; triggerAutosave(); }
-
-// ── SOFTWARE CHIPS ─────────────────────────────────────────────
-function toggleSoftware(el, name){
+function toggleSoftware(el,name){
   el.classList.toggle('active');
-  var idx = state.software.indexOf(name);
+  var idx=state.software.indexOf(name);
   if(idx>-1) state.software.splice(idx,1); else state.software.push(name);
   triggerAutosave();
 }
 
-// ── TAGS ───────────────────────────────────────────────────────
 function addTag(){
-  var inp = document.getElementById('tag-input');
-  var val = inp.value.trim().toLowerCase().replace(/[^a-z0-9-]/g,'');
-  if(!val || state.tags.includes(val)) return;
-  state.tags.push(val);
-  inp.value='';
-  renderTags();
-  triggerAutosave();
+  var inp=document.getElementById('tag-input');
+  var val=inp.value.trim().toLowerCase().replace(/[^a-z0-9-]/g,'');
+  if(!val||state.tags.indexOf(val)>-1) return;
+  state.tags.push(val);inp.value='';
+  renderTags();triggerAutosave();
 }
-function onTagKey(e){ if(e.key==='Enter'||e.key===','){ e.preventDefault(); addTag(); } }
-function removeTag(t){ state.tags=state.tags.filter(function(x){return x!==t;}); renderTags(); triggerAutosave(); }
+function onTagKey(e){if(e.key==='Enter'||e.key===','){e.preventDefault();addTag();}}
+function removeTag(t){state.tags=state.tags.filter(function(x){return x!==t;});renderTags();triggerAutosave();}
 function renderTags(){
-  var c=document.getElementById('tags-container');
-  c.innerHTML='';
+  var c=document.getElementById('tags-container');c.innerHTML='';
   state.tags.forEach(function(t){
-    var span=document.createElement('span');
-    span.className='tag active';
-    span.innerHTML=t+'<button class="chip-remove" onclick="removeTag(''+t+'')">&#10005;</button>';
-    c.appendChild(span);
+    var s=document.createElement('span');s.className='tag active';
+    s.innerHTML=t;
+    var btn=document.createElement('button');btn.className='chip-remove';btn.textContent='×';
+    btn.onclick=(function(tag){return function(){removeTag(tag);};})(t);
+    s.appendChild(btn);c.appendChild(s);
   });
 }
 
-// ── SEO COUNTERS ───────────────────────────────────────────────
 function updateSEOCount(){
   var v=document.getElementById('f-seo-title').value;
   var el=document.getElementById('seo-title-count');
-  el.textContent=v.length+' / 60';
-  el.style.color=v.length>60?'#ef4444':v.length>50?'#f59e0b':'#52525b';
+  if(el){el.textContent=v.length+' / 60';el.style.color=v.length>60?'#ef4444':v.length>50?'#f59e0b':'#52525b';}
 }
 function updateSEODescCount(){
   var v=document.getElementById('f-seo-desc').value;
   var el=document.getElementById('seo-desc-count');
-  el.textContent=v.length+' / 160';
-  el.style.color=v.length>160?'#ef4444':v.length>130?'#f59e0b':'#52525b';
+  if(el){el.textContent=v.length+' / 160';el.style.color=v.length>160?'#ef4444':v.length>130?'#f59e0b':'#52525b';}
 }
 
-// ── MEDIA ──────────────────────────────────────────────────────
-function onDragOver(e){ e.preventDefault(); document.getElementById('drop-zone').classList.add('dragover'); }
-function onDragLeave(e){ document.getElementById('drop-zone').classList.remove('dragover'); }
-function onDrop(e){
-  e.preventDefault();
-  document.getElementById('drop-zone').classList.remove('dragover');
-  var files = Array.from(e.dataTransfer.files);
-  files.forEach(function(f){ processFile(f); });
-}
-function onFileSelect(e){
-  Array.from(e.target.files).forEach(function(f){ processFile(f); });
-  e.target.value='';
-}
+function onDragOver(e){e.preventDefault();document.getElementById('drop-zone').classList.add('dragover');}
+function onDragLeave(e){document.getElementById('drop-zone').classList.remove('dragover');}
+function onDrop(e){e.preventDefault();document.getElementById('drop-zone').classList.remove('dragover');Array.from(e.dataTransfer.files).forEach(processFile);}
+function onFileSelect(e){Array.from(e.target.files).forEach(processFile);e.target.value='';}
+
 function processFile(file){
-  if(!file.type.startsWith('image/') && !file.type.startsWith('video/')) return;
-  var id = Date.now() + Math.random();
-  var item = {id:id, name:file.name, type:file.type.startsWith('video/')?'video':'image', url:null, color:null, caption:'', isCover:false, progress:0};
-  if(state.media.length===0){ item.isCover=true; state.coverId=id; }
+  if(!file.type.startsWith('image/')&&!file.type.startsWith('video/')) return;
+  var id=Date.now()+Math.random();
+  var item={id:id,name:file.name,type:file.type.startsWith('video/')?'video':'image',url:null,color:null,caption:'',isCover:false,progress:0};
+  if(state.media.length===0){item.isCover=true;state.coverId=id;}
   state.media.push(item);
-  // Read file as data URL
-  var reader = new FileReader();
-  reader.onload = function(ev){
-    var m = state.media.find(function(x){return x.id===id;});
-    if(m){ m.url=ev.target.result; m.progress=100; renderMedia(); validateAll(); }
+  var reader=new FileReader();
+  reader.onload=function(ev){
+    var m=state.media.find(function(x){return x.id===id;});
+    if(m){m.url=ev.target.result;m.progress=100;renderMedia();validateAll();}
   };
   reader.readAsDataURL(file);
-  // Simulate upload progress
   simulateUpload(id);
-  renderMedia();
-  updateMediaCount();
+  renderMedia();updateMediaCount();
 }
 
 function simulateUpload(id){
-  var prog = document.getElementById('upload-progress-area');
-  var bar = document.getElementById('upload-progress-bar');
-  var pct = document.getElementById('upload-pct');
-  var lbl = document.getElementById('upload-label');
-  prog.style.display='block';
-  var p=0;
+  var prog=document.getElementById('upload-progress-area');
+  var bar=document.getElementById('upload-progress-bar');
+  var pct=document.getElementById('upload-pct');
+  var lbl=document.getElementById('upload-label');
+  prog.style.display='block';var p=0;
   var iv=setInterval(function(){
-    p+=Math.random()*25;
-    if(p>=100){p=100;clearInterval(iv);setTimeout(function(){prog.style.display='none';},600);}
-    bar.style.width=p+'%';
-    pct.textContent=Math.round(p)+'%';
+    p+=Math.random()*30;if(p>=100){p=100;clearInterval(iv);setTimeout(function(){prog.style.display='none';},500);}
+    bar.style.width=p+'%';pct.textContent=Math.round(p)+'%';
     var m=state.media.find(function(x){return x.id===id;});
     if(m) lbl.textContent='Uploading '+m.name+'...';
-  },200);
+  },150);
 }
 
 function setCover(id){
-  state.media.forEach(function(m){ m.isCover=false; });
+  state.media.forEach(function(m){m.isCover=false;});
   var m=state.media.find(function(x){return x.id===id;});
-  if(m){ m.isCover=true; state.coverId=id; }
-  renderMedia(); validateAll(); triggerAutosave();
+  if(m){m.isCover=true;state.coverId=id;}
+  renderMedia();validateAll();triggerAutosave();
 }
-
 function deleteMedia(id){
   state.media=state.media.filter(function(m){return m.id!==id;});
   if(state.coverId===id){
     state.coverId=state.media.length>0?state.media[0].id:null;
     if(state.media.length>0) state.media[0].isCover=true;
   }
-  renderMedia(); updateMediaCount(); validateAll(); triggerAutosave();
+  renderMedia();updateMediaCount();validateAll();triggerAutosave();
 }
-
-function updateCaption(id,val){
-  var m=state.media.find(function(x){return x.id===id;});
-  if(m){ m.caption=val; triggerAutosave(); }
-}
-
-function updateMediaCount(){
-  document.getElementById('media-count').textContent=state.media.length+' '+(state.media.length===1?'file':'files');
-}
+function updateCaption(id,val){var m=state.media.find(function(x){return x.id===id;});if(m){m.caption=val;triggerAutosave();}}
+function updateMediaCount(){var el=document.getElementById('media-count');if(el) el.textContent=state.media.length+' '+(state.media.length===1?'file':'files');}
 
 function renderMedia(){
-  var grid=document.getElementById('media-grid');
-  grid.innerHTML='';
+  var grid=document.getElementById('media-grid');grid.innerHTML='';
   updateMediaCount();
   state.media.forEach(function(m){
     var card=document.createElement('div');
     card.className='media-card';
-    card.style.cssText='position:relative;border-radius:8px;overflow:hidden;border:1px solid #27272a;';
-    if(m.isCover) card.style.borderColor='#3b82f6';
+    card.style.cssText='position:relative;border-radius:8px;overflow:hidden;border:1px solid '+(m.isCover?'#3b82f6':'#27272a')+';';
 
-    // Thumbnail
     var thumb=document.createElement('div');
     thumb.style.cssText='height:100px;display:flex;align-items:center;justify-content:center;background:'+(m.color||'#1a1a1f')+';overflow:hidden;';
     if(m.url){
-      if(m.type==='video'){
-        var vid=document.createElement('video');
-        vid.src=m.url; vid.style.cssText='width:100%;height:100%;object-fit:cover;'; vid.muted=true;
-        thumb.appendChild(vid);
-      } else {
-        var img=document.createElement('img');
-        img.src=m.url; img.style.cssText='width:100%;height:100%;object-fit:cover;';
-        thumb.appendChild(img);
-      }
+      var el=document.createElement(m.type==='video'?'video':'img');
+      el.src=m.url;el.style.cssText='width:100%;height:100%;object-fit:cover;';
+      if(m.type==='video') el.muted=true;
+      thumb.appendChild(el);
     } else {
-      thumb.innerHTML='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#3f3f46" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>';
+      thumb.innerHTML='<span style="font-size:24px;opacity:0.3;">📷</span>';
     }
 
-    // Cover badge
     if(m.isCover){
-      var badge=document.createElement('div');
-      badge.className='cover-badge';
-      badge.textContent='COVER';
+      var badge=document.createElement('div');badge.className='cover-badge';badge.textContent='COVER';
       card.appendChild(badge);
     }
 
-    // Delete btn
-    var del=document.createElement('button');
-    del.className='delete-btn';
-    del.innerHTML='&#10005;';
+    var del=document.createElement('button');del.className='delete-btn';del.textContent='×';
     del.onclick=(function(mid){return function(e){e.stopPropagation();deleteMedia(mid);};})(m.id);
 
-    // Bottom info
     var info=document.createElement('div');
     info.style.cssText='padding:6px 8px;background:#0d0d10;';
-
     var fname=document.createElement('div');
-    fname.style.cssText='font-size:10px;color:#71717a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:4px;';
+    fname.style.cssText='font-size:10px;color:#71717a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:5px;';
     fname.textContent=m.name;
 
-    var actions=document.createElement('div');
-    actions.style.cssText='display:flex;gap:4px;';
-
     var coverBtn=document.createElement('button');
-    coverBtn.style.cssText='background:'+(m.isCover?'#1e3a5f':'#1a1a1f')+';border:1px solid '+(m.isCover?'#3b82f6':'#27272a')+';border-radius:4px;color:'+(m.isCover?'#60a5fa':'#52525b')+';cursor:pointer;font-size:9px;font-weight:600;padding:2px 5px;letter-spacing:0.04em;';
+    coverBtn.style.cssText='background:'+(m.isCover?'#1e3a5f':'#1a1a1f')+';border:1px solid '+(m.isCover?'#3b82f6':'#27272a')+';border-radius:4px;color:'+(m.isCover?'#60a5fa':'#52525b')+';cursor:pointer;font-size:9px;font-weight:600;padding:2px 6px;';
     coverBtn.textContent=m.isCover?'✓ Cover':'Set Cover';
     coverBtn.onclick=(function(mid){return function(e){e.stopPropagation();setCover(mid);};})(m.id);
 
     var capInp=document.createElement('input');
-    capInp.type='text';
-    capInp.placeholder='Caption...';
-    capInp.value=m.caption||'';
+    capInp.type='text';capInp.placeholder='Caption...';capInp.value=m.caption||'';
     capInp.style.cssText='background:#09090b;border:1px solid #1f1f23;border-radius:4px;color:#a1a1aa;font-size:9px;padding:2px 5px;width:100%;outline:none;margin-top:4px;';
     capInp.oninput=(function(mid){return function(e){updateCaption(mid,e.target.value);};})(m.id);
 
-    actions.appendChild(coverBtn);
-    info.appendChild(fname);
-    info.appendChild(actions);
-    info.appendChild(capInp);
-
-    card.appendChild(thumb);
-    card.appendChild(del);
-    card.appendChild(info);
+    info.appendChild(fname);info.appendChild(coverBtn);info.appendChild(capInp);
+    card.appendChild(thumb);card.appendChild(del);card.appendChild(info);
     grid.appendChild(card);
   });
 }
 
 function selectOGImage(){
-  if(state.media.length===0){ alert('Upload media first.'); return; }
-  var m=state.media.find(function(x){return x.isCover;}) || state.media[0];
+  if(state.media.length===0){showToast('Upload media first.');return;}
+  var m=state.media.find(function(x){return x.isCover;})||state.media[0];
   var prev=document.getElementById('og-preview');
   prev.style.display='block';
   if(m.url){
-    prev.innerHTML='<img src="'+m.url+'" style="width:100%;border-radius:6px;border:1px solid #27272a;"/>';
+    var img=document.createElement('img');img.src=m.url;
+    img.style.cssText='width:100%;border-radius:6px;border:1px solid #27272a;';
+    prev.innerHTML='';prev.appendChild(img);
   } else {
     prev.innerHTML='<div style="background:'+(m.color||'#27272a')+';border-radius:6px;height:50px;"></div>';
   }
 }
 
-// ── ACTIONS ────────────────────────────────────────────────────
-function saveDraft(){
-  setStatus('draft');
-  document.querySelector('input[name="status"][value="draft"]').checked=true;
-  triggerAutosave();
-  showToast('Draft saved');
-}
+function saveDraft(){setStatus('draft');document.querySelector('input[name="pub-status"][value="draft"]').checked=true;triggerAutosave();showToast('✓ Draft saved');}
 
 function publishProject(){
   if(document.getElementById('publish-btn').disabled) return;
-  setStatus('published');
-  document.querySelector('input[name="status"][value="published"]').checked=true;
-  triggerAutosave();
-  showToast('Project published!', true);
+  setStatus('published');document.querySelector('input[name="pub-status"][value="published"]').checked=true;
+  triggerAutosave();showToast('🚀 Project published!');
 }
 
-function showToast(msg, success){
+function showToast(msg){
   var t=document.getElementById('toast');
-  if(!t){
-    t=document.createElement('div');
-    t.id='toast';
-    t.style.cssText='position:fixed;bottom:28px;left:50%;transform:translateX(-50%);background:#18181b;border:1px solid #27272a;border-radius:10px;color:#e4e4e7;font-size:13px;font-weight:500;padding:10px 20px;z-index:999;box-shadow:0 8px 32px rgba(0,0,0,0.5);transition:opacity 0.3s;';
-    document.body.appendChild(t);
-  }
-  t.textContent=msg;
-  t.style.borderColor=success?'#22c55e':'#27272a';
-  t.style.opacity='1';
+  if(!t) return;
+  t.textContent=msg;t.style.opacity='1';
   setTimeout(function(){t.style.opacity='0';},2500);
 }
 
-// ── PREVIEW ────────────────────────────────────────────────────
 function previewProject(){
   var modal=document.getElementById('preview-modal');
+  if(!modal) return;
   modal.style.display='block';
-  // Sync data
   document.getElementById('prev-title').textContent=state.title||'Project Title';
-  document.getElementById('prev-subtitle').textContent=document.getElementById('f-subtitle').value||'Subtitle will appear here';
-  var desc=document.getElementById('f-desc').innerHTML;
-  document.getElementById('prev-desc-text').innerHTML=desc||'';
+  var sub=document.getElementById('f-subtitle');
+  document.getElementById('prev-subtitle').textContent=sub?sub.value:'';
+  var desc=document.getElementById('f-desc');
+  document.getElementById('prev-desc-text').innerHTML=desc?desc.innerHTML:'';
   var cat=document.getElementById('f-category');
-  var catText=cat.options[cat.selectedIndex]?cat.options[cat.selectedIndex].text:'';
-  if(catText&&cat.value){
+  var catText=cat&&cat.selectedIndex>0?cat.options[cat.selectedIndex].text:'';
+  if(catText){
     document.getElementById('prev-cat-badge').style.display='block';
     document.getElementById('prev-cat-text').textContent=catText.toUpperCase();
   } else {
     document.getElementById('prev-cat-badge').style.display='none';
   }
-  var role=document.getElementById('f-role').value;
-  var client=document.getElementById('f-client').value;
-  var year=document.getElementById('f-year').value;
-  var rb=document.getElementById('prev-role-block');
-  var cb=document.getElementById('prev-client-block');
-  var yb=document.getElementById('prev-year-block');
-  if(role){rb.style.display='block';document.getElementById('prev-role').textContent=role;}else{rb.style.display='none';}
-  if(client){cb.style.display='block';document.getElementById('prev-client').textContent=client;}else{cb.style.display='none';}
-  if(year){yb.style.display='block';document.getElementById('prev-year').textContent=year;}else{yb.style.display='none';}
-  // Cover
+  var fields={role:'prev-role',client:'prev-client',year:'prev-year'};
+  for(var f in fields){
+    var inp=document.getElementById('f-'+f);
+    var val=inp?inp.value:'';
+    var block=document.getElementById(fields[f]+'-block');
+    var disp=document.getElementById(fields[f]);
+    if(block) block.style.display=val?'block':'none';
+    if(disp) disp.textContent=val;
+  }
   var cover=document.getElementById('prev-cover');
   var coverM=state.media.find(function(m){return m.isCover;});
   if(coverM&&coverM.url){
-    cover.innerHTML='<img src="'+coverM.url+'" style="width:100%;height:100%;object-fit:cover;"/>';
+    var img=document.createElement('img');img.src=coverM.url;img.style.cssText='width:100%;height:100%;object-fit:cover;';
+    cover.innerHTML='';cover.appendChild(img);
   } else if(coverM&&coverM.color){
-    cover.style.background=coverM.color;
-    cover.innerHTML='';
+    cover.style.background=coverM.color;cover.innerHTML='';
   }
 }
-function closePreview(){ document.getElementById('preview-modal').style.display='none'; }
+
+function closePreview(){var m=document.getElementById('preview-modal');if(m) m.style.display='none';}
 function setPreviewTab(tab){
   document.getElementById('tab-desktop').className='tab-btn'+(tab==='desktop'?' active':'');
   document.getElementById('tab-mobile').className='tab-btn'+(tab==='mobile'?' active':'');
-  var wrapper=document.getElementById('preview-wrapper');
-  wrapper.style.maxWidth=tab==='mobile'?'390px':'860px';
+  document.getElementById('preview-wrapper').style.maxWidth=tab==='mobile'?'390px':'860px';
 }
-document.getElementById('preview-modal').addEventListener('click',function(e){
-  if(e.target===this) closePreview();
-});
 </script>
 </body>
 </html>
