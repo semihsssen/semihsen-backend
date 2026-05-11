@@ -32,14 +32,14 @@ nav{padding:12px 0;flex:1;overflow-y:auto;}
 .form-group{display:flex;flex-direction:column;gap:6px;}
 .form-group.full{grid-column:1/-1;}
 label{font-size:11px;color:var(--muted);letter-spacing:0.05em;}
-input,textarea,select{background:#1e1d22;border:0.5px solid var(--border);border-radius:5px;padding:9px 12px;color:var(--text);font-family:Inter,sans-serif;font-size:13px;width:100%;transition:border-color 0.15s;outline:none;}
+input,textarea{background:#1e1d22;border:0.5px solid var(--border);border-radius:5px;padding:9px 12px;color:var(--text);font-family:Inter,sans-serif;font-size:13px;width:100%;transition:border-color 0.15s;outline:none;}
 input:focus,textarea:focus{border-color:var(--accent);}
 textarea{resize:vertical;min-height:80px;}
-.btn{display:inline-flex;align-items:center;gap:7px;padding:9px 18px;border-radius:5px;font-size:12px;font-weight:600;letter-spacing:0.05em;cursor:pointer;border:none;transition:all 0.15s;}
+.btn{display:inline-flex;align-items:center;gap:7px;padding:9px 18px;border-radius:5px;font-size:12px;font-weight:600;cursor:pointer;border:none;transition:all 0.15s;}
 .btn-primary{background:var(--accent);color:#fff;}
 .btn-primary:hover{opacity:0.85;}
-.btn-danger{background:rgba(220,53,53,0.15);color:#e05555;border:0.5px solid rgba(220,53,53,0.3);}
 .btn-ghost{background:#1e1d22;color:var(--muted);border:0.5px solid var(--border);}
+.btn-ghost:hover{color:var(--text);}
 .upload-zone{border:1.5px dashed rgba(255,255,255,0.14);border-radius:6px;padding:20px;text-align:center;cursor:pointer;position:relative;transition:border-color 0.15s;}
 .upload-zone:hover{border-color:var(--accent);}
 .upload-zone input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
@@ -48,763 +48,371 @@ textarea{resize:vertical;min-height:80px;}
 .gallery-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;margin-top:14px;}
 .gallery-item{position:relative;aspect-ratio:1;border-radius:5px;overflow:hidden;background:#1e1d22;border:0.5px solid var(--border);}
 .gallery-item img{width:100%;height:100%;object-fit:cover;display:block;}
-.gallery-item .overlay{position:absolute;inset:0;background:rgba(0,0,0,0.55);opacity:0;transition:opacity 0.15s;display:flex;align-items:center;justify-content:center;}
-.gallery-item:hover .overlay{opacity:1;}
-.del-btn{background:rgba(220,53,53,0.8);border:none;color:#fff;width:34px;height:34px;border-radius:50%;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;}
-.del-btn:hover{background:rgba(220,53,53,1);}
-.cover-preview{width:100%;border-radius:5px;overflow:hidden;background:#1e1d22;margin-bottom:10px;display:none;}
-.cover-preview img{width:100%;object-fit:cover;display:block;}
+.g-overlay{position:absolute;inset:0;background:rgba(0,0,0,0.55);opacity:0;transition:opacity 0.15s;display:flex;align-items:center;justify-content:center;}
+.gallery-item:hover .g-overlay{opacity:1;}
+.del-btn{background:rgba(220,53,53,0.85);border:none;color:#fff;width:34px;height:34px;border-radius:50%;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;}
+.cover-preview{width:100%;border-radius:5px;overflow:hidden;background:#1e1d22;margin-bottom:10px;}
+.cover-preview img{width:100%;object-fit:cover;display:block;max-height:300px;}
 .section-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
 .section-hdr span{font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);}
-.color-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:14px;}
+.color-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:16px;}
 .color-group label{font-size:11px;color:var(--muted);display:block;margin-bottom:5px;}
-.color-group input[type=color]{height:38px;padding:3px 4px;cursor:pointer;border-radius:5px;width:100%;}
-.slider-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
-.slider-group label{font-size:11px;color:var(--muted);display:flex;justify-content:space-between;}
-.slider-group input[type=range]{width:100%;accent-color:var(--accent);margin-top:6px;}
-.toast{position:fixed;bottom:24px;right:24px;background:var(--accent);color:#fff;padding:12px 20px;border-radius:6px;font-size:13px;z-index:9999;opacity:0;pointer-events:none;transition:opacity 0.3s;font-family:Inter,sans-serif;}
+.color-group input[type=color]{height:38px;padding:3px 4px;cursor:pointer;border-radius:5px;width:100%;border:0.5px solid var(--border);}
+.slider-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;}
+.slider-group label{font-size:11px;color:var(--muted);display:flex;justify-content:space-between;margin-bottom:6px;}
+.slider-group input[type=range]{width:100%;accent-color:var(--accent);}
+.toast{position:fixed;bottom:24px;right:24px;background:var(--accent);color:#fff;padding:12px 20px;border-radius:6px;font-size:13px;z-index:9999;opacity:0;pointer-events:none;transition:opacity 0.3s;}
 .toast.show{opacity:1;}
-.uploading{opacity:0.6;pointer-events:none;}
 </style>
-</head>
-<body>
+</head><body>
 <div class="sidebar">
-  <div class="logo">
-    <div class="logo-name">Semih Sen</div>
-    <div class="logo-sub">Admin Panel</div>
-  </div>
+  <div class="logo"><div class="logo-name">Semih Sen</div><div class="logo-sub">Admin Panel</div></div>
   <nav>
     <div class="nl">Site</div>
-    <div class="ni active" onclick="showPanel('settings')"><i class="ti ti-settings"></i> Boyut &amp; Renk</div>
-    <div class="ni" onclick="showPanel('hero')"><i class="ti ti-photo"></i> Hero Gorseli</div>
-    <div class="ni" onclick="showPanel('resume')"><i class="ti ti-id-badge"></i> Resume</div>
+    <div class="ni active" onclick="SP('settings',this)"><i class="ti ti-settings"></i> Boyut &amp; Renk</div>
+    <div class="ni" onclick="SP('hero',this)"><i class="ti ti-photo"></i> Hero Gorseli</div>
+    <div class="ni" onclick="SP('resume',this)"><i class="ti ti-id-badge"></i> Resume</div>
     <div class="nl">Game Art</div>
-    <div class="ni" onclick="showPanel('game-block-out')"><i class="ti ti-device-gamepad-2"></i> Block Out</div>
-    <div class="ni" onclick="showPanel('game-car-match')"><i class="ti ti-car"></i> Car Match</div>
-    <div class="ni" onclick="showPanel('game-magic-sort')"><i class="ti ti-wand"></i> Magic Sort</div>
-    <div class="ni" onclick="showPanel('game-match-villains')"><i class="ti ti-skull"></i> Match Villians</div>
-    <div class="ni" onclick="showPanel('game-wonder-blast')"><i class="ti ti-bolt"></i> Wonder Blast</div>
+    <div class="ni" onclick="SP('g-block-out',this)"><i class="ti ti-device-gamepad-2"></i> Block Out</div>
+    <div class="ni" onclick="SP('g-car-match',this)"><i class="ti ti-car"></i> Car Match</div>
+    <div class="ni" onclick="SP('g-magic-sort',this)"><i class="ti ti-wand"></i> Magic Sort</div>
+    <div class="ni" onclick="SP('g-match-villains',this)"><i class="ti ti-skull"></i> Match Villians</div>
+    <div class="ni" onclick="SP('g-wonder-blast',this)"><i class="ti ti-bolt"></i> Wonder Blast</div>
     <div class="nl">Personal Works</div>
-    <div class="ni" onclick="showPanel('personal-1')"><i class="ti ti-rocket"></i> Personal 1</div>
-    <div class="ni" onclick="showPanel('personal-2')"><i class="ti ti-rocket"></i> Personal 2</div>
-    <div class="ni" onclick="showPanel('personal-3')"><i class="ti ti-rocket"></i> Personal 3</div>
-    <div class="ni" onclick="showPanel('personal-4')"><i class="ti ti-rocket"></i> Personal 4</div>
-    <div class="ni" onclick="showPanel('personal-5')"><i class="ti ti-rocket"></i> Personal 5</div>
-    <div class="ni" onclick="showPanel('personal-6')"><i class="ti ti-rocket"></i> Personal 6</div>
-    <div class="ni" onclick="showPanel('personal-7')"><i class="ti ti-rocket"></i> Personal 7</div>
+    <div class="ni" onclick="SP('p-1',this)"><i class="ti ti-rocket"></i> Personal 1</div>
+    <div class="ni" onclick="SP('p-2',this)"><i class="ti ti-rocket"></i> Personal 2</div>
+    <div class="ni" onclick="SP('p-3',this)"><i class="ti ti-rocket"></i> Personal 3</div>
+    <div class="ni" onclick="SP('p-4',this)"><i class="ti ti-rocket"></i> Personal 4</div>
+    <div class="ni" onclick="SP('p-5',this)"><i class="ti ti-rocket"></i> Personal 5</div>
+    <div class="ni" onclick="SP('p-6',this)"><i class="ti ti-rocket"></i> Personal 6</div>
+    <div class="ni" onclick="SP('p-7',this)"><i class="ti ti-rocket"></i> Personal 7</div>
   </nav>
   <div class="sidebar-foot">semihsen.art - v3</div>
 </div>
 <div class="main">
-  <div class="topbar"><span class="topbar-title" id="topbar-title">Boyut &amp; Renk</span></div>
+  <div class="topbar"><span class="topbar-title" id="tt">Boyut &amp; Renk</span></div>
 
-  <!-- SETTINGS PANEL -->
-  <div class="panel active" id="panel-settings">
+  <div class="panel active" id="pn-settings">
     <div class="card">
       <div class="card-title">Renk Paleti</div>
       <div class="color-grid">
-        <div class="color-group"><label>Arkaplan</label><input type="color" id="c-bg" value="#0e0d11" oninput="previewColor()"></div>
-        <div class="color-group"><label>Arkaplan 2</label><input type="color" id="c-bg2" value="#19181d" oninput="previewColor()"></div>
-        <div class="color-group"><label>Metin</label><input type="color" id="c-text" value="#f0eeee" oninput="previewColor()"></div>
-        <div class="color-group"><label>Soluk</label><input type="color" id="c-muted" value="#888680" oninput="previewColor()"></div>
-        <div class="color-group"><label>Vurgu</label><input type="color" id="c-accent" value="#4a90e2" oninput="previewColor()"></div>
+        <div class="color-group"><label>Arkaplan</label><input type="color" id="c-bg" value="#0e0d11"></div>
+        <div class="color-group"><label>Arkaplan 2</label><input type="color" id="c-bg2" value="#19181d"></div>
+        <div class="color-group"><label>Metin</label><input type="color" id="c-text" value="#f0eeee"></div>
+        <div class="color-group"><label>Soluk</label><input type="color" id="c-muted" value="#888680"></div>
+        <div class="color-group"><label>Vurgu</label><input type="color" id="c-accent" value="#4a90e2"></div>
       </div>
       <button class="btn btn-primary" onclick="saveColors()"><i class="ti ti-check"></i> Kaydet</button>
     </div>
     <div class="card">
       <div class="card-title">Font Pozisyonu</div>
       <div class="slider-grid">
-        <div class="slider-group"><label>Logo Yatay <span id="v-lx">135</span>px</label><input type="range" min="0" max="400" value="135" id="s-lx" oninput="document.getElementById('v-lx').textContent=this.value"></div>
-        <div class="slider-group"><label>Logo Dikey <span id="v-ly">31</span>px</label><input type="range" min="0" max="200" value="31" id="s-ly" oninput="document.getElementById('v-ly').textContent=this.value"></div>
-        <div class="slider-group"><label>Alt Baslik Yatay <span id="v-sx">138</span>px</label><input type="range" min="0" max="400" value="138" id="s-sx" oninput="document.getElementById('v-sx').textContent=this.value"></div>
-        <div class="slider-group"><label>Alt Baslik Dikey <span id="v-sy">30</span>px</label><input type="range" min="0" max="200" value="30" id="s-sy" oninput="document.getElementById('v-sy').textContent=this.value"></div>
+        <div class="slider-group"><label>Logo Yatay <span id="v-lx">135</span> px</label><input type="range" min="0" max="400" value="135" id="s-lx" oninput="document.getElementById('v-lx').textContent=this.value"></div>
+        <div class="slider-group"><label>Logo Dikey <span id="v-ly">31</span> px</label><input type="range" min="0" max="200" value="31" id="s-ly" oninput="document.getElementById('v-ly').textContent=this.value"></div>
+        <div class="slider-group"><label>Alt Baslik Yatay <span id="v-sx">138</span> px</label><input type="range" min="0" max="400" value="138" id="s-sx" oninput="document.getElementById('v-sx').textContent=this.value"></div>
+        <div class="slider-group"><label>Alt Baslik Dikey <span id="v-sy">30</span> px</label><input type="range" min="0" max="200" value="30" id="s-sy" oninput="document.getElementById('v-sy').textContent=this.value"></div>
       </div>
-      <button class="btn btn-primary" onclick="saveSettings()"><i class="ti ti-check"></i> Kaydet</button>
+      <button class="btn btn-primary" onclick="saveFont()"><i class="ti ti-check"></i> Kaydet</button>
     </div>
   </div>
 
-  <!-- HERO PANEL -->
-  <div class="panel" id="panel-hero">
+  <div class="panel" id="pn-hero">
     <div class="card">
       <div class="card-title">Hero Gorseli</div>
-      <div class="cover-preview" id="hero-preview"><img id="hero-img" src="" alt=""></div>
-      <div class="upload-zone" id="hero-zone">
-        <input type="file" accept="image/*" onchange="uploadHero(this)">
-        <div class="uz-icon"><i class="ti ti-cloud-upload"></i></div>
-        <div class="uz-text">Hero gorselini buraya surukle veya tikla</div>
-      </div>
+      <div class="cover-preview" id="hero-prev" style="display:none"><img id="hero-img" src="" alt=""></div>
+      <div class="upload-zone"><input type="file" accept="image/*" onchange="uploadHero(this)"><div class="uz-icon"><i class="ti ti-cloud-upload"></i></div><div class="uz-text">Hero gorselini surukle veya tikla</div></div>
     </div>
   </div>
 
-  <!-- RESUME PANEL -->
-  <div class="panel" id="panel-resume">
+  <div class="panel" id="pn-resume">
     <div class="card">
       <div class="card-title">CV Gorseli</div>
-      <div class="cover-preview" id="resume-preview"><img id="resume-img" src="" alt=""></div>
-      <div class="upload-zone">
-        <input type="file" accept="image/*" onchange="uploadResume(this)">
-        <div class="uz-icon"><i class="ti ti-cloud-upload"></i></div>
-        <div class="uz-text">CV gorselini buraya surukle veya tikla</div>
-      </div>
+      <div class="cover-preview" id="resume-prev" style="display:none"><img id="resume-img" src="" alt=""></div>
+      <div class="upload-zone"><input type="file" accept="image/*" onchange="uploadResume(this)"><div class="uz-icon"><i class="ti ti-cloud-upload"></i></div><div class="uz-text">CV gorselini surukle veya tikla</div></div>
     </div>
   </div>
-  <!-- GAME: Block Out -->
-  <div class="panel" id="panel-game-block-out">
+  <div class="panel" id="pn-g-block-out">
     <div class="card">
       <div class="card-title">Proje Bilgileri</div>
       <div class="form-row">
-        <div class="form-group"><label>Proje Adi</label><input type="text" id="block-out-name" placeholder="Proje Adi"></div>
-        <div class="form-group"><label>Studyo</label><input type="text" id="block-out-studio" placeholder="Studyo"></div>
+        <div class="form-group"><label>Proje Adi</label><input type="text" id="g-block-out-name"></div>
+        <div class="form-group"><label>Studyo</label><input type="text" id="g-block-out-studio"></div>
       </div>
       <div class="form-row">
-        <div class="form-group"><label>Yil</label><input type="text" id="block-out-year" placeholder="2024"></div>
-        <div class="form-group"><label>Art Direction</label><input type="text" id="block-out-art_direction" placeholder="Isim"></div>
+        <div class="form-group"><label>Yil</label><input type="text" id="g-block-out-year"></div>
+        <div class="form-group"><label>Art Direction</label><input type="text" id="g-block-out-ad"></div>
       </div>
       <div class="form-row">
-        <div class="form-group"><label>Concept Art</label><input type="text" id="block-out-concept_art" placeholder="Isim"></div>
-        <div class="form-group"><label>3D Art</label><input type="text" id="block-out-art_3d" placeholder="Isim"></div>
+        <div class="form-group"><label>Concept Art</label><input type="text" id="g-block-out-ca"></div>
+        <div class="form-group"><label>3D Art</label><input type="text" id="g-block-out-3d"></div>
       </div>
       <div class="form-row">
-        <div class="form-group"><label><i class="ti ti-brand-apple"></i> App Store URL</label><input type="text" id="block-out-ios" placeholder="https://apps.apple.com/..."></div>
-        <div class="form-group"><label><i class="ti ti-brand-google-play"></i> Google Play URL</label><input type="text" id="block-out-android" placeholder="https://play.google.com/..."></div>
+        <div class="form-group"><label>App Store URL</label><input type="text" id="g-block-out-ios"></div>
+        <div class="form-group"><label>Google Play URL</label><input type="text" id="g-block-out-android"></div>
       </div>
-      <div class="form-group full" style="margin-bottom:16px"><label>Aciklama</label><textarea id="block-out-about" placeholder="Proje aciklamasi..."></textarea></div>
-      <button class="btn btn-primary" onclick="saveProject('block-out')"><i class="ti ti-check"></i> Kaydet</button>
+      <div class="form-group" style="margin-bottom:16px"><label>Aciklama</label><textarea id="g-block-out-about"></textarea></div>
+      <button class="btn btn-primary" onclick="saveProj('block-out','g-block-out')"><i class="ti ti-check"></i> Kaydet</button>
     </div>
     <div class="card">
-      <div class="card-title">Kapak Gorseli <span style="font-weight:400;color:var(--muted);font-size:10px;">(Izgara karesinde gorunur)</span></div>
-      <div class="cover-preview" id="block-out-cover-preview"><img id="block-out-cover-img" src="" alt=""></div>
-      <div class="upload-zone" id="block-out-cover-zone">
-        <input type="file" accept="image/*" onchange="uploadCover('block-out', this)">
-        <div class="uz-icon"><i class="ti ti-photo-up"></i></div>
-        <div class="uz-text">Kapak gorselini surukle veya tikla<br><small style="opacity:0.6">Onerilir: 1:1 kare oran</small></div>
-      </div>
+      <div class="card-title">Kapak Gorseli</div>
+      <div class="cover-preview" id="g-block-out-cprev" style="display:none"><img id="g-block-out-cimg" src="" alt=""></div>
+      <div class="upload-zone"><input type="file" accept="image/*" onchange="uploadCover('block-out','g-block-out',this)"><div class="uz-icon"><i class="ti ti-photo-up"></i></div><div class="uz-text">Kapak gorselini surukle veya tikla</div></div>
     </div>
     <div class="card">
       <div class="section-hdr">
-        <span>Is Gorselleri <small style="font-weight:400;font-size:10px;text-transform:none;">(Block Out - ArtStation tarz galeri)</small></span>
-        <label class="btn btn-ghost" style="cursor:pointer;font-size:11px;gap:5px;">
-          <i class="ti ti-plus"></i> Gorsel Ekle
-          <input type="file" accept="image/*" multiple style="display:none" onchange="uploadWorks('block-out', this)">
-        </label>
+        <span>Is Gorselleri (Block Out)</span>
+        <label class="btn btn-ghost" style="cursor:pointer"><i class="ti ti-plus"></i> Gorsel Ekle<input type="file" accept="image/*" multiple style="display:none" onchange="uploadWorks('block-out','g-block-out',this)"></label>
       </div>
-      <div class="gallery-grid" id="block-out-gallery">
-        <div style="grid-column:1/-1;text-align:center;padding:30px;color:var(--muted);font-size:12px;"><i class="ti ti-photo" style="font-size:24px;display:block;margin-bottom:8px;"></i>Henuz gorsel yok. Yukari ekle butonuna tikla.</div>
-      </div>
+      <div class="gallery-grid" id="g-block-out-gallery"><div style="grid-column:1/-1;text-align:center;padding:30px;color:#888680;font-size:12px"><i class="ti ti-photo" style="font-size:24px;display:block;margin-bottom:8px"></i>Henuz gorsel yok</div></div>
     </div>
   </div>
-  <!-- GAME: Car Match -->
-  <div class="panel" id="panel-game-car-match">
+  <div class="panel" id="pn-g-car-match">
     <div class="card">
       <div class="card-title">Proje Bilgileri</div>
       <div class="form-row">
-        <div class="form-group"><label>Proje Adi</label><input type="text" id="car-match-name" placeholder="Proje Adi"></div>
-        <div class="form-group"><label>Studyo</label><input type="text" id="car-match-studio" placeholder="Studyo"></div>
+        <div class="form-group"><label>Proje Adi</label><input type="text" id="g-car-match-name"></div>
+        <div class="form-group"><label>Studyo</label><input type="text" id="g-car-match-studio"></div>
       </div>
       <div class="form-row">
-        <div class="form-group"><label>Yil</label><input type="text" id="car-match-year" placeholder="2024"></div>
-        <div class="form-group"><label>Art Direction</label><input type="text" id="car-match-art_direction" placeholder="Isim"></div>
+        <div class="form-group"><label>Yil</label><input type="text" id="g-car-match-year"></div>
+        <div class="form-group"><label>Art Direction</label><input type="text" id="g-car-match-ad"></div>
       </div>
       <div class="form-row">
-        <div class="form-group"><label>Concept Art</label><input type="text" id="car-match-concept_art" placeholder="Isim"></div>
-        <div class="form-group"><label>3D Art</label><input type="text" id="car-match-art_3d" placeholder="Isim"></div>
+        <div class="form-group"><label>Concept Art</label><input type="text" id="g-car-match-ca"></div>
+        <div class="form-group"><label>3D Art</label><input type="text" id="g-car-match-3d"></div>
       </div>
       <div class="form-row">
-        <div class="form-group"><label><i class="ti ti-brand-apple"></i> App Store URL</label><input type="text" id="car-match-ios" placeholder="https://apps.apple.com/..."></div>
-        <div class="form-group"><label><i class="ti ti-brand-google-play"></i> Google Play URL</label><input type="text" id="car-match-android" placeholder="https://play.google.com/..."></div>
+        <div class="form-group"><label>App Store URL</label><input type="text" id="g-car-match-ios"></div>
+        <div class="form-group"><label>Google Play URL</label><input type="text" id="g-car-match-android"></div>
       </div>
-      <div class="form-group full" style="margin-bottom:16px"><label>Aciklama</label><textarea id="car-match-about" placeholder="Proje aciklamasi..."></textarea></div>
-      <button class="btn btn-primary" onclick="saveProject('car-match')"><i class="ti ti-check"></i> Kaydet</button>
+      <div class="form-group" style="margin-bottom:16px"><label>Aciklama</label><textarea id="g-car-match-about"></textarea></div>
+      <button class="btn btn-primary" onclick="saveProj('car-match','g-car-match')"><i class="ti ti-check"></i> Kaydet</button>
     </div>
     <div class="card">
-      <div class="card-title">Kapak Gorseli <span style="font-weight:400;color:var(--muted);font-size:10px;">(Izgara karesinde gorunur)</span></div>
-      <div class="cover-preview" id="car-match-cover-preview"><img id="car-match-cover-img" src="" alt=""></div>
-      <div class="upload-zone" id="car-match-cover-zone">
-        <input type="file" accept="image/*" onchange="uploadCover('car-match', this)">
-        <div class="uz-icon"><i class="ti ti-photo-up"></i></div>
-        <div class="uz-text">Kapak gorselini surukle veya tikla<br><small style="opacity:0.6">Onerilir: 1:1 kare oran</small></div>
-      </div>
+      <div class="card-title">Kapak Gorseli</div>
+      <div class="cover-preview" id="g-car-match-cprev" style="display:none"><img id="g-car-match-cimg" src="" alt=""></div>
+      <div class="upload-zone"><input type="file" accept="image/*" onchange="uploadCover('car-match','g-car-match',this)"><div class="uz-icon"><i class="ti ti-photo-up"></i></div><div class="uz-text">Kapak gorselini surukle veya tikla</div></div>
     </div>
     <div class="card">
       <div class="section-hdr">
-        <span>Is Gorselleri <small style="font-weight:400;font-size:10px;text-transform:none;">(Car Match - ArtStation tarz galeri)</small></span>
-        <label class="btn btn-ghost" style="cursor:pointer;font-size:11px;gap:5px;">
-          <i class="ti ti-plus"></i> Gorsel Ekle
-          <input type="file" accept="image/*" multiple style="display:none" onchange="uploadWorks('car-match', this)">
-        </label>
+        <span>Is Gorselleri (Car Match)</span>
+        <label class="btn btn-ghost" style="cursor:pointer"><i class="ti ti-plus"></i> Gorsel Ekle<input type="file" accept="image/*" multiple style="display:none" onchange="uploadWorks('car-match','g-car-match',this)"></label>
       </div>
-      <div class="gallery-grid" id="car-match-gallery">
-        <div style="grid-column:1/-1;text-align:center;padding:30px;color:var(--muted);font-size:12px;"><i class="ti ti-photo" style="font-size:24px;display:block;margin-bottom:8px;"></i>Henuz gorsel yok. Yukari ekle butonuna tikla.</div>
-      </div>
+      <div class="gallery-grid" id="g-car-match-gallery"><div style="grid-column:1/-1;text-align:center;padding:30px;color:#888680;font-size:12px"><i class="ti ti-photo" style="font-size:24px;display:block;margin-bottom:8px"></i>Henuz gorsel yok</div></div>
     </div>
   </div>
-  <!-- GAME: Magic Sort -->
-  <div class="panel" id="panel-game-magic-sort">
+  <div class="panel" id="pn-g-magic-sort">
     <div class="card">
       <div class="card-title">Proje Bilgileri</div>
       <div class="form-row">
-        <div class="form-group"><label>Proje Adi</label><input type="text" id="magic-sort-name" placeholder="Proje Adi"></div>
-        <div class="form-group"><label>Studyo</label><input type="text" id="magic-sort-studio" placeholder="Studyo"></div>
+        <div class="form-group"><label>Proje Adi</label><input type="text" id="g-magic-sort-name"></div>
+        <div class="form-group"><label>Studyo</label><input type="text" id="g-magic-sort-studio"></div>
       </div>
       <div class="form-row">
-        <div class="form-group"><label>Yil</label><input type="text" id="magic-sort-year" placeholder="2024"></div>
-        <div class="form-group"><label>Art Direction</label><input type="text" id="magic-sort-art_direction" placeholder="Isim"></div>
+        <div class="form-group"><label>Yil</label><input type="text" id="g-magic-sort-year"></div>
+        <div class="form-group"><label>Art Direction</label><input type="text" id="g-magic-sort-ad"></div>
       </div>
       <div class="form-row">
-        <div class="form-group"><label>Concept Art</label><input type="text" id="magic-sort-concept_art" placeholder="Isim"></div>
-        <div class="form-group"><label>3D Art</label><input type="text" id="magic-sort-art_3d" placeholder="Isim"></div>
+        <div class="form-group"><label>Concept Art</label><input type="text" id="g-magic-sort-ca"></div>
+        <div class="form-group"><label>3D Art</label><input type="text" id="g-magic-sort-3d"></div>
       </div>
       <div class="form-row">
-        <div class="form-group"><label><i class="ti ti-brand-apple"></i> App Store URL</label><input type="text" id="magic-sort-ios" placeholder="https://apps.apple.com/..."></div>
-        <div class="form-group"><label><i class="ti ti-brand-google-play"></i> Google Play URL</label><input type="text" id="magic-sort-android" placeholder="https://play.google.com/..."></div>
+        <div class="form-group"><label>App Store URL</label><input type="text" id="g-magic-sort-ios"></div>
+        <div class="form-group"><label>Google Play URL</label><input type="text" id="g-magic-sort-android"></div>
       </div>
-      <div class="form-group full" style="margin-bottom:16px"><label>Aciklama</label><textarea id="magic-sort-about" placeholder="Proje aciklamasi..."></textarea></div>
-      <button class="btn btn-primary" onclick="saveProject('magic-sort')"><i class="ti ti-check"></i> Kaydet</button>
+      <div class="form-group" style="margin-bottom:16px"><label>Aciklama</label><textarea id="g-magic-sort-about"></textarea></div>
+      <button class="btn btn-primary" onclick="saveProj('magic-sort','g-magic-sort')"><i class="ti ti-check"></i> Kaydet</button>
     </div>
     <div class="card">
-      <div class="card-title">Kapak Gorseli <span style="font-weight:400;color:var(--muted);font-size:10px;">(Izgara karesinde gorunur)</span></div>
-      <div class="cover-preview" id="magic-sort-cover-preview"><img id="magic-sort-cover-img" src="" alt=""></div>
-      <div class="upload-zone" id="magic-sort-cover-zone">
-        <input type="file" accept="image/*" onchange="uploadCover('magic-sort', this)">
-        <div class="uz-icon"><i class="ti ti-photo-up"></i></div>
-        <div class="uz-text">Kapak gorselini surukle veya tikla<br><small style="opacity:0.6">Onerilir: 1:1 kare oran</small></div>
-      </div>
+      <div class="card-title">Kapak Gorseli</div>
+      <div class="cover-preview" id="g-magic-sort-cprev" style="display:none"><img id="g-magic-sort-cimg" src="" alt=""></div>
+      <div class="upload-zone"><input type="file" accept="image/*" onchange="uploadCover('magic-sort','g-magic-sort',this)"><div class="uz-icon"><i class="ti ti-photo-up"></i></div><div class="uz-text">Kapak gorselini surukle veya tikla</div></div>
     </div>
     <div class="card">
       <div class="section-hdr">
-        <span>Is Gorselleri <small style="font-weight:400;font-size:10px;text-transform:none;">(Magic Sort - ArtStation tarz galeri)</small></span>
-        <label class="btn btn-ghost" style="cursor:pointer;font-size:11px;gap:5px;">
-          <i class="ti ti-plus"></i> Gorsel Ekle
-          <input type="file" accept="image/*" multiple style="display:none" onchange="uploadWorks('magic-sort', this)">
-        </label>
+        <span>Is Gorselleri (Magic Sort)</span>
+        <label class="btn btn-ghost" style="cursor:pointer"><i class="ti ti-plus"></i> Gorsel Ekle<input type="file" accept="image/*" multiple style="display:none" onchange="uploadWorks('magic-sort','g-magic-sort',this)"></label>
       </div>
-      <div class="gallery-grid" id="magic-sort-gallery">
-        <div style="grid-column:1/-1;text-align:center;padding:30px;color:var(--muted);font-size:12px;"><i class="ti ti-photo" style="font-size:24px;display:block;margin-bottom:8px;"></i>Henuz gorsel yok. Yukari ekle butonuna tikla.</div>
-      </div>
+      <div class="gallery-grid" id="g-magic-sort-gallery"><div style="grid-column:1/-1;text-align:center;padding:30px;color:#888680;font-size:12px"><i class="ti ti-photo" style="font-size:24px;display:block;margin-bottom:8px"></i>Henuz gorsel yok</div></div>
     </div>
   </div>
-  <!-- GAME: Match Villians -->
-  <div class="panel" id="panel-game-match-villains">
+  <div class="panel" id="pn-g-match-villains">
     <div class="card">
       <div class="card-title">Proje Bilgileri</div>
       <div class="form-row">
-        <div class="form-group"><label>Proje Adi</label><input type="text" id="match-villains-name" placeholder="Proje Adi"></div>
-        <div class="form-group"><label>Studyo</label><input type="text" id="match-villains-studio" placeholder="Studyo"></div>
+        <div class="form-group"><label>Proje Adi</label><input type="text" id="g-match-villains-name"></div>
+        <div class="form-group"><label>Studyo</label><input type="text" id="g-match-villains-studio"></div>
       </div>
       <div class="form-row">
-        <div class="form-group"><label>Yil</label><input type="text" id="match-villains-year" placeholder="2024"></div>
-        <div class="form-group"><label>Art Direction</label><input type="text" id="match-villains-art_direction" placeholder="Isim"></div>
+        <div class="form-group"><label>Yil</label><input type="text" id="g-match-villains-year"></div>
+        <div class="form-group"><label>Art Direction</label><input type="text" id="g-match-villains-ad"></div>
       </div>
       <div class="form-row">
-        <div class="form-group"><label>Concept Art</label><input type="text" id="match-villains-concept_art" placeholder="Isim"></div>
-        <div class="form-group"><label>3D Art</label><input type="text" id="match-villains-art_3d" placeholder="Isim"></div>
+        <div class="form-group"><label>Concept Art</label><input type="text" id="g-match-villains-ca"></div>
+        <div class="form-group"><label>3D Art</label><input type="text" id="g-match-villains-3d"></div>
       </div>
       <div class="form-row">
-        <div class="form-group"><label><i class="ti ti-brand-apple"></i> App Store URL</label><input type="text" id="match-villains-ios" placeholder="https://apps.apple.com/..."></div>
-        <div class="form-group"><label><i class="ti ti-brand-google-play"></i> Google Play URL</label><input type="text" id="match-villains-android" placeholder="https://play.google.com/..."></div>
+        <div class="form-group"><label>App Store URL</label><input type="text" id="g-match-villains-ios"></div>
+        <div class="form-group"><label>Google Play URL</label><input type="text" id="g-match-villains-android"></div>
       </div>
-      <div class="form-group full" style="margin-bottom:16px"><label>Aciklama</label><textarea id="match-villains-about" placeholder="Proje aciklamasi..."></textarea></div>
-      <button class="btn btn-primary" onclick="saveProject('match-villains')"><i class="ti ti-check"></i> Kaydet</button>
+      <div class="form-group" style="margin-bottom:16px"><label>Aciklama</label><textarea id="g-match-villains-about"></textarea></div>
+      <button class="btn btn-primary" onclick="saveProj('match-villains','g-match-villains')"><i class="ti ti-check"></i> Kaydet</button>
     </div>
     <div class="card">
-      <div class="card-title">Kapak Gorseli <span style="font-weight:400;color:var(--muted);font-size:10px;">(Izgara karesinde gorunur)</span></div>
-      <div class="cover-preview" id="match-villains-cover-preview"><img id="match-villains-cover-img" src="" alt=""></div>
-      <div class="upload-zone" id="match-villains-cover-zone">
-        <input type="file" accept="image/*" onchange="uploadCover('match-villains', this)">
-        <div class="uz-icon"><i class="ti ti-photo-up"></i></div>
-        <div class="uz-text">Kapak gorselini surukle veya tikla<br><small style="opacity:0.6">Onerilir: 1:1 kare oran</small></div>
-      </div>
+      <div class="card-title">Kapak Gorseli</div>
+      <div class="cover-preview" id="g-match-villains-cprev" style="display:none"><img id="g-match-villains-cimg" src="" alt=""></div>
+      <div class="upload-zone"><input type="file" accept="image/*" onchange="uploadCover('match-villains','g-match-villains',this)"><div class="uz-icon"><i class="ti ti-photo-up"></i></div><div class="uz-text">Kapak gorselini surukle veya tikla</div></div>
     </div>
     <div class="card">
       <div class="section-hdr">
-        <span>Is Gorselleri <small style="font-weight:400;font-size:10px;text-transform:none;">(Match Villians - ArtStation tarz galeri)</small></span>
-        <label class="btn btn-ghost" style="cursor:pointer;font-size:11px;gap:5px;">
-          <i class="ti ti-plus"></i> Gorsel Ekle
-          <input type="file" accept="image/*" multiple style="display:none" onchange="uploadWorks('match-villains', this)">
-        </label>
+        <span>Is Gorselleri (Match Villians)</span>
+        <label class="btn btn-ghost" style="cursor:pointer"><i class="ti ti-plus"></i> Gorsel Ekle<input type="file" accept="image/*" multiple style="display:none" onchange="uploadWorks('match-villains','g-match-villains',this)"></label>
       </div>
-      <div class="gallery-grid" id="match-villains-gallery">
-        <div style="grid-column:1/-1;text-align:center;padding:30px;color:var(--muted);font-size:12px;"><i class="ti ti-photo" style="font-size:24px;display:block;margin-bottom:8px;"></i>Henuz gorsel yok. Yukari ekle butonuna tikla.</div>
-      </div>
+      <div class="gallery-grid" id="g-match-villains-gallery"><div style="grid-column:1/-1;text-align:center;padding:30px;color:#888680;font-size:12px"><i class="ti ti-photo" style="font-size:24px;display:block;margin-bottom:8px"></i>Henuz gorsel yok</div></div>
     </div>
   </div>
-  <!-- GAME: Wonder Blast -->
-  <div class="panel" id="panel-game-wonder-blast">
+  <div class="panel" id="pn-g-wonder-blast">
     <div class="card">
       <div class="card-title">Proje Bilgileri</div>
       <div class="form-row">
-        <div class="form-group"><label>Proje Adi</label><input type="text" id="wonder-blast-name" placeholder="Proje Adi"></div>
-        <div class="form-group"><label>Studyo</label><input type="text" id="wonder-blast-studio" placeholder="Studyo"></div>
+        <div class="form-group"><label>Proje Adi</label><input type="text" id="g-wonder-blast-name"></div>
+        <div class="form-group"><label>Studyo</label><input type="text" id="g-wonder-blast-studio"></div>
       </div>
       <div class="form-row">
-        <div class="form-group"><label>Yil</label><input type="text" id="wonder-blast-year" placeholder="2024"></div>
-        <div class="form-group"><label>Art Direction</label><input type="text" id="wonder-blast-art_direction" placeholder="Isim"></div>
+        <div class="form-group"><label>Yil</label><input type="text" id="g-wonder-blast-year"></div>
+        <div class="form-group"><label>Art Direction</label><input type="text" id="g-wonder-blast-ad"></div>
       </div>
       <div class="form-row">
-        <div class="form-group"><label>Concept Art</label><input type="text" id="wonder-blast-concept_art" placeholder="Isim"></div>
-        <div class="form-group"><label>3D Art</label><input type="text" id="wonder-blast-art_3d" placeholder="Isim"></div>
+        <div class="form-group"><label>Concept Art</label><input type="text" id="g-wonder-blast-ca"></div>
+        <div class="form-group"><label>3D Art</label><input type="text" id="g-wonder-blast-3d"></div>
       </div>
       <div class="form-row">
-        <div class="form-group"><label><i class="ti ti-brand-apple"></i> App Store URL</label><input type="text" id="wonder-blast-ios" placeholder="https://apps.apple.com/..."></div>
-        <div class="form-group"><label><i class="ti ti-brand-google-play"></i> Google Play URL</label><input type="text" id="wonder-blast-android" placeholder="https://play.google.com/..."></div>
+        <div class="form-group"><label>App Store URL</label><input type="text" id="g-wonder-blast-ios"></div>
+        <div class="form-group"><label>Google Play URL</label><input type="text" id="g-wonder-blast-android"></div>
       </div>
-      <div class="form-group full" style="margin-bottom:16px"><label>Aciklama</label><textarea id="wonder-blast-about" placeholder="Proje aciklamasi..."></textarea></div>
-      <button class="btn btn-primary" onclick="saveProject('wonder-blast')"><i class="ti ti-check"></i> Kaydet</button>
+      <div class="form-group" style="margin-bottom:16px"><label>Aciklama</label><textarea id="g-wonder-blast-about"></textarea></div>
+      <button class="btn btn-primary" onclick="saveProj('wonder-blast','g-wonder-blast')"><i class="ti ti-check"></i> Kaydet</button>
     </div>
     <div class="card">
-      <div class="card-title">Kapak Gorseli <span style="font-weight:400;color:var(--muted);font-size:10px;">(Izgara karesinde gorunur)</span></div>
-      <div class="cover-preview" id="wonder-blast-cover-preview"><img id="wonder-blast-cover-img" src="" alt=""></div>
-      <div class="upload-zone" id="wonder-blast-cover-zone">
-        <input type="file" accept="image/*" onchange="uploadCover('wonder-blast', this)">
-        <div class="uz-icon"><i class="ti ti-photo-up"></i></div>
-        <div class="uz-text">Kapak gorselini surukle veya tikla<br><small style="opacity:0.6">Onerilir: 1:1 kare oran</small></div>
-      </div>
+      <div class="card-title">Kapak Gorseli</div>
+      <div class="cover-preview" id="g-wonder-blast-cprev" style="display:none"><img id="g-wonder-blast-cimg" src="" alt=""></div>
+      <div class="upload-zone"><input type="file" accept="image/*" onchange="uploadCover('wonder-blast','g-wonder-blast',this)"><div class="uz-icon"><i class="ti ti-photo-up"></i></div><div class="uz-text">Kapak gorselini surukle veya tikla</div></div>
     </div>
     <div class="card">
       <div class="section-hdr">
-        <span>Is Gorselleri <small style="font-weight:400;font-size:10px;text-transform:none;">(Wonder Blast - ArtStation tarz galeri)</small></span>
-        <label class="btn btn-ghost" style="cursor:pointer;font-size:11px;gap:5px;">
-          <i class="ti ti-plus"></i> Gorsel Ekle
-          <input type="file" accept="image/*" multiple style="display:none" onchange="uploadWorks('wonder-blast', this)">
-        </label>
+        <span>Is Gorselleri (Wonder Blast)</span>
+        <label class="btn btn-ghost" style="cursor:pointer"><i class="ti ti-plus"></i> Gorsel Ekle<input type="file" accept="image/*" multiple style="display:none" onchange="uploadWorks('wonder-blast','g-wonder-blast',this)"></label>
       </div>
-      <div class="gallery-grid" id="wonder-blast-gallery">
-        <div style="grid-column:1/-1;text-align:center;padding:30px;color:var(--muted);font-size:12px;"><i class="ti ti-photo" style="font-size:24px;display:block;margin-bottom:8px;"></i>Henuz gorsel yok. Yukari ekle butonuna tikla.</div>
-      </div>
+      <div class="gallery-grid" id="g-wonder-blast-gallery"><div style="grid-column:1/-1;text-align:center;padding:30px;color:#888680;font-size:12px"><i class="ti ti-photo" style="font-size:24px;display:block;margin-bottom:8px"></i>Henuz gorsel yok</div></div>
     </div>
   </div>
-  <!-- PERSONAL: 1 -->
-  <div class="panel" id="panel-personal-1">
+  <div class="panel" id="pn-p-1">
     <div class="card">
       <div class="card-title">Proje Bilgileri</div>
-      <div class="form-group full" style="margin-bottom:14px"><label>Proje Adi</label><input type="text" id="p1-name" placeholder="Personal Work 1"></div>
-      <div class="form-group full" style="margin-bottom:16px"><label>Aciklama</label><textarea id="p1-about" placeholder="Aciklama..."></textarea></div>
+      <div class="form-group" style="margin-bottom:14px"><label>Proje Adi</label><input type="text" id="p1-name"></div>
+      <div class="form-group" style="margin-bottom:16px"><label>Aciklama</label><textarea id="p1-about"></textarea></div>
       <button class="btn btn-primary" onclick="savePersonal(1)"><i class="ti ti-check"></i> Kaydet</button>
     </div>
     <div class="card">
       <div class="section-hdr">
-        <span>Gorseller <small style="font-weight:400;font-size:10px;text-transform:none;">(Scroll galeri)</small></span>
-        <label class="btn btn-ghost" style="cursor:pointer;font-size:11px;gap:5px;">
-          <i class="ti ti-plus"></i> Gorsel Ekle
-          <input type="file" accept="image/*" multiple style="display:none" onchange="uploadPersonalSlides(1, this)">
-        </label>
+        <span>Gorseller</span>
+        <label class="btn btn-ghost" style="cursor:pointer"><i class="ti ti-plus"></i> Gorsel Ekle<input type="file" accept="image/*" multiple style="display:none" onchange="uploadPSlides(1,this)"></label>
       </div>
-      <div class="gallery-grid" id="p1-gallery">
-        <div style="grid-column:1/-1;text-align:center;padding:30px;color:var(--muted);font-size:12px;"><i class="ti ti-photo" style="font-size:24px;display:block;margin-bottom:8px;"></i>Henuz gorsel yok.</div>
-      </div>
+      <div class="gallery-grid" id="p1-gallery"><div style="grid-column:1/-1;text-align:center;padding:30px;color:#888680;font-size:12px"><i class="ti ti-photo" style="font-size:24px;display:block;margin-bottom:8px"></i>Henuz gorsel yok</div></div>
     </div>
   </div>
-  <!-- PERSONAL: 2 -->
-  <div class="panel" id="panel-personal-2">
+  <div class="panel" id="pn-p-2">
     <div class="card">
       <div class="card-title">Proje Bilgileri</div>
-      <div class="form-group full" style="margin-bottom:14px"><label>Proje Adi</label><input type="text" id="p2-name" placeholder="Personal Work 2"></div>
-      <div class="form-group full" style="margin-bottom:16px"><label>Aciklama</label><textarea id="p2-about" placeholder="Aciklama..."></textarea></div>
+      <div class="form-group" style="margin-bottom:14px"><label>Proje Adi</label><input type="text" id="p2-name"></div>
+      <div class="form-group" style="margin-bottom:16px"><label>Aciklama</label><textarea id="p2-about"></textarea></div>
       <button class="btn btn-primary" onclick="savePersonal(2)"><i class="ti ti-check"></i> Kaydet</button>
     </div>
     <div class="card">
       <div class="section-hdr">
-        <span>Gorseller <small style="font-weight:400;font-size:10px;text-transform:none;">(Scroll galeri)</small></span>
-        <label class="btn btn-ghost" style="cursor:pointer;font-size:11px;gap:5px;">
-          <i class="ti ti-plus"></i> Gorsel Ekle
-          <input type="file" accept="image/*" multiple style="display:none" onchange="uploadPersonalSlides(2, this)">
-        </label>
+        <span>Gorseller</span>
+        <label class="btn btn-ghost" style="cursor:pointer"><i class="ti ti-plus"></i> Gorsel Ekle<input type="file" accept="image/*" multiple style="display:none" onchange="uploadPSlides(2,this)"></label>
       </div>
-      <div class="gallery-grid" id="p2-gallery">
-        <div style="grid-column:1/-1;text-align:center;padding:30px;color:var(--muted);font-size:12px;"><i class="ti ti-photo" style="font-size:24px;display:block;margin-bottom:8px;"></i>Henuz gorsel yok.</div>
-      </div>
+      <div class="gallery-grid" id="p2-gallery"><div style="grid-column:1/-1;text-align:center;padding:30px;color:#888680;font-size:12px"><i class="ti ti-photo" style="font-size:24px;display:block;margin-bottom:8px"></i>Henuz gorsel yok</div></div>
     </div>
   </div>
-  <!-- PERSONAL: 3 -->
-  <div class="panel" id="panel-personal-3">
+  <div class="panel" id="pn-p-3">
     <div class="card">
       <div class="card-title">Proje Bilgileri</div>
-      <div class="form-group full" style="margin-bottom:14px"><label>Proje Adi</label><input type="text" id="p3-name" placeholder="Personal Work 3"></div>
-      <div class="form-group full" style="margin-bottom:16px"><label>Aciklama</label><textarea id="p3-about" placeholder="Aciklama..."></textarea></div>
+      <div class="form-group" style="margin-bottom:14px"><label>Proje Adi</label><input type="text" id="p3-name"></div>
+      <div class="form-group" style="margin-bottom:16px"><label>Aciklama</label><textarea id="p3-about"></textarea></div>
       <button class="btn btn-primary" onclick="savePersonal(3)"><i class="ti ti-check"></i> Kaydet</button>
     </div>
     <div class="card">
       <div class="section-hdr">
-        <span>Gorseller <small style="font-weight:400;font-size:10px;text-transform:none;">(Scroll galeri)</small></span>
-        <label class="btn btn-ghost" style="cursor:pointer;font-size:11px;gap:5px;">
-          <i class="ti ti-plus"></i> Gorsel Ekle
-          <input type="file" accept="image/*" multiple style="display:none" onchange="uploadPersonalSlides(3, this)">
-        </label>
+        <span>Gorseller</span>
+        <label class="btn btn-ghost" style="cursor:pointer"><i class="ti ti-plus"></i> Gorsel Ekle<input type="file" accept="image/*" multiple style="display:none" onchange="uploadPSlides(3,this)"></label>
       </div>
-      <div class="gallery-grid" id="p3-gallery">
-        <div style="grid-column:1/-1;text-align:center;padding:30px;color:var(--muted);font-size:12px;"><i class="ti ti-photo" style="font-size:24px;display:block;margin-bottom:8px;"></i>Henuz gorsel yok.</div>
-      </div>
+      <div class="gallery-grid" id="p3-gallery"><div style="grid-column:1/-1;text-align:center;padding:30px;color:#888680;font-size:12px"><i class="ti ti-photo" style="font-size:24px;display:block;margin-bottom:8px"></i>Henuz gorsel yok</div></div>
     </div>
   </div>
-  <!-- PERSONAL: 4 -->
-  <div class="panel" id="panel-personal-4">
+  <div class="panel" id="pn-p-4">
     <div class="card">
       <div class="card-title">Proje Bilgileri</div>
-      <div class="form-group full" style="margin-bottom:14px"><label>Proje Adi</label><input type="text" id="p4-name" placeholder="Personal Work 4"></div>
-      <div class="form-group full" style="margin-bottom:16px"><label>Aciklama</label><textarea id="p4-about" placeholder="Aciklama..."></textarea></div>
+      <div class="form-group" style="margin-bottom:14px"><label>Proje Adi</label><input type="text" id="p4-name"></div>
+      <div class="form-group" style="margin-bottom:16px"><label>Aciklama</label><textarea id="p4-about"></textarea></div>
       <button class="btn btn-primary" onclick="savePersonal(4)"><i class="ti ti-check"></i> Kaydet</button>
     </div>
     <div class="card">
       <div class="section-hdr">
-        <span>Gorseller <small style="font-weight:400;font-size:10px;text-transform:none;">(Scroll galeri)</small></span>
-        <label class="btn btn-ghost" style="cursor:pointer;font-size:11px;gap:5px;">
-          <i class="ti ti-plus"></i> Gorsel Ekle
-          <input type="file" accept="image/*" multiple style="display:none" onchange="uploadPersonalSlides(4, this)">
-        </label>
+        <span>Gorseller</span>
+        <label class="btn btn-ghost" style="cursor:pointer"><i class="ti ti-plus"></i> Gorsel Ekle<input type="file" accept="image/*" multiple style="display:none" onchange="uploadPSlides(4,this)"></label>
       </div>
-      <div class="gallery-grid" id="p4-gallery">
-        <div style="grid-column:1/-1;text-align:center;padding:30px;color:var(--muted);font-size:12px;"><i class="ti ti-photo" style="font-size:24px;display:block;margin-bottom:8px;"></i>Henuz gorsel yok.</div>
-      </div>
+      <div class="gallery-grid" id="p4-gallery"><div style="grid-column:1/-1;text-align:center;padding:30px;color:#888680;font-size:12px"><i class="ti ti-photo" style="font-size:24px;display:block;margin-bottom:8px"></i>Henuz gorsel yok</div></div>
     </div>
   </div>
-  <!-- PERSONAL: 5 -->
-  <div class="panel" id="panel-personal-5">
+  <div class="panel" id="pn-p-5">
     <div class="card">
       <div class="card-title">Proje Bilgileri</div>
-      <div class="form-group full" style="margin-bottom:14px"><label>Proje Adi</label><input type="text" id="p5-name" placeholder="Personal Work 5"></div>
-      <div class="form-group full" style="margin-bottom:16px"><label>Aciklama</label><textarea id="p5-about" placeholder="Aciklama..."></textarea></div>
+      <div class="form-group" style="margin-bottom:14px"><label>Proje Adi</label><input type="text" id="p5-name"></div>
+      <div class="form-group" style="margin-bottom:16px"><label>Aciklama</label><textarea id="p5-about"></textarea></div>
       <button class="btn btn-primary" onclick="savePersonal(5)"><i class="ti ti-check"></i> Kaydet</button>
     </div>
     <div class="card">
       <div class="section-hdr">
-        <span>Gorseller <small style="font-weight:400;font-size:10px;text-transform:none;">(Scroll galeri)</small></span>
-        <label class="btn btn-ghost" style="cursor:pointer;font-size:11px;gap:5px;">
-          <i class="ti ti-plus"></i> Gorsel Ekle
-          <input type="file" accept="image/*" multiple style="display:none" onchange="uploadPersonalSlides(5, this)">
-        </label>
+        <span>Gorseller</span>
+        <label class="btn btn-ghost" style="cursor:pointer"><i class="ti ti-plus"></i> Gorsel Ekle<input type="file" accept="image/*" multiple style="display:none" onchange="uploadPSlides(5,this)"></label>
       </div>
-      <div class="gallery-grid" id="p5-gallery">
-        <div style="grid-column:1/-1;text-align:center;padding:30px;color:var(--muted);font-size:12px;"><i class="ti ti-photo" style="font-size:24px;display:block;margin-bottom:8px;"></i>Henuz gorsel yok.</div>
-      </div>
+      <div class="gallery-grid" id="p5-gallery"><div style="grid-column:1/-1;text-align:center;padding:30px;color:#888680;font-size:12px"><i class="ti ti-photo" style="font-size:24px;display:block;margin-bottom:8px"></i>Henuz gorsel yok</div></div>
     </div>
   </div>
-  <!-- PERSONAL: 6 -->
-  <div class="panel" id="panel-personal-6">
+  <div class="panel" id="pn-p-6">
     <div class="card">
       <div class="card-title">Proje Bilgileri</div>
-      <div class="form-group full" style="margin-bottom:14px"><label>Proje Adi</label><input type="text" id="p6-name" placeholder="Personal Work 6"></div>
-      <div class="form-group full" style="margin-bottom:16px"><label>Aciklama</label><textarea id="p6-about" placeholder="Aciklama..."></textarea></div>
+      <div class="form-group" style="margin-bottom:14px"><label>Proje Adi</label><input type="text" id="p6-name"></div>
+      <div class="form-group" style="margin-bottom:16px"><label>Aciklama</label><textarea id="p6-about"></textarea></div>
       <button class="btn btn-primary" onclick="savePersonal(6)"><i class="ti ti-check"></i> Kaydet</button>
     </div>
     <div class="card">
       <div class="section-hdr">
-        <span>Gorseller <small style="font-weight:400;font-size:10px;text-transform:none;">(Scroll galeri)</small></span>
-        <label class="btn btn-ghost" style="cursor:pointer;font-size:11px;gap:5px;">
-          <i class="ti ti-plus"></i> Gorsel Ekle
-          <input type="file" accept="image/*" multiple style="display:none" onchange="uploadPersonalSlides(6, this)">
-        </label>
+        <span>Gorseller</span>
+        <label class="btn btn-ghost" style="cursor:pointer"><i class="ti ti-plus"></i> Gorsel Ekle<input type="file" accept="image/*" multiple style="display:none" onchange="uploadPSlides(6,this)"></label>
       </div>
-      <div class="gallery-grid" id="p6-gallery">
-        <div style="grid-column:1/-1;text-align:center;padding:30px;color:var(--muted);font-size:12px;"><i class="ti ti-photo" style="font-size:24px;display:block;margin-bottom:8px;"></i>Henuz gorsel yok.</div>
-      </div>
+      <div class="gallery-grid" id="p6-gallery"><div style="grid-column:1/-1;text-align:center;padding:30px;color:#888680;font-size:12px"><i class="ti ti-photo" style="font-size:24px;display:block;margin-bottom:8px"></i>Henuz gorsel yok</div></div>
     </div>
   </div>
-  <!-- PERSONAL: 7 -->
-  <div class="panel" id="panel-personal-7">
+  <div class="panel" id="pn-p-7">
     <div class="card">
       <div class="card-title">Proje Bilgileri</div>
-      <div class="form-group full" style="margin-bottom:14px"><label>Proje Adi</label><input type="text" id="p7-name" placeholder="Personal Work 7"></div>
-      <div class="form-group full" style="margin-bottom:16px"><label>Aciklama</label><textarea id="p7-about" placeholder="Aciklama..."></textarea></div>
+      <div class="form-group" style="margin-bottom:14px"><label>Proje Adi</label><input type="text" id="p7-name"></div>
+      <div class="form-group" style="margin-bottom:16px"><label>Aciklama</label><textarea id="p7-about"></textarea></div>
       <button class="btn btn-primary" onclick="savePersonal(7)"><i class="ti ti-check"></i> Kaydet</button>
     </div>
     <div class="card">
       <div class="section-hdr">
-        <span>Gorseller <small style="font-weight:400;font-size:10px;text-transform:none;">(Scroll galeri)</small></span>
-        <label class="btn btn-ghost" style="cursor:pointer;font-size:11px;gap:5px;">
-          <i class="ti ti-plus"></i> Gorsel Ekle
-          <input type="file" accept="image/*" multiple style="display:none" onchange="uploadPersonalSlides(7, this)">
-        </label>
+        <span>Gorseller</span>
+        <label class="btn btn-ghost" style="cursor:pointer"><i class="ti ti-plus"></i> Gorsel Ekle<input type="file" accept="image/*" multiple style="display:none" onchange="uploadPSlides(7,this)"></label>
       </div>
-      <div class="gallery-grid" id="p7-gallery">
-        <div style="grid-column:1/-1;text-align:center;padding:30px;color:var(--muted);font-size:12px;"><i class="ti ti-photo" style="font-size:24px;display:block;margin-bottom:8px;"></i>Henuz gorsel yok.</div>
-      </div>
+      <div class="gallery-grid" id="p7-gallery"><div style="grid-column:1/-1;text-align:center;padding:30px;color:#888680;font-size:12px"><i class="ti ti-photo" style="font-size:24px;display:block;margin-bottom:8px"></i>Henuz gorsel yok</div></div>
     </div>
   </div>
-</div><!-- end .main -->
-<div class="toast" id="toast"></div>
-<script>
-const API = '';
-let DB = {};
-
-async function init() {
-  try {
-    const r = await fetch(API + '/api/data');
-    DB = await r.json();
-    loadCurrentSettings();
-    loadHero();
-    loadResume();
-    loadAllProjects();
-  } catch(e) { showToast('Veri yuklenemedi: ' + e.message, true); }
-}
-
-function loadCurrentSettings() {
-  const s = DB.settings || {};
-  if(s.color_bg) document.getElementById('c-bg').value = s.color_bg;
-  if(s.color_bg2) document.getElementById('c-bg2').value = s.color_bg2;
-  if(s.color_text) document.getElementById('c-text').value = s.color_text;
-  if(s.color_muted) document.getElementById('c-muted').value = s.color_muted;
-  if(s.color_accent) document.getElementById('c-accent').value = s.color_accent;
-  if(s.nav_logo_x) { document.getElementById('s-lx').value = s.nav_logo_x; document.getElementById('v-lx').textContent = s.nav_logo_x; }
-  if(s.nav_logo_y) { document.getElementById('s-ly').value = s.nav_logo_y; document.getElementById('v-ly').textContent = s.nav_logo_y; }
-  if(s.nav_sub_x) { document.getElementById('s-sx').value = s.nav_sub_x; document.getElementById('v-sx').textContent = s.nav_sub_x; }
-  if(s.nav_sub_y) { document.getElementById('s-sy').value = s.nav_sub_y; document.getElementById('v-sy').textContent = s.nav_sub_y; }
-}
-
-function loadHero() {
-  const h = DB.hero;
-  if(h && h.url) {
-    const p = document.getElementById('hero-preview');
-    document.getElementById('hero-img').src = h.url;
-    p.style.display = 'block';
-  }
-}
-
-function loadResume() {
-  const r = DB.resume;
-  if(r && r.url) {
-    const p = document.getElementById('resume-preview');
-    document.getElementById('resume-img').src = r.url;
-    p.style.display = 'block';
-  }
-}
-
-function loadAllProjects() {
-  const projects = DB.projects || {};
-  const keys = ['block-out','car-match','magic-sort','match-villains','wonder-blast'];
-  keys.forEach(key => {
-    const proj = projects[key];
-    if(!proj) return;
-    const id = key;
-    const set = (field, val) => { const el = document.getElementById(id + '-' + field); if(el) el.value = val || ''; };
-    set('name', proj.name); set('studio', proj.studio); set('year', proj.year);
-    set('art_direction', proj.credits && proj.credits.art_direction);
-    set('concept_art', proj.credits && proj.credits.concept_art);
-    set('art_3d', proj.credits && proj.credits.art_3d);
-    set('ios', proj.ios); set('android', proj.android); set('about', proj.about);
-    if(proj.cover && proj.cover.url) {
-      document.getElementById(id + '-cover-img').src = proj.cover.url;
-      document.getElementById(id + '-cover-preview').style.display = 'block';
-    }
-    renderGallery(key, proj.works || []);
-  });
-  const personal = DB.personal || {};
-  for(let n = 1; n <= 7; n++) {
-    const p = personal[n] || personal[String(n)];
-    if(!p) continue;
-    const ne = document.getElementById('p' + n + '-name'); if(ne) ne.value = p.name || '';
-    const ae = document.getElementById('p' + n + '-about'); if(ae) ae.value = p.about || '';
-    renderPersonalGallery(n, p.slides || []);
-  }
-}
-
-function renderGallery(key, works) {
-  const grid = document.getElementById(key + '-gallery');
-  if(!grid) return;
-  if(!works || works.length === 0) {
-    grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:30px;color:var(--muted);font-size:12px;"><i class="ti ti-photo" style="font-size:24px;display:block;margin-bottom:8px;"></i>Henuz gorsel yok.</div>';
-    return;
-  }
-  grid.innerHTML = works.map((w, i) => {
-    const url = (w.thumbnail && w.thumbnail.url) ? w.thumbnail.url : (w.url || '');
-    const name = w.name || ('Is ' + (i+1));
-    return '<div class="gallery-item"><img src="' + url + '" alt="' + name + '" onerror="this.style.display='none'"><div class="overlay"><button class="del-btn" onclick="deleteWork('' + key + '',' + i + ')"><i class="ti ti-trash"></i></button></div></div>';
-  }).join('');
-}
-
-function renderPersonalGallery(num, slides) {
-  const grid = document.getElementById('p' + num + '-gallery');
-  if(!grid) return;
-  if(!slides || slides.length === 0) {
-    grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:30px;color:var(--muted);font-size:12px;"><i class="ti ti-photo" style="font-size:24px;display:block;margin-bottom:8px;"></i>Henuz gorsel yok.</div>';
-    return;
-  }
-  grid.innerHTML = slides.map((s, i) => {
-    const url = s.url || '';
-    return '<div class="gallery-item"><img src="' + url + '" alt="" onerror="this.style.display='none'"><div class="overlay"><button class="del-btn" onclick="deletePersonalSlide(' + num + ',' + i + ')"><i class="ti ti-trash"></i></button></div></div>';
-  }).join('');
-}
-
-function showPanel(id) {
-  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.ni').forEach(n => n.classList.remove('active'));
-  const panel = document.getElementById('panel-' + id);
-  if(panel) panel.classList.add('active');
-  const titles = {
-    'settings':'Boyut & Renk','hero':'Hero Gorseli','resume':'Resume CV',
-    'game-block-out':'Block Out','game-car-match':'Car Match','game-magic-sort':'Magic Sort',
-    'game-match-villains':'Match Villians','game-wonder-blast':'Wonder Blast',
-    'personal-1':'Personal 1','personal-2':'Personal 2','personal-3':'Personal 3',
-    'personal-4':'Personal 4','personal-5':'Personal 5','personal-6':'Personal 6','personal-7':'Personal 7'
-  };
-  document.getElementById('topbar-title').textContent = titles[id] || id;
-  event.currentTarget.classList.add('active');
-}
-
-function showToast(msg, err) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.style.background = err ? '#c0392b' : 'var(--accent)';
-  t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 3000);
-}
-
-async function uploadHero(input) {
-  if(!input.files[0]) return;
-  const fd = new FormData(); fd.append('image', input.files[0]);
-  const zone = document.getElementById('hero-zone'); zone.classList.add('uploading');
-  showToast('Yukleniyor...');
-  try {
-    const r = await fetch(API + '/api/upload/hero', {method:'POST', body:fd});
-    const d = await r.json();
-    if(d.url) { document.getElementById('hero-img').src = d.url; document.getElementById('hero-preview').style.display='block'; showToast('Hero guncellendi!'); }
-    else showToast('Hata: ' + (d.error||'bilinmiyor'), true);
-  } catch(e) { showToast('Hata: ' + e.message, true); }
-  finally { zone.classList.remove('uploading'); }
-}
-
-async function uploadResume(input) {
-  if(!input.files[0]) return;
-  const fd = new FormData(); fd.append('image', input.files[0]);
-  showToast('Yukleniyor...');
-  try {
-    const r = await fetch(API + '/api/upload/resume', {method:'POST', body:fd});
-    const d = await r.json();
-    if(d.url) { document.getElementById('resume-img').src = d.url; document.getElementById('resume-preview').style.display='block'; showToast('CV guncellendi!'); }
-    else showToast('Hata: ' + (d.error||'bilinmiyor'), true);
-  } catch(e) { showToast('Hata: ' + e.message, true); }
-}
-
-async function uploadCover(key, input) {
-  if(!input.files[0]) return;
-  const fd = new FormData(); fd.append('image', input.files[0]);
-  showToast('Kapak yukleniyor...');
-  try {
-    const r = await fetch(API + '/api/upload/project/' + key + '/cover', {method:'POST', body:fd});
-    const d = await r.json();
-    if(d.url) {
-      document.getElementById(key + '-cover-img').src = d.url;
-      document.getElementById(key + '-cover-preview').style.display='block';
-      showToast('Kapak guncellendi!');
-    } else showToast('Hata: ' + (d.error||'bilinmiyor'), true);
-  } catch(e) { showToast('Hata: ' + e.message, true); }
-}
-
-async function uploadWorks(key, input) {
-  if(!input.files.length) return;
-  const files = Array.from(input.files);
-  showToast(files.length + ' gorsel yukleniyor...');
-  let ok = 0;
-  for(const file of files) {
-    const fd = new FormData(); fd.append('image', file);
-    const wi = (DB.projects[key].works || []).length;
-    try {
-      const r = await fetch(API + '/api/upload/project/' + key + '/work', {method:'POST', body:fd});
-      const d = await r.json();
-      if(d.ok) { if(!DB.projects[key].works) DB.projects[key].works = []; DB.projects[key].works.push({thumbnail:{url:d.url,public_id:d.public_id},slides:[],name:'Is '+(DB.projects[key].works.length)}); ok++; }
-    } catch(e) {}
-  }
-  const rr = await fetch(API + '/api/data'); DB = await rr.json();
-  renderGallery(key, DB.projects[key].works || []);
-  showToast(ok + '/' + files.length + ' gorsel yuklendi!', ok < files.length);
-}
-
-async function deleteWork(key, wi) {
-  if(!confirm('Bu gorsel silinsin mi?')) return;
-  showToast('Siliniyor...');
-  try {
-    const r = await fetch(API + '/api/project/' + key + '/work/' + wi, {method:'DELETE'});
-    const d = await r.json();
-    if(d.ok) { const rr = await fetch(API + '/api/data'); DB = await rr.json(); renderGallery(key, DB.projects[key].works || []); showToast('Silindi!'); }
-    else showToast('Hata', true);
-  } catch(e) { showToast('Hata: ' + e.message, true); }
-}
-
-async function saveProject(key) {
-  const get = (f) => { const el = document.getElementById(key + '-' + f); return el ? el.value : ''; };
-  const body = {name:get('name'),studio:get('studio'),year:get('year'),ios:get('ios'),android:get('android'),about:get('about'),credits:{art_direction:get('art_direction'),concept_art:get('concept_art'),art_3d:get('art_3d')}};
-  showToast('Kaydediliyor...');
-  try {
-    const r = await fetch(API + '/api/project/' + key, {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
-    const d = await r.json();
-    if(d.ok) showToast('Kaydedildi!'); else showToast('Hata: ' + (d.error||''), true);
-  } catch(e) { showToast('Hata: ' + e.message, true); }
-}
-
-async function uploadPersonalSlides(num, input) {
-  if(!input.files.length) return;
-  const files = Array.from(input.files);
-  showToast(files.length + ' gorsel yukleniyor...');
-  let ok = 0;
-  for(const file of files) {
-    const fd = new FormData(); fd.append('image', file);
-    try {
-      const r = await fetch(API + '/api/upload/personal/' + num + '/slide', {method:'POST', body:fd});
-      const d = await r.json();
-      if(d.ok) ok++;
-    } catch(e) {}
-  }
-  const rr = await fetch(API + '/api/data'); DB = await rr.json();
-  const pData = DB.personal[num] || DB.personal[String(num)] || {};
-  renderPersonalGallery(num, pData.slides || []);
-  showToast(ok + '/' + files.length + ' gorsel yuklendi!', ok < files.length);
-}
-
-async function deletePersonalSlide(num, idx) {
-  if(!confirm('Bu gorsel silinsin mi?')) return;
-  showToast('Siliniyor...');
-  try {
-    const r = await fetch(API + '/api/personal/' + num + '/slide/' + idx, {method:'DELETE'});
-    const d = await r.json();
-    if(d.ok) { const rr = await fetch(API + '/api/data'); DB = await rr.json(); const p = DB.personal[num]||DB.personal[String(num)]||{}; renderPersonalGallery(num, p.slides||[]); showToast('Silindi!'); }
-    else showToast('Hata', true);
-  } catch(e) { showToast('Hata: ' + e.message, true); }
-}
-
-async function savePersonal(num) {
-  const n = document.getElementById('p' + num + '-name'); const a = document.getElementById('p' + num + '-about');
-  const body = {name: n ? n.value : '', about: a ? a.value : ''};
-  showToast('Kaydediliyor...');
-  try {
-    const r = await fetch(API + '/api/personal/' + num, {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
-    const d = await r.json();
-    if(d.ok) showToast('Kaydedildi!'); else showToast('Hata', true);
-  } catch(e) { showToast('Hata: ' + e.message, true); }
-}
-
-async function saveColors() {
-  const body = {
-    color_bg: document.getElementById('c-bg').value,
-    color_bg2: document.getElementById('c-bg2').value,
-    color_text: document.getElementById('c-text').value,
-    color_muted: document.getElementById('c-muted').value,
-    color_accent: document.getElementById('c-accent').value
-  };
-  showToast('Kaydediliyor...');
-  try {
-    const r = await fetch(API + '/api/settings', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
-    const d = await r.json();
-    if(d.ok) showToast('Renkler kaydedildi!'); else showToast('Hata', true);
-  } catch(e) { showToast('Hata: ' + e.message, true); }
-}
-
-async function saveSettings() {
-  const body = {
-    nav_logo_x: document.getElementById('s-lx').value,
-    nav_logo_y: document.getElementById('s-ly').value,
-    nav_sub_x: document.getElementById('s-sx').value,
-    nav_sub_y: document.getElementById('s-sy').value
-  };
-  showToast('Kaydediliyor...');
-  try {
-    const r = await fetch(API + '/api/settings', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
-    const d = await r.json();
-    if(d.ok) showToast('Ayarlar kaydedildi!'); else showToast('Hata', true);
-  } catch(e) { showToast('Hata: ' + e.message, true); }
-}
-
-function previewColor() {}
-
-init();
-</script>
+  <div class="toast" id="toast"></div>
+</div>
+<script src="/admin.js"></script>
 </body>
 </html>
