@@ -26,9 +26,11 @@ function SP(id, el) {
   document.querySelectorAll(".ni").forEach(function (n) { n.classList.remove("active"); });
   var p = T("pn-" + id); if (p) p.classList.add("active");
   if (el) el.classList.add("active");
-  var titles = { "settings": "Boyut & Renk", "hero": "Hero Gorseli", "resume": "Resume CV", "projects": "Projeler" };
+  var titles = { "settings": "Boyut & Renk", "hero": "Hero Gorseli", "resume": "Resume Gorseli", "resumeedit": "Resume Duzenle", "covers": "Oyun Kapaklari", "projects": "Projeler" };
   T("tt").textContent = titles[id] || id;
   if (id === "projects") loadProjects();
+  if (id === "covers") renderCovers();
+  if (id === "resumeedit") renderResumeEdit();
 }
 
 async function init() {
@@ -154,6 +156,145 @@ async function deleteProject(id) {
     var d = await r.json();
     if (d.ok) { toast("Silindi"); loadProjects(); } else toast(d.error || "Hata", true);
   } catch (e) { toast("Silme hatasi", true); }
+}
+
+// ===== OYUN KAPAKLARI =====
+var GAME_KEYS = [
+  { key: "block-out", label: "Block Out" },
+  { key: "car-match", label: "Car Match" },
+  { key: "magic-sort", label: "Magic Sort" },
+  { key: "match-villains", label: "Match Villians" },
+  { key: "wonder-blast", label: "Wonder Blast" }
+];
+
+function renderCovers() {
+  var grid = T("covers-grid"); if (!grid) return;
+  grid.innerHTML = "";
+  GAME_KEYS.forEach(function (g) {
+    var proj = (DB.projects || {})[g.key] || {};
+    var coverUrl = proj.cover && proj.cover.url ? proj.cover.url : "";
+    var card = document.createElement("div");
+    card.style.cssText = "background:var(--bg2);border:0.5px solid var(--border);border-radius:6px;padding:10px;";
+    var thumb = document.createElement("div");
+    thumb.style.cssText = "aspect-ratio:1/1;background:#1e1d22;border-radius:4px;margin-bottom:8px;overflow:hidden;display:flex;align-items:center;justify-content:center;cursor:pointer;position:relative;";
+    if (coverUrl) {
+      var img = document.createElement("img");
+      img.src = coverUrl;
+      img.style.cssText = "width:100%;height:100%;object-fit:cover;display:block;";
+      thumb.appendChild(img);
+    } else {
+      var icon = document.createElement("i");
+      icon.className = "ti ti-photo-up";
+      icon.style.cssText = "font-size:32px;color:var(--muted);opacity:0.4;";
+      thumb.appendChild(icon);
+    }
+    var input = document.createElement("input");
+    input.type = "file"; input.accept = "image/*";
+    input.style.cssText = "position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;";
+    input.onchange = (function (key) { return function (e) { uploadGameCover(key, e.target); }; })(g.key);
+    thumb.appendChild(input);
+    var label = document.createElement("div");
+    label.style.cssText = "font-size:11px;font-weight:700;color:var(--text);text-transform:uppercase;letter-spacing:0.1em;font-family:Inter,sans-serif;text-align:center;";
+    label.textContent = g.label;
+    card.appendChild(thumb); card.appendChild(label);
+    grid.appendChild(card);
+  });
+}
+
+async function uploadGameCover(key, inp) {
+  if (!inp.files[0]) return;
+  var fd = new FormData(); fd.append("image", inp.files[0]);
+  try {
+    var r = await fetch("/api/upload/project/" + encodeURIComponent(key) + "/cover", { method: "POST", headers: { "Authorization": authHeader() }, body: fd });
+    var d = await r.json();
+    if (d.ok) {
+      toast("Kapak yuklendi: " + key);
+      if (!DB.projects) DB.projects = {};
+      if (!DB.projects[key]) DB.projects[key] = {};
+      DB.projects[key].cover = { url: d.url };
+      renderCovers();
+    } else { toast(d.error || "Hata", true); }
+  } catch (e) { toast("Yukleme hatasi", true); }
+}
+
+// ===== RESUME DUZENLE =====
+var RESUME_DATA = { experience: [], achievements: [], skills: [] };
+
+async function renderResumeEdit() {
+  try {
+    var r = await fetch("/api/resume");
+    if (r.ok) DB.resume_data = await r.json();
+  } catch (e) {}
+  RESUME_DATA = DB.resume_data || { experience: [], achievements: [], skills: [] };
+  if (!Array.isArray(RESUME_DATA.experience)) RESUME_DATA.experience = [];
+  if (!Array.isArray(RESUME_DATA.achievements)) RESUME_DATA.achievements = [];
+  if (!Array.isArray(RESUME_DATA.skills)) RESUME_DATA.skills = [];
+  renderExpList();
+  renderAchList();
+  T("skills-input").value = RESUME_DATA.skills.join(", ");
+}
+
+function expCardHTML(item, idx, kind) {
+  return '<div style="background:#1e1d22;border:0.5px solid var(--border);border-radius:6px;padding:14px;margin-bottom:10px;">' +
+    '<div style="display:grid;grid-template-columns:1fr 1fr 130px;gap:10px;margin-bottom:10px;">' +
+      '<div><label style="font-size:10px;color:var(--muted);">Title</label><input type="text" data-kind="' + kind + '" data-i="' + idx + '" data-f="title" value="' + esc(item.title || "") + '" style="background:#0e0d11;border:0.5px solid var(--border);border-radius:4px;padding:7px 10px;color:var(--text);font-size:12px;width:100%;font-family:Inter,sans-serif;"></div>' +
+      '<div><label style="font-size:10px;color:var(--muted);">Company</label><input type="text" data-kind="' + kind + '" data-i="' + idx + '" data-f="company" value="' + esc(item.company || "") + '" style="background:#0e0d11;border:0.5px solid var(--border);border-radius:4px;padding:7px 10px;color:var(--text);font-size:12px;width:100%;font-family:Inter,sans-serif;"></div>' +
+      '<div><label style="font-size:10px;color:var(--muted);">Year</label><input type="text" data-kind="' + kind + '" data-i="' + idx + '" data-f="year" value="' + esc(item.year || "") + '" style="background:#0e0d11;border:0.5px solid var(--border);border-radius:4px;padding:7px 10px;color:var(--text);font-size:12px;width:100%;font-family:Inter,sans-serif;"></div>' +
+    '</div>' +
+    '<div><label style="font-size:10px;color:var(--muted);">Projects / Detail</label><input type="text" data-kind="' + kind + '" data-i="' + idx + '" data-f="projects" value="' + esc(item.projects || "") + '" style="background:#0e0d11;border:0.5px solid var(--border);border-radius:4px;padding:7px 10px;color:var(--text);font-size:12px;width:100%;font-family:Inter,sans-serif;"></div>' +
+    '<button style="margin-top:10px;background:transparent;border:0.5px solid rgba(239,68,68,0.3);color:#ef4444;padding:7px 12px;border-radius:4px;font-size:11px;cursor:pointer;font-family:Inter,sans-serif;" onclick="removeItem(\'' + kind + '\',' + idx + ')">Sil</button>' +
+  '</div>';
+}
+
+function renderExpList() {
+  var list = T("exp-list"); if (!list) return;
+  list.innerHTML = RESUME_DATA.experience.map(function (it, i) { return expCardHTML(it, i, "exp"); }).join("");
+  bindEditInputs();
+}
+function renderAchList() {
+  var list = T("ach-list"); if (!list) return;
+  list.innerHTML = RESUME_DATA.achievements.map(function (it, i) { return expCardHTML(it, i, "ach"); }).join("");
+  bindEditInputs();
+}
+function bindEditInputs() {
+  document.querySelectorAll('input[data-kind]').forEach(function (inp) {
+    inp.oninput = function (e) {
+      var k = e.target.getAttribute("data-kind");
+      var i = parseInt(e.target.getAttribute("data-i"), 10);
+      var f = e.target.getAttribute("data-f");
+      var arr = k === "exp" ? RESUME_DATA.experience : RESUME_DATA.achievements;
+      if (arr[i]) arr[i][f] = e.target.value;
+    };
+  });
+}
+
+function addExperience() {
+  RESUME_DATA.experience.push({ title: "", company: "", year: "", projects: "" });
+  renderExpList();
+}
+function addAchievement() {
+  RESUME_DATA.achievements.push({ title: "", company: "", year: "", projects: "" });
+  renderAchList();
+}
+function removeItem(kind, idx) {
+  if (!confirm("Sil?")) return;
+  var arr = kind === "exp" ? RESUME_DATA.experience : RESUME_DATA.achievements;
+  arr.splice(idx, 1);
+  if (kind === "exp") renderExpList(); else renderAchList();
+}
+
+async function saveResumeData() {
+  RESUME_DATA.skills = T("skills-input").value.split(",").map(function (s) { return s.trim(); }).filter(Boolean);
+  try {
+    var r = await fetch("/api/resume", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "Authorization": authHeader() },
+      body: JSON.stringify(RESUME_DATA)
+    });
+    var d = await r.json();
+    if (d.ok) { toast("Resume kaydedildi"); DB.resume_data = JSON.parse(JSON.stringify(RESUME_DATA)); }
+    else { toast(d.error || "Hata", true); }
+  } catch (e) { toast("Kaydetme hatasi", true); }
 }
 
 window.addEventListener("DOMContentLoaded", init);
