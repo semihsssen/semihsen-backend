@@ -86,8 +86,10 @@ nav{padding:12px 0;flex:1;overflow-y:auto;}
     <div class="nl">Site</div>
     <div class="ni active" onclick="SP('settings',this)"><i class="ti ti-settings"></i> Boyut &amp; Renk</div>
     <div class="ni" onclick="SP('hero',this)"><i class="ti ti-photo"></i> Hero Gorseli</div>
-    <div class="ni" onclick="SP('resume',this)"><i class="ti ti-id-badge"></i> Resume</div>
+    <div class="ni" onclick="SP('resume',this)"><i class="ti ti-id-badge"></i> Resume Gorseli</div>
+    <div class="ni" onclick="SP('resumeedit',this)"><i class="ti ti-file-text"></i> Resume Duzenle</div>
     <div class="nl">Icerik</div>
+    <div class="ni" onclick="SP('covers',this)"><i class="ti ti-photo-square-rounded"></i> Oyun Kapaklari</div>
     <div class="ni" onclick="SP('projects',this)"><i class="ti ti-folder"></i> Projeler</div>
   </nav>
   <div class="sidebar-foot">semihsen.art - v4</div>
@@ -131,6 +133,37 @@ nav{padding:12px 0;flex:1;overflow-y:auto;}
       <div class="upload-zone"><input type="file" accept="image/*" onchange="uploadResume(this)"><div class="uz-icon"><i class="ti ti-cloud-upload"></i></div><div class="uz-text">CV gorselini surukle veya tikla</div></div>
     </div>
   </div>
+  <!-- OYUN KAPAKLARI -->
+  <div class="panel" id="pn-covers">
+    <div class="card-title" style="margin-bottom:18px;">Oyun Kapaklari</div>
+    <p style="font-size:12px;color:var(--muted);margin-bottom:18px;">Her oyun icin kare formatli kapak gorseli yukle. Bu kapaklar Portfolio &gt; Game Art sayfasinda gorunur.</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px;" id="covers-grid"></div>
+  </div>
+
+  <!-- RESUME DUZENLE -->
+  <div class="panel" id="pn-resumeedit">
+    <div class="card">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
+        <div class="card-title" style="margin-bottom:0;">Experience</div>
+        <button class="btn btn-ghost" onclick="addExperience()"><i class="ti ti-plus"></i> Ekle</button>
+      </div>
+      <div id="exp-list"></div>
+    </div>
+    <div class="card">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
+        <div class="card-title" style="margin-bottom:0;">Achievements</div>
+        <button class="btn btn-ghost" onclick="addAchievement()"><i class="ti ti-plus"></i> Ekle</button>
+      </div>
+      <div id="ach-list"></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Skills</div>
+      <p style="font-size:11px;color:var(--muted);margin-bottom:10px;">Virgulle ayrilmis liste. Ornek: Art Direction, 3D, Unity</p>
+      <textarea id="skills-input" style="background:#1e1d22;border:0.5px solid var(--border);border-radius:5px;padding:10px 12px;color:var(--text);font-family:Inter,sans-serif;font-size:13px;width:100%;min-height:80px;resize:vertical;"></textarea>
+    </div>
+    <button class="btn btn-primary" onclick="saveResumeData()"><i class="ti ti-check"></i> Kaydet</button>
+  </div>
+
   <div class="panel" id="pn-projects">
     <div class="proj-top">
       <div>
