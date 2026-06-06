@@ -433,3 +433,16 @@ function showPage(id) {
 }
 
 loadSiteData();
+rsonal-detail':'nav-portfolio', resume:'nav-resume' };
+  if (navMap[id]) {
+    const navEl = document.getElementById(navMap[id]);
+    if (navEl) navEl.classList.add('active');
+  }
+  const el = document.getElementById('page-' + id);
+  if (el) {
+    el.classList.add('active');
+    window.scrollTo(0, 0);
+  }
+}
+
+loadSiteData();
