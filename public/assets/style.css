@@ -14,7 +14,7 @@
   --nav-logo-size: 20px;
   --nav-sub-size: 10px;
   --nav-link-size: 14px;
-  --hero-height: 500px;
+  --hero-height: 380px;
   --thumb-height: 110px;
 }
 
@@ -58,13 +58,13 @@ html, body { background: var(--bg); margin: 0; padding: 0; }
 .hero-ph-label i { font-size: 36px; opacity: 0.15; color: var(--text); }
 .hero-ph-label span { font-size: 11px; font-weight: 700; letter-spacing: 0.14em; color: var(--muted); text-transform: uppercase; opacity: 0.4; font-family: var(--font); }
 
-/* v7: Home hero CTA buttons — large prominent, centered over brush */
+/* v7.2: Home hero CTA buttons — 20% smaller, anchored slightly lower */
 .hero-cta-row {
   position: relative;
   z-index: 3;
   display: flex;
-  gap: 28px;
-  margin-top: 28px;
+  gap: 22px;
+  margin-top: 64px;
   justify-content: center;
   align-items: center;
 }
@@ -72,11 +72,11 @@ html, body { background: var(--bg); margin: 0; padding: 0; }
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: 280px;
-  height: 78px;
-  padding: 0 48px;
+  min-width: 224px;
+  height: 62px;
+  padding: 0 38px;
   font-family: var(--font);
-  font-size: 28px;
+  font-size: 22px;
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -97,8 +97,8 @@ html, body { background: var(--bg); margin: 0; padding: 0; }
   transform: translateY(-2px);
 }
 @media (max-width: 700px) {
-  .hero-cta-row { gap: 14px; margin-top: 18px; }
-  .hero-cta-btn { min-width: 0; width: 44vw; height: 56px; font-size: 18px; padding: 0 22px; }
+  .hero-cta-row { gap: 12px; margin-top: 38px; }
+  .hero-cta-btn { min-width: 0; width: 44vw; height: 46px; font-size: 15px; padding: 0 18px; }
 }
 
 /* v7: Footer with large brand-colored social icons, centered */
@@ -135,10 +135,11 @@ html, body { background: var(--bg); margin: 0; padding: 0; }
 .social-links a.sl:hover { transform: translateY(-2px) scale(1.06); filter: brightness(1.15); box-shadow: 0 5px 14px rgba(0,0,0,0.32); }
 
 /* Brand-specific backgrounds */
-.sl-behance   { background: #1769FF; }
-.sl-instagram { background: linear-gradient(135deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); }
-.sl-linkedin  { background: #0A66C2; }
-.sl-gmail     { background: #EA4335; }
+.sl-artstation { background: #13AFF0; }
+.sl-behance    { background: #1769FF; }
+.sl-instagram  { background: linear-gradient(135deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); }
+.sl-linkedin   { background: #0A66C2; }
+.sl-gmail      { background: #EA4335; }
 @media (max-width: 700px) {
   .social-links { gap: 18px; }
   .social-links a.sl { width: 28px; height: 28px; }
