@@ -84,6 +84,7 @@
       ios: $('f-ios').value.trim(), android: $('f-android').value.trim(),
       category: $('f-category').value, publishDate: $('f-pubdate').value,
       metaTitle: $('f-seo-title').value, metaDesc: $('f-seo-desc').value,
+      status: (document.querySelector('input[name="pub-status"]:checked') || {}).value || 'draft',
       featured: $('t-featured').checked, showOnHome: $('t-homepage').checked,
       tags: STATE.tags.slice(), software: STATE.software.slice(),
       credits: { 'Art Direction': $('c-artdir').value.trim(), '3D Artist': $('c-3d').value.trim(), 'UI Artist': $('c-ui').value.trim(), 'Other': $('c-other').value.trim() }
