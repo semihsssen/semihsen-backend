@@ -246,12 +246,12 @@
   function renderMedia() {
     var grid = $('media-grid'); grid.innerHTML = '';
     $('media-count').textContent = STATE.media.length + ' ' + (STATE.media.length === 1 ? 'file' : 'files');
-    STATE.media.forEach(function (m) {
+    STATE.media.forEach(function (m, idx) {
       var card = document.createElement('div'); card.className = 'media-card';
       var isCover = STATE.project && STATE.project.cover && STATE.project.cover.public_id === m.public_id;
       card.style.border = '1px solid ' + (isCover ? '#3b82f6' : '#27272a');
       var thumb = document.createElement('div');
-      thumb.style.cssText = 'height:100px;background:#1a1a1f;overflow:hidden;display:flex;align-items:center;justify-content:center;';
+      thumb.style.cssText = 'height:100px;background:#1a1a1f;overflow:hidden;display:flex;align-items:center;justify-content:center;position:relative;';
       if ((m.type || '').startsWith('video')) {
         var v = document.createElement('video'); v.src = m.url; v.muted = true;
         v.style.cssText = 'width:100%;height:100%;object-fit:cover;'; thumb.appendChild(v);
@@ -259,18 +259,57 @@
         var img = document.createElement('img'); img.src = m.url;
         img.style.cssText = 'width:100%;height:100%;object-fit:cover;'; thumb.appendChild(img);
       }
+      var ordBadge = document.createElement('div');
+      ordBadge.style.cssText = 'position:absolute;bottom:4px;left:4px;background:rgba(0,0,0,0.7);color:#fff;font-size:10px;padding:1px 6px;border-radius:3px;font-weight:600;';
+      ordBadge.textContent = '#' + (idx + 1);
+      thumb.appendChild(ordBadge);
+
       if (isCover) { var badge = document.createElement('div'); badge.className = 'cover-badge'; badge.textContent = 'COVER'; card.appendChild(badge); }
       var del = document.createElement('button'); del.type = 'button'; del.className = 'delete-btn'; del.textContent = '×';
       del.onclick = function () { deleteMedia(m.id); };
+
       var info = document.createElement('div'); info.style.cssText = 'padding:6px 8px;background:#0d0d10;';
       var fn = document.createElement('div'); fn.style.cssText = 'font-size:10px;color:#71717a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:5px;'; fn.textContent = m.name || '';
+
+      var btnRow = document.createElement('div');
+      btnRow.style.cssText = 'display:flex;gap:4px;align-items:center;';
       var cb = document.createElement('button'); cb.type = 'button'; cb.className = 'cover-btn' + (isCover ? ' active' : '');
+      cb.style.cssText = 'flex:1;';
       cb.textContent = isCover ? '✓ Cover' : 'Set Cover';
       cb.onclick = function () { setCover(m.id); };
-      info.appendChild(fn); info.appendChild(cb);
+      var upBtn = document.createElement('button');
+      upBtn.type = 'button';
+      upBtn.style.cssText = 'background:#1a1a1f;border:1px solid #27272a;color:' + (idx === 0 ? '#3a3a3a' : '#a1a1aa') + ';width:22px;height:22px;font-size:11px;border-radius:3px;cursor:' + (idx === 0 ? 'not-allowed' : 'pointer') + ';line-height:1;padding:0;';
+      upBtn.innerHTML = '&#9650;';
+      upBtn.title = 'Yukari tasi';
+      upBtn.disabled = idx === 0;
+      upBtn.onclick = function () { moveMedia(idx, -1); };
+      var dnBtn = document.createElement('button');
+      dnBtn.type = 'button';
+      dnBtn.style.cssText = 'background:#1a1a1f;border:1px solid #27272a;color:' + (idx === STATE.media.length - 1 ? '#3a3a3a' : '#a1a1aa') + ';width:22px;height:22px;font-size:11px;border-radius:3px;cursor:' + (idx === STATE.media.length - 1 ? 'not-allowed' : 'pointer') + ';line-height:1;padding:0;';
+      dnBtn.innerHTML = '&#9660;';
+      dnBtn.title = 'Asagi tasi';
+      dnBtn.disabled = idx === STATE.media.length - 1;
+      dnBtn.onclick = function () { moveMedia(idx, 1); };
+      btnRow.appendChild(cb); btnRow.appendChild(upBtn); btnRow.appendChild(dnBtn);
+      info.appendChild(fn); info.appendChild(btnRow);
+
       card.appendChild(thumb); card.appendChild(del); card.appendChild(info);
       grid.appendChild(card);
     });
+  }
+  async function moveMedia(idx, dir) {
+    var newIdx = idx + dir;
+    if (newIdx < 0 || newIdx >= STATE.media.length) return;
+    var tmp = STATE.media[idx]; STATE.media[idx] = STATE.media[newIdx]; STATE.media[newIdx] = tmp;
+    renderMedia();
+    try {
+      await fetch('/api/projects/' + encodeURIComponent(STATE.id) + '/media/reorder', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': authHeader() },
+        body: JSON.stringify({ order: STATE.media.map(function (m) { return m.id; }) })
+      });
+    } catch (e) { /* silent — UI already updated */ }
   }
   async function setCover(mediaId) {
     try {
