@@ -2,7 +2,7 @@
 var DB = {};
 var ALL_PROJECTS = [];
 var CURRENT_FOLDER = "__all";
-var RESUME_DATA = { experience: [], achievements: [], skills: [] };
+var RESUME_DATA = { experience: [], achievements: "", skills: [] };
 
 var CATEGORIES = [
   { group: "GAME ART", folders: ["Block Out", "Car Match", "Magic Sort", "Match Villians", "Wonder Blast"] },
@@ -294,12 +294,28 @@ async function renderResumeEdit() {
     var r = await fetch("/api/resume");
     if (r.ok) DB.resume_data = await r.json();
   } catch (e) {}
-  RESUME_DATA = DB.resume_data || { experience: [], achievements: [], skills: [] };
+  RESUME_DATA = DB.resume_data || { experience: [], achievements: "", skills: [] };
   if (!Array.isArray(RESUME_DATA.experience))   RESUME_DATA.experience = [];
-  if (!Array.isArray(RESUME_DATA.achievements)) RESUME_DATA.achievements = [];
+  // Achievements is now a single free-form string. Backward compat: if API returned an array, flatten to string.
+  if (Array.isArray(RESUME_DATA.achievements)) {
+    RESUME_DATA.achievements = RESUME_DATA.achievements
+      .map(function (a) {
+        if (typeof a === "string") return a;
+        if (a && typeof a === "object") return [a.title, a.company, a.year, a.projects].filter(Boolean).join(" - ");
+        return "";
+      })
+      .filter(Boolean)
+      .join("\n\n");
+  } else if (typeof RESUME_DATA.achievements !== "string") {
+    RESUME_DATA.achievements = "";
+  }
   if (!Array.isArray(RESUME_DATA.skills))       RESUME_DATA.skills = [];
   renderResumeList("exp");
-  renderResumeList("ach");
+  var achInput = T("ach-input");
+  if (achInput) {
+    achInput.value = RESUME_DATA.achievements || "";
+    achInput.oninput = function (e) { RESUME_DATA.achievements = e.target.value; };
+  }
   T("skills-input").value = RESUME_DATA.skills.join(", ");
 }
 function resumeRowHTML(item, idx, kind) {
@@ -320,21 +336,20 @@ function resumeInput(labelTxt, val, idx, kind, field) {
   '</div>';
 }
 function renderResumeList(kind) {
-  var listId = kind === "exp" ? "exp-list" : "ach-list";
-  var arr    = kind === "exp" ? RESUME_DATA.experience : RESUME_DATA.achievements;
-  var list = T(listId); if (!list) return;
+  // Only used for experience now; achievements is a single textarea handled in renderResumeEdit.
+  if (kind !== "exp") return;
+  var list = T("exp-list"); if (!list) return;
+  var arr = RESUME_DATA.experience;
   if (!arr.length) {
-    list.innerHTML = '<div style="text-align:center;padding:30px;color:var(--muted);font-size:12px;font-family:Inter,sans-serif;">Henuz ' + (kind === "exp" ? "deneyim" : "basari") + ' eklenmemis. Yukaridaki "+ Ekle" ile baslay.</div>';
+    list.innerHTML = '<div style="text-align:center;padding:30px;color:var(--muted);font-size:12px;font-family:Inter,sans-serif;">Henuz deneyim eklenmemis. Yukaridaki "+ Ekle" ile baslay.</div>';
     return;
   }
-  list.innerHTML = arr.map(function (it, i) { return resumeRowHTML(it, i, kind); }).join("");
+  list.innerHTML = arr.map(function (it, i) { return resumeRowHTML(it, i, "exp"); }).join("");
   list.querySelectorAll("input[data-kind]").forEach(function (inp) {
     inp.oninput = function (e) {
-      var k = e.target.getAttribute("data-kind");
       var i = parseInt(e.target.getAttribute("data-i"), 10);
       var f = e.target.getAttribute("data-f");
-      var a = k === "exp" ? RESUME_DATA.experience : RESUME_DATA.achievements;
-      if (a[i]) a[i][f] = e.target.value;
+      if (RESUME_DATA.experience[i]) RESUME_DATA.experience[i][f] = e.target.value;
     };
   });
 }
@@ -342,18 +357,30 @@ function addExperience() {
   RESUME_DATA.experience.push({ title: "", company: "", year: "", projects: "" });
   renderResumeList("exp");
 }
-function addAchievement() {
-  RESUME_DATA.achievements.push({ title: "", company: "", year: "", projects: "" });
-  renderResumeList("ach");
-}
 function removeResumeItem(kind, idx) {
+  if (kind !== "exp") return;
   if (!confirm("Sil?")) return;
-  var a = kind === "exp" ? RESUME_DATA.experience : RESUME_DATA.achievements;
-  a.splice(idx, 1);
-  renderResumeList(kind);
+  RESUME_DATA.experience.splice(idx, 1);
+  renderResumeList("exp");
 }
 async function saveResumeData() {
   RESUME_DATA.skills = T("skills-input").value.split(",").map(function (s) { return s.trim(); }).filter(Boolean);
+  var achInput = T("ach-input");
+  if (achInput) RESUME_DATA.achievements = achInput.value;
+  try {
+    var r = await fetch("/api/resume", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "Authorization": authHeader() },
+      body: JSON.stringify(RESUME_DATA)
+    });
+    var d = await r.json();
+    if (d.ok) { toast("Resume kaydedildi"); DB.resume_data = JSON.parse(JSON.stringify(RESUME_DATA)); }
+    else { toast(d.error || "Hata", true); }
+  } catch (e) { toast("Kaydetme hatasi", true); }
+}
+
+window.addEventListener("DOMContentLoaded", init);
+lue;
   try {
     var r = await fetch("/api/resume", {
       method: "POST",

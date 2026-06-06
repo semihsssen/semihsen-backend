@@ -93,7 +93,7 @@ nav{padding:12px 0;flex:1;overflow-y:auto;}
     <div class="ni" onclick="SP('portfolio-covers',this)"><i class="ti ti-layout-2"></i> Portfolio Panelleri</div>
     <div class="ni" onclick="SP('projects',this)"><i class="ti ti-folder"></i> Projeler</div>
   </nav>
-  <div class="sidebar-foot">semihsen.art - v4</div>
+  <div class="sidebar-foot">semihsen.art - v6</div>
 </div>
 <div class="main">
   <div class="topbar"><span class="topbar-title" id="tt">Boyut &amp; Renk</span></div>
@@ -144,7 +144,7 @@ nav{padding:12px 0;flex:1;overflow-y:auto;}
   <!-- PORTFOLIO PANEL KAPAKLARI -->
   <div class="panel" id="pn-portfolio-covers">
     <div class="card-title" style="margin-bottom:18px;">Portfolio Panelleri</div>
-    <p style="font-size:12px;color:var(--muted);margin-bottom:18px;">Portfolio > <b>Game Art</b> ve <b>Personal Works</b> secim panellerinin arkaplan gorseli. Yataya dogru iyi sigsin.</p>
+    <p style="font-size:12px;color:var(--muted);margin-bottom:18px;">Portfolio &gt; <b>Game Art</b> ve <b>Personal Works</b> secim panellerinin arkaplan gorseli. Yataya dogru iyi sigsin.</p>
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;" id="pc-grid"></div>
   </div>
 
@@ -158,11 +158,9 @@ nav{padding:12px 0;flex:1;overflow-y:auto;}
       <div id="exp-list"></div>
     </div>
     <div class="card">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
-        <div class="card-title" style="margin-bottom:0;">Achievements</div>
-        <button class="btn btn-ghost" onclick="addAchievement()"><i class="ti ti-plus"></i> Ekle</button>
-      </div>
-      <div id="ach-list"></div>
+      <div class="card-title">Achievements</div>
+      <p style="font-size:11px;color:var(--muted);margin-bottom:10px;">Tek paragraf - basari, odul, sertifika vb. serbest metin.</p>
+      <textarea id="ach-input" placeholder="Ornek: 2024 Mobile Game of the Year (Block Out). GDC Speaker - Color in Casual Games (2023)..." style="background:#1e1d22;border:0.5px solid var(--border);border-radius:5px;padding:10px 12px;color:var(--text);font-family:Inter,sans-serif;font-size:13px;width:100%;min-height:140px;resize:vertical;line-height:1.6;"></textarea>
     </div>
     <div class="card">
       <div class="card-title">Skills</div>
