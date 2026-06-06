@@ -425,5 +425,31 @@ app.post('/api/resume', adminAuth, (req, res) => {
   } catch (e) { res.status(500).json({ error: errMsg(e) }); }
 });
 
+
+// ============================================================
+// PORTFOLIO PANEL COVERS (Game Art / Personal Works tile backgrounds)
+// ============================================================
+app.get('/api/portfolio-covers', (req, res) => {
+  try { res.json(getDB().portfolio_covers || {}); }
+  catch (e) { res.status(500).json({ error: errMsg(e) }); }
+});
+
+app.post('/api/upload/portfolio-cover/:cat', adminAuth, upload.single('image'), async (req, res) => {
+  try {
+    if (!req.file) return res.status(400).json({ error: 'Dosya bulunamadi' });
+    const cat = req.params.cat;
+    if (!['game-art', 'personal-works'].includes(cat)) return res.status(400).json({ error: 'Gecersiz kategori' });
+    const db = getDB();
+    if (!db.portfolio_covers) db.portfolio_covers = {};
+    if (db.portfolio_covers[cat] && db.portfolio_covers[cat].public_id) {
+      await cloudinary.uploader.destroy(db.portfolio_covers[cat].public_id).catch(() => {});
+    }
+    const result = await uploadToCloudinary(req.file.buffer, 'semihsen/portfolio-covers');
+    db.portfolio_covers[cat] = { url: result.secure_url, public_id: result.public_id };
+    saveDB(db);
+    res.json({ ok: true, url: result.secure_url });
+  } catch (e) { console.error('Portfolio cover error:', errMsg(e)); res.status(500).json({ error: errMsg(e) }); }
+});
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log('Server running on port', PORT));
