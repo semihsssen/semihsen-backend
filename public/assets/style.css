@@ -103,17 +103,17 @@ html, body { background: var(--bg); margin: 0; padding: 0; }
 
 /* v7: Footer with large brand-colored social icons, centered */
 .home-footer {
-  padding: 28px 60px;
+  padding: 22px 60px;
   border-top: 0.5px solid var(--border);
   display: flex;
   align-items: center;
   justify-content: center;
   background: var(--bg);
   flex-shrink: 0;
-  margin-top: 60px;
+  margin-top: auto; /* push to viewport bottom */
 }
-/* v7.2: don't force home page to fill the viewport - shrinks black gap by ~50% */
-#page-home { flex: 0 0 auto; }
+/* v7.3: home page fills viewport so footer reaches the bottom */
+#page-home { flex: 1 1 auto; min-height: 100%; }
 .footer-text { display: none; }
 .social-links {
   display: flex;
