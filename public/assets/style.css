@@ -123,16 +123,16 @@ html, body { background: var(--bg); margin: 0; padding: 0; }
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 46px;
-  height: 46px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
   text-decoration: none;
   color: #ffffff;
   transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.22);
 }
-.social-links a.sl i { font-size: 24px; line-height: 1; }
-.social-links a.sl:hover { transform: translateY(-3px) scale(1.05); filter: brightness(1.15); box-shadow: 0 6px 18px rgba(0,0,0,0.35); }
+.social-links a.sl i { font-size: 17px; line-height: 1; }
+.social-links a.sl:hover { transform: translateY(-2px) scale(1.06); filter: brightness(1.15); box-shadow: 0 5px 14px rgba(0,0,0,0.32); }
 
 /* Brand-specific backgrounds */
 .sl-behance   { background: #1769FF; }
@@ -140,9 +140,9 @@ html, body { background: var(--bg); margin: 0; padding: 0; }
 .sl-linkedin  { background: #0A66C2; }
 .sl-gmail     { background: #EA4335; }
 @media (max-width: 700px) {
-  .social-links { gap: 22px; }
-  .social-links a.sl { width: 40px; height: 40px; }
-  .social-links a.sl i { font-size: 20px; }
+  .social-links { gap: 18px; }
+  .social-links a.sl { width: 28px; height: 28px; }
+  .social-links a.sl i { font-size: 15px; }
 }
 
 /* PORTFOLIO SELECT */
