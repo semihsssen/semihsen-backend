@@ -609,3 +609,129 @@ ar(--muted);
   opacity: 0.5;
   font-style: italic;
 }
+
+/* ============================================================
+   v8: MOBILE — single source-of-truth responsive layer.
+   All tweaks live below this comment and DO NOT alter the
+   desktop look (every rule is wrapped in @media).
+   ============================================================ */
+
+@media (max-width: 768px) {
+  /* --- NAV --- */
+  .nav {
+    padding: 0 18px;
+    height: 64px;
+  }
+  .nav-logo { font-size: 15px; letter-spacing: 0.08em; }
+  .nav-sub  { font-size: 9px;  letter-spacing: 0.14em; margin-top: 3px; }
+  .nav-links { gap: 18px; }
+  .nav-links a { font-size: 11px; letter-spacing: 0.08em; }
+
+  /* --- HERO --- */
+  /* Override the desktop calc() so hero is comfortable on a phone */
+  :root { --hero-height: 56vh; }
+  .hero-fullimage { padding: 0 18px; }
+  .hero-ph-label i { font-size: 28px; }
+  .hero-ph-label span { font-size: 10px; }
+  .hero-cta-row { gap: 14px; margin-top: 32px; flex-wrap: wrap; justify-content: center; }
+  .hero-cta-btn {
+    min-width: 0;
+    width: calc(50% - 7px);
+    max-width: 200px;
+    height: 52px;
+    font-size: 16px;
+    padding: 0 16px;
+    border-radius: 8px;
+  }
+
+  /* --- FOOTER / social bar --- */
+  .home-footer { padding: 18px 18px; margin-top: 32px; }
+  .social-links { gap: 18px; }
+  .social-links a.sl { width: 34px; height: 34px; }
+  .social-links a.sl i,
+  .social-links a.sl svg { font-size: 18px; width: 16px; height: 16px; }
+
+  /* --- INNER PAGE HEADERS --- */
+  .port-inner-header { padding: 20px 18px 0; }
+  .port-back { font-size: 11px; margin-bottom: 14px; }
+  .port-inner-title { font-size: 10px; margin-bottom: 12px; }
+
+  /* --- PORTFOLIO landing (Game Art / Personal Works tiles) --- */
+  .port-select {
+    padding: 24px 18px;
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+  .port-cat { aspect-ratio: 16/10; padding: 20px; }
+  .port-cat-title { font-size: 18px; }
+  .port-cat-sub   { font-size: 10px; }
+  .port-cat-icon  { font-size: 30px; top: 18px; right: 18px; }
+
+  /* --- GAME ART covers grid: 2 cols on phone --- */
+  .game-covers-wrap { padding: 0 18px 40px; }
+  .game-covers-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .game-cover-label { font-size: 10px; margin-top: 6px; }
+
+  /* --- GAME-DETAIL infinite works grid: 3 cols (was 5) --- */
+  .inf-grid-wrap { padding: 0 18px; }
+  .works-inf-grid { grid-template-columns: repeat(3, 1fr); gap: 2px; }
+  .ghost-row { grid-template-columns: repeat(3, 1fr); }
+
+  /* --- GAME tab bar (Block Out / Car Match …) --- */
+  .game-tabs-bar { padding: 10px 18px; gap: 18px; }
+  .game-tab { font-size: 11px; padding: 4px 0; }
+
+  /* --- WORK DETAIL: stack center image + info column --- */
+  .work-slider-page {
+    flex-direction: column;
+    padding: 0 18px 40px;
+    gap: 22px;
+  }
+  .work-slider-center { width: 100%; min-width: 0; }
+  .work-slider-right {
+    position: static !important; /* cancel sticky on mobile */
+    width: 100%;
+    min-width: 0;
+    max-height: none;
+    overflow-y: visible;
+    padding-top: 0;
+    border-top: 0.5px solid var(--border);
+    padding-top: 18px;
+  }
+  .work-slider-right .store-btn { padding: 9px 12px; }
+  .work-info-name  { font-size: 19px; }
+  .work-info-studio { font-size: 12px; }
+  .work-slide-item { max-height: 60vh; }
+  .work-slide-item img { max-height: 60vh !important; }
+
+  /* --- PERSONAL works grid: 2 cols on phone --- */
+  .inf-grid { grid-template-columns: repeat(2, 1fr); }
+
+  /* --- RESUME: stack the two columns vertically --- */
+  .resume-layout {
+    flex-direction: column;
+    padding: 22px 18px 40px;
+    gap: 28px;
+  }
+  .resume-left { width: 100%; min-width: 0; max-width: 260px; margin: 0 auto; }
+  .resume-right { gap: 24px; }
+  .resume-section-title { font-size: 10px; }
+  .resume-job-title { font-size: 13px; }
+  .resume-job-company { font-size: 11px; }
+  .resume-job-year, .resume-job-projects { font-size: 10px; }
+  .skills-pills .skill-tag { padding: 5px 11px; font-size: 10px; }
+  .achievement-text { font-size: 12px; padding-left: 10px; line-height: 1.6; }
+}
+
+/* extra-small phones */
+@media (max-width: 380px) {
+  .nav { padding: 0 12px; }
+  .nav-links { gap: 12px; }
+  .nav-links a { font-size: 10px; }
+  .hero-cta-btn { font-size: 14px; height: 46px; }
+  .game-covers-grid { grid-template-columns: 1fr; }
+  .works-inf-grid, .ghost-row { grid-template-columns: repeat(2, 1fr); }
+  .inf-grid { grid-template-columns: 1fr; }
+  .social-links { gap: 14px; }
+  .social-links a.sl { width: 30px; height: 30px; }
+}

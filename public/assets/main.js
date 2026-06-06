@@ -26,6 +26,7 @@ async function loadSiteData() {
     applyGameGrid(siteDB.projects);
     applyPersonal(siteDB.personal, siteDB.userProjects);
     applyPortfolioCovers(siteDB.portfolio_covers);
+    applyFavicon(siteDB.favicon);
   } catch (e) {
     console.log('API baglantisi yok, statik mod.', e);
   }
@@ -89,6 +90,16 @@ function applyPortfolioCovers(covers) {
   };
   apply('.cat-game-bg',     covers['game-art']);
   apply('.cat-personal-bg', covers['personal-works']);
+}
+
+// v8: Apply uploaded favicon to <link rel="icon"> and apple-touch-icon
+function applyFavicon(data) {
+  if (!data || !data.url) return;
+  const ids = ['dyn-favicon', 'dyn-apple-icon'];
+  ids.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.href = data.url;
+  });
 }
 
 // Render dynamic Experience / Achievements / Skills from resume_data
