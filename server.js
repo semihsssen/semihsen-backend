@@ -389,5 +389,41 @@ app.post('/api/projects/:id/cover', adminAuth, (req, res) => {
   } catch (e) { res.status(500).json({ error: errMsg(e) }); }
 });
 
+// ============================================================
+// RESUME DATA (experience, achievements, skills lists)
+// ============================================================
+
+app.get('/api/resume', (req, res) => {
+  try {
+    const db = getDB();
+    if (!db.resume_data) {
+      db.resume_data = {
+        experience: [
+          { title: 'Lead Game Artist', company: 'Grand Games', year: '2024 - Present', projects: 'Magic Sort, Car Match, Block Out' },
+          { title: 'Game Artist',      company: 'GoodJob Games', year: '2022 - 2023',    projects: 'Match Villians, Wonder Blast' }
+        ],
+        achievements: [],
+        skills: ['Art Direction','Concept Art','3D Art','UI Design','Visual Identity','Character Design','Environment Art','Unity']
+      };
+      saveDB(db);
+    }
+    res.json(db.resume_data);
+  } catch (e) { res.status(500).json({ error: errMsg(e) }); }
+});
+
+app.post('/api/resume', adminAuth, (req, res) => {
+  try {
+    const db = getDB();
+    const body = req.body || {};
+    db.resume_data = {
+      experience:   Array.isArray(body.experience)   ? body.experience   : (db.resume_data && db.resume_data.experience)   || [],
+      achievements: Array.isArray(body.achievements) ? body.achievements : (db.resume_data && db.resume_data.achievements) || [],
+      skills:       Array.isArray(body.skills)       ? body.skills       : (db.resume_data && db.resume_data.skills)       || []
+    };
+    saveDB(db);
+    res.json({ ok: true, resume_data: db.resume_data });
+  } catch (e) { res.status(500).json({ error: errMsg(e) }); }
+});
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log('Server running on port', PORT));
