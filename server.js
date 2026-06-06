@@ -402,9 +402,17 @@ app.get('/api/resume', (req, res) => {
           { title: 'Lead Game Artist', company: 'Grand Games', year: '2024 - Present', projects: 'Magic Sort, Car Match, Block Out' },
           { title: 'Game Artist',      company: 'GoodJob Games', year: '2022 - 2023',    projects: 'Match Villians, Wonder Blast' }
         ],
-        achievements: [],
+        achievements: '',
         skills: ['Art Direction','Concept Art','3D Art','UI Design','Visual Identity','Character Design','Environment Art','Unity']
       };
+      saveDB(db);
+    }
+    // Migrate stale array-shaped achievements on-the-fly so the API always serves a string.
+    if (Array.isArray(db.resume_data.achievements)) {
+      db.resume_data.achievements = db.resume_data.achievements
+        .map(a => typeof a === 'string' ? a : (a && typeof a === 'object' ? [a.title, a.company, a.year, a.projects].filter(Boolean).join(' - ') : ''))
+        .filter(Boolean)
+        .join('\n\n');
       saveDB(db);
     }
     res.json(db.resume_data);
@@ -415,9 +423,23 @@ app.post('/api/resume', adminAuth, (req, res) => {
   try {
     const db = getDB();
     const body = req.body || {};
+    // v6: Achievements is a single free-form string. Accept string; flatten arrays for backward compat.
+    let ach;
+    if (typeof body.achievements === 'string') {
+      ach = body.achievements;
+    } else if (Array.isArray(body.achievements)) {
+      ach = body.achievements
+        .map(a => typeof a === 'string' ? a : (a && typeof a === 'object' ? [a.title, a.company, a.year, a.projects].filter(Boolean).join(' - ') : ''))
+        .filter(Boolean)
+        .join('\n\n');
+    } else if (db.resume_data) {
+      ach = typeof db.resume_data.achievements === 'string' ? db.resume_data.achievements : '';
+    } else {
+      ach = '';
+    }
     db.resume_data = {
       experience:   Array.isArray(body.experience)   ? body.experience   : (db.resume_data && db.resume_data.experience)   || [],
-      achievements: Array.isArray(body.achievements) ? body.achievements : (db.resume_data && db.resume_data.achievements) || [],
+      achievements: ach,
       skills:       Array.isArray(body.skills)       ? body.skills       : (db.resume_data && db.resume_data.skills)       || []
     };
     saveDB(db);
@@ -435,6 +457,25 @@ app.get('/api/portfolio-covers', (req, res) => {
 });
 
 app.post('/api/upload/portfolio-cover/:cat', adminAuth, upload.single('image'), async (req, res) => {
+  try {
+    if (!req.file) return res.status(400).json({ error: 'Dosya bulunamadi' });
+    const cat = req.params.cat;
+    if (!['game-art', 'personal-works'].includes(cat)) return res.status(400).json({ error: 'Gecersiz kategori' });
+    const db = getDB();
+    if (!db.portfolio_covers) db.portfolio_covers = {};
+    if (db.portfolio_covers[cat] && db.portfolio_covers[cat].public_id) {
+      await cloudinary.uploader.destroy(db.portfolio_covers[cat].public_id).catch(() => {});
+    }
+    const result = await uploadToCloudinary(req.file.buffer, 'semihsen/portfolio-covers');
+    db.portfolio_covers[cat] = { url: result.secure_url, public_id: result.public_id };
+    saveDB(db);
+    res.json({ ok: true, url: result.secure_url });
+  } catch (e) { console.error('Portfolio cover error:', errMsg(e)); res.status(500).json({ error: errMsg(e) }); }
+});
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log('Server running on port', PORT));
+ res) => {
   try {
     if (!req.file) return res.status(400).json({ error: 'Dosya bulunamadi' });
     const cat = req.params.cat;
