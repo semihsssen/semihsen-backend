@@ -456,6 +456,26 @@ app.get('/api/portfolio-covers', (req, res) => {
   catch (e) { res.status(500).json({ error: errMsg(e) }); }
 });
 
+// v8: FAVICON — browser tab icon
+app.get('/api/favicon', (req, res) => {
+  try { res.json(getDB().favicon || {}); }
+  catch (e) { res.status(500).json({ error: errMsg(e) }); }
+});
+
+app.post('/api/upload/favicon', adminAuth, upload.single('image'), async (req, res) => {
+  try {
+    if (!req.file) return res.status(400).json({ error: 'Dosya bulunamadi' });
+    const db = getDB();
+    if (db.favicon && db.favicon.public_id) {
+      await cloudinary.uploader.destroy(db.favicon.public_id).catch(() => {});
+    }
+    const result = await uploadToCloudinary(req.file.buffer, 'semihsen/favicon');
+    db.favicon = { url: result.secure_url, public_id: result.public_id };
+    saveDB(db);
+    res.json({ ok: true, url: result.secure_url });
+  } catch (e) { console.error('Favicon error:', errMsg(e)); res.status(500).json({ error: errMsg(e) }); }
+});
+
 app.post('/api/upload/portfolio-cover/:cat', adminAuth, upload.single('image'), async (req, res) => {
   try {
     if (!req.file) return res.status(400).json({ error: 'Dosya bulunamadi' });
