@@ -110,8 +110,10 @@ html, body { background: var(--bg); margin: 0; padding: 0; }
   justify-content: center;
   background: var(--bg);
   flex-shrink: 0;
-  margin-top: auto;
+  margin-top: 60px;
 }
+/* v7.2: don't force home page to fill the viewport - shrinks black gap by ~50% */
+#page-home { flex: 0 0 auto; }
 .footer-text { display: none; }
 .social-links {
   display: flex;
