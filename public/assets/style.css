@@ -14,8 +14,10 @@
   --nav-logo-size: 20px;
   --nav-sub-size: 10px;
   --nav-link-size: 14px;
-  /* v7.4: empty black bar = 100vh - nav(88) - hero - footer(~84). To shrink that bar 10% with the footer as pivot, grow hero by 10% of the bar. Yields hero = 325px + 10vh — scales with viewport. */
-  --hero-height: calc(325px + 10vh);
+  /* v7.5: empty black bar pinned to exactly 180px (footer is the pivot).
+     hero = viewport - nav(88px) - footer(~67px) - empty(180px) = 100vh - 335px.
+     min(): never let hero shrink below 360px on tiny viewports. */
+  --hero-height: max(360px, calc(100vh - 335px));
   --thumb-height: 110px;
 }
 
