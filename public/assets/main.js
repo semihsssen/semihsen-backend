@@ -18,8 +18,14 @@ async function loadSiteData() {
     applyColors(siteDB.settings);
     applyHero(siteDB.hero);
     applyResume(siteDB.resume);
+    // resume_data (dynamic experience/achievements/skills) — fetched separately for freshness
+    try {
+      const rr = await fetch('/api/resume');
+      if (rr.ok) applyResumeData(await rr.json());
+    } catch (e) { /* fallback to static html */ }
     applyGameGrid(siteDB.projects);
     applyPersonal(siteDB.personal, siteDB.userProjects);
+    applyPortfolioCovers(siteDB.portfolio_covers);
   } catch (e) {
     console.log('API baglantisi yok, statik mod.', e);
   }
@@ -68,6 +74,56 @@ function applyResume(resume) {
   el.style.backgroundPosition = 'center';
   const ph = el.querySelector('.resume-img-ph');
   if (ph) ph.style.display = 'none';
+}
+
+// Portfolio landing tile backgrounds — Game Art + Personal Works
+function applyPortfolioCovers(covers) {
+  if (!covers) return;
+  const apply = (sel, data) => {
+    if (!data || !data.url) return;
+    document.querySelectorAll(sel).forEach(el => {
+      el.style.backgroundImage = 'url(' + data.url + ')';
+      el.style.backgroundSize = 'cover';
+      el.style.backgroundPosition = 'center';
+    });
+  };
+  apply('.cat-game-bg',     covers['game-art']);
+  apply('.cat-personal-bg', covers['personal-works']);
+}
+
+// Render dynamic Experience / Achievements / Skills from resume_data
+function applyResumeData(data) {
+  if (!data) return;
+  function jobBlock(it) {
+    return '<div class="resume-job">' +
+      '<div class="resume-job-title">' + (it.title || '') + '</div>' +
+      '<div class="resume-job-company">' + (it.company || '') + '</div>' +
+      (it.year ? '<div class="resume-job-year">' + it.year + '</div>' : '') +
+      (it.projects ? '<div class="resume-job-projects">' + it.projects + '</div>' : '') +
+    '</div>';
+  }
+  const expWrap = document.getElementById('rd-experience');
+  if (expWrap) {
+    expWrap.innerHTML = (data.experience || []).map(jobBlock).join('') ||
+      '<div style="font-size:11px;color:var(--muted);opacity:0.5;">Henuz eklenmemis</div>';
+  }
+  const achWrap = document.getElementById('rd-achievements');
+  const achSection = document.getElementById('rd-ach-section');
+  if (achWrap && achSection) {
+    const items = data.achievements || [];
+    if (items.length) {
+      achWrap.innerHTML = items.map(jobBlock).join('');
+      achSection.style.display = '';
+    } else {
+      achSection.style.display = 'none';
+    }
+  }
+  const skWrap = document.getElementById('rd-skills');
+  if (skWrap) {
+    skWrap.innerHTML = (data.skills || []).map(function (s) {
+      return '<div class="skill-tag">' + s + '</div>';
+    }).join('');
+  }
 }
 
 // Game Art covers grid — 5 fixed games
@@ -317,6 +373,7 @@ function openPersonalDetail(key) {
   showPage('personal-detail');
 }
 
+// NEW: Open a userProject as personal-detail
 // NEW: Open a userProject as personal-detail
 function openUserPersonalDetail(id) {
   const p = (siteDB.userProjects || []).find(x => x.id === id);
