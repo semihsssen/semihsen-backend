@@ -225,7 +225,7 @@ function renderCovers() {
       img.style.cssText = "width:100%;height:100%;object-fit:cover;display:block;";
       thumb.appendChild(img);
       var ov = document.createElement("div");
-      ov.style.cssText = "position:absolute;inset:0;background:rgba(0,0,0,0.55);opacity:0;display:flex;align-items:center;justify-content:center;font-size:11px;color:#fff;letter-spacing:0.1em;text-transform:uppercase;font-weight:700;font-family:Inter,sans-serif;transition:opacity 0.15s;";
+      ov.style.cssText = "position:absolute;inset:0;background:rgba(0,0,0,0.55);opacity:0;display:flex;align-items:center;justify-content:center;font-size:11px;color:#fff;letter-spacing:0.1em;text-transform:uppercase;font-weight:700;font-family:Jost,Futura,sans-serif;transition:opacity 0.15s;";
       ov.textContent = "Degistir";
       thumb.appendChild(ov);
       thumb.onmouseenter = function(){ ov.style.opacity = "1"; thumb.style.borderColor = "var(--accent)"; };
@@ -243,7 +243,7 @@ function renderCovers() {
     thumb.appendChild(input);
 
     var label = document.createElement("div");
-    label.style.cssText = "font-size:11px;font-weight:700;color:var(--text);text-transform:uppercase;letter-spacing:0.1em;font-family:Inter,sans-serif;text-align:center;";
+    label.style.cssText = "font-size:11px;font-weight:700;color:var(--text);text-transform:uppercase;letter-spacing:0.1em;font-family:Jost,Futura,sans-serif;text-align:center;";
     label.textContent = g.label;
     card.appendChild(thumb); card.appendChild(label);
     grid.appendChild(card);
@@ -296,7 +296,7 @@ function renderPortfolioCovers() {
     thumb.appendChild(input);
 
     var label = document.createElement("div");
-    label.style.cssText = "font-size:12px;font-weight:700;color:var(--text);text-transform:uppercase;letter-spacing:0.1em;font-family:Inter,sans-serif;";
+    label.style.cssText = "font-size:12px;font-weight:700;color:var(--text);text-transform:uppercase;letter-spacing:0.1em;font-family:Jost,Futura,sans-serif;";
     label.textContent = p.label;
     card.appendChild(thumb); card.appendChild(label);
     grid.appendChild(card);
@@ -355,13 +355,13 @@ function resumeRowHTML(item, idx, kind) {
       resumeInput("Year",    item.year,    idx, kind, "year")    +
     '</div>' +
     resumeInput("Projects / Detail", item.projects, idx, kind, "projects") +
-    '<button style="margin-top:12px;background:transparent;border:0.5px solid rgba(239,68,68,0.4);color:#ef4444;padding:6px 14px;border-radius:4px;font-size:11px;font-weight:600;cursor:pointer;font-family:Inter,sans-serif;letter-spacing:0.06em;text-transform:uppercase;" onclick="removeResumeItem(\'' + kind + '\',' + idx + ')">Sil</button>' +
+    '<button style="margin-top:12px;background:transparent;border:0.5px solid rgba(239,68,68,0.4);color:#ef4444;padding:6px 14px;border-radius:4px;font-size:11px;font-weight:600;cursor:pointer;font-family:Jost,Futura,sans-serif;letter-spacing:0.06em;text-transform:uppercase;" onclick="removeResumeItem(\'' + kind + '\',' + idx + ')">Sil</button>' +
   '</div>';
 }
 function resumeInput(labelTxt, val, idx, kind, field) {
   return '<div>' +
     '<label style="font-size:10px;color:var(--muted);display:block;margin-bottom:4px;letter-spacing:0.06em;">' + labelTxt + '</label>' +
-    '<input type="text" data-kind="' + kind + '" data-i="' + idx + '" data-f="' + field + '" value="' + esc(val || "") + '" style="background:#0e0d11;border:0.5px solid var(--border);border-radius:4px;padding:8px 11px;color:var(--text);font-size:12px;width:100%;font-family:Inter,sans-serif;outline:none;">' +
+    '<input type="text" data-kind="' + kind + '" data-i="' + idx + '" data-f="' + field + '" value="' + esc(val || "") + '" style="background:#0e0d11;border:0.5px solid var(--border);border-radius:4px;padding:8px 11px;color:var(--text);font-size:12px;width:100%;font-family:Jost,Futura,sans-serif;outline:none;">' +
   '</div>';
 }
 function renderResumeList(kind) {
@@ -370,7 +370,7 @@ function renderResumeList(kind) {
   var list = T("exp-list"); if (!list) return;
   var arr = RESUME_DATA.experience;
   if (!arr.length) {
-    list.innerHTML = '<div style="text-align:center;padding:30px;color:var(--muted);font-size:12px;font-family:Inter,sans-serif;">Henuz deneyim eklenmemis. Yukaridaki "+ Ekle" ile baslay.</div>';
+    list.innerHTML = '<div style="text-align:center;padding:30px;color:var(--muted);font-size:12px;font-family:Jost,Futura,sans-serif;">Henuz deneyim eklenmemis. Yukaridaki "+ Ekle" ile baslay.</div>';
     return;
   }
   list.innerHTML = arr.map(function (it, i) { return resumeRowHTML(it, i, "exp"); }).join("");
