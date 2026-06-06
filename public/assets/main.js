@@ -107,16 +107,26 @@ function applyResumeData(data) {
     expWrap.innerHTML = (data.experience || []).map(jobBlock).join('') ||
       '<div style="font-size:11px;color:var(--muted);opacity:0.5;">Henuz eklenmemis</div>';
   }
-  const achWrap = document.getElementById('rd-achievements');
-  const achSection = document.getElementById('rd-ach-section');
-  if (achWrap && achSection) {
-    const items = data.achievements || [];
-    if (items.length) {
-      achWrap.innerHTML = items.map(jobBlock).join('');
-      achSection.style.display = '';
-    } else {
-      achSection.style.display = 'none';
+  // Achievements: single free-form paragraph (string).
+  // Backward compat: if API still returns an array, join items into one block.
+  const achPara = document.getElementById('rd-achievement');
+  const achSection = document.getElementById('rd-achievement-section');
+  if (achPara && achSection) {
+    let txt = '';
+    if (typeof data.achievements === 'string') {
+      txt = data.achievements.trim();
+    } else if (Array.isArray(data.achievements)) {
+      txt = data.achievements
+        .map(function (a) {
+          if (typeof a === 'string') return a;
+          if (a && typeof a === 'object') return [a.title, a.company, a.year, a.projects].filter(Boolean).join(' — ');
+          return '';
+        })
+        .filter(Boolean)
+        .join('\n\n');
     }
+    achPara.textContent = txt;
+    achSection.style.display = txt ? '' : 'none';
   }
   const skWrap = document.getElementById('rd-skills');
   if (skWrap) {
@@ -400,6 +410,19 @@ function showPage(id) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
   const navMap = { home:'nav-home', portfolio:'nav-portfolio', game:'nav-portfolio', 'game-detail':'nav-portfolio', 'work-detail':'nav-portfolio', personal:'nav-portfolio', 'personal-detail':'nav-portfolio', resume:'nav-resume' };
+  if (navMap[id]) {
+    const navEl = document.getElementById(navMap[id]);
+    if (navEl) navEl.classList.add('active');
+  }
+  const el = document.getElementById('page-' + id);
+  if (el) {
+    el.classList.add('active');
+    window.scrollTo(0, 0);
+  }
+}
+
+loadSiteData();
+ome', portfolio:'nav-portfolio', game:'nav-portfolio', 'game-detail':'nav-portfolio', 'work-detail':'nav-portfolio', personal:'nav-portfolio', 'personal-detail':'nav-portfolio', resume:'nav-resume' };
   if (navMap[id]) {
     const navEl = document.getElementById(navMap[id]);
     if (navEl) navEl.classList.add('active');

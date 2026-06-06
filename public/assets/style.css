@@ -58,16 +58,34 @@ html, body { background: var(--bg); margin: 0; padding: 0; }
 .hero-ph-label i { font-size: 36px; opacity: 0.15; color: var(--text); }
 .hero-ph-label span { font-size: 11px; font-weight: 700; letter-spacing: 0.14em; color: var(--muted); text-transform: uppercase; opacity: 0.4; font-family: var(--font); }
 
-.home-grid { display: flex; gap: 2px; flex-shrink: 0; }
-.home-item { flex: 1; height: var(--thumb-height); position: relative; overflow: hidden; cursor: pointer; transition: transform 0.3s ease; }
-.home-item:hover .grid-overlay { opacity: 1; }
-.home-item:hover { transform: scale(1.015); z-index: 2; }
+/* v6: Home hero CTA buttons */
+.hero-cta-row { position: relative; z-index: 3; display: flex; gap: 18px; margin-top: 18px; }
+.hero-cta-btn {
+  padding: 14px 38px;
+  font-family: var(--font);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text);
+  background: rgba(20,18,26,0.55);
+  border: 1px solid rgba(255,255,255,0.4);
+  border-radius: 4px;
+  cursor: pointer;
+  text-decoration: none;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  transition: background 0.2s, border-color 0.2s, color 0.2s;
+}
+.hero-cta-btn:hover { background: rgba(74,144,226,0.25); border-color: var(--accent); color: #fff; }
 
-.home-footer { padding: 20px 60px; border-top: 0.5px solid var(--border); display: flex; align-items: center; justify-content: space-between; background: var(--bg); flex-shrink: 0; margin-top: auto; }
-.footer-text { font-size: 11px; font-weight: 700; color: var(--muted); font-family: var(--font); letter-spacing: 0.08em; text-transform: uppercase; }
-.social-links { display: flex; gap: 16px; }
-.social-links a { font-size: 11px; font-weight: 700; color: var(--muted); text-decoration: none; transition: color 0.2s; font-family: var(--font); letter-spacing: 0.06em; text-transform: uppercase; }
-.social-links a:hover { color: var(--accent); }
+/* v6: Footer is now centered icon row */
+.home-footer { padding: 24px 60px; border-top: 0.5px solid var(--border); display: flex; align-items: center; justify-content: center; background: var(--bg); flex-shrink: 0; margin-top: auto; }
+.footer-text { display: none; }
+.social-links { display: flex; gap: 28px; justify-content: center; }
+.social-links a { display: inline-flex; align-items: center; justify-content: center; width: 38px; height: 38px; border-radius: 50%; color: var(--muted); text-decoration: none; transition: color 0.2s, background 0.2s, transform 0.2s; font-size: 20px; }
+.social-links a i { font-size: 22px; }
+.social-links a:hover { color: var(--accent); transform: translateY(-2px); }
 
 /* PORTFOLIO SELECT */
 .port-select { padding: 48px 60px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
@@ -282,10 +300,12 @@ html, body { background: var(--bg); margin: 0; padding: 0; }
 .work-inf-ph i { font-size: 28px; opacity: 0.08; color: var(--text); }
 
 /* WORK DETAIL - SCROLL BAZLI KARE SLIDER SAYFASI */
-.work-slider-page { display: flex; flex: 1; min-height: 0; padding: 0 60px 60px; gap: 32px; }
-.work-slider-left { width: 140px; min-width: 140px; flex-shrink: 0; padding-top: 4px; }
+/* v6: removed left sidebar, widened right info+store column */
+.work-slider-page { display: flex; flex: 1; min-height: 0; padding: 0 60px 60px; gap: 36px; }
+.work-slider-left { display: none; }
 .work-slider-center { flex: 1; min-width: 0; }
-.work-slider-right { width: 220px; min-width: 220px; flex-shrink: 0; padding-top: 4px; }
+.work-slider-right { width: 360px; min-width: 360px; flex-shrink: 0; padding-top: 4px; display: flex; flex-direction: column; gap: 20px; }
+.work-slider-right .store-btns { margin-top: 4px; padding-top: 16px; border-top: 0.5px solid var(--border); }
 
 /* Kaydirarak gozlenebilir kareler */
 .work-slides-scroll { display: flex; flex-direction: column; gap: 12px; }
@@ -303,15 +323,19 @@ html, body { background: var(--bg); margin: 0; padding: 0; }
 .store-btn-label { font-size: 8px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; font-family: var(--font); }
 .store-btn-name { font-size: 11px; color: var(--text); font-weight: 700; font-family: var(--font); }
 
-/* WORK INFO PANEL */
-.work-info { display: flex; flex-direction: column; gap: 14px; }
-.work-info-name { font-size: 16px; font-weight: 700; color: var(--text); font-family: var(--font); text-transform: uppercase; letter-spacing: 0.08em; line-height: 1.2; }
-.work-info-studio { font-size: 10px; font-weight: 600; color: var(--accent); text-transform: uppercase; letter-spacing: 0.14em; font-family: var(--font); }
-.work-info-credits { display: flex; flex-direction: column; gap: 8px; margin-top: 4px; border-top: 0.5px solid var(--border); padding-top: 12px; }
-.credit-row { display: flex; flex-direction: column; gap: 2px; }
-.credit-label { font-size: 8px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.14em; font-family: var(--font); }
-.credit-value { font-size: 11px; font-weight: 600; color: var(--text); font-family: var(--font); opacity: 0.85; }
-.work-info-about { font-size: 11px; font-weight: 500; color: var(--muted); font-family: var(--font); line-height: 1.7; border-top: 0.5px solid var(--border); padding-top: 12px; }
+/* WORK INFO PANEL — v6 larger */
+.work-info { display: flex; flex-direction: column; gap: 18px; }
+.work-info-name { font-size: 22px; font-weight: 700; color: var(--text); font-family: var(--font); text-transform: uppercase; letter-spacing: 0.08em; line-height: 1.15; }
+.work-info-studio { font-size: 13px; font-weight: 600; color: var(--accent); text-transform: uppercase; letter-spacing: 0.14em; font-family: var(--font); }
+.work-info-credits { display: flex; flex-direction: column; gap: 12px; margin-top: 4px; border-top: 0.5px solid var(--border); padding-top: 16px; }
+.credit-row { display: flex; flex-direction: column; gap: 3px; }
+.credit-label { font-size: 10px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.16em; font-family: var(--font); }
+.credit-value { font-size: 13px; font-weight: 600; color: var(--text); font-family: var(--font); opacity: 0.92; }
+.work-info-about { font-size: 13px; font-weight: 500; color: var(--muted); font-family: var(--font); line-height: 1.7; border-top: 0.5px solid var(--border); padding-top: 16px; }
+.work-slider-right .store-btn { padding: 11px 14px; }
+.work-slider-right .store-btn-label { font-size: 9px; }
+.work-slider-right .store-btn-name { font-size: 12px; }
+.work-slider-right .store-btn i { font-size: 18px; }
 
 /* ============================================
    v4 PATCH — uncropped thumbnails, smaller slides,
@@ -392,3 +416,132 @@ html, body { background: var(--bg); margin: 0; padding: 0; }
 
 /* Achievement section styling (same as Experience) */
 .resume-section.achievements .resume-job { border-left-color: #f59e0b; }
+
+/* v6: Skills as compact inline pills (auto-width, never stretches vertically) */
+.skills-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: flex-start;
+  align-content: flex-start;
+}
+.skills-pills .skill-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 14px;
+  border: 0.5px solid var(--border);
+  border-radius: 999px;
+  background: var(--bg2);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--muted);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-family: var(--font);
+  line-height: 1.2;
+  flex: 0 0 auto;
+  width: auto;
+  height: auto;
+  white-space: nowrap;
+}
+
+/* v6: Achievements as a single free-form paragraph */
+.achievement-text {
+  font-family: var(--font);
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.7;
+  color: var(--text);
+  opacity: 0.85;
+  white-space: pre-wrap;
+  margin: 0;
+  padding-left: 12px;
+  border-left: 2px solid #f59e0b;
+}
+.achievement-text:empty::before {
+  content: 'Henuz eklenmemis';
+  color: var(--muted);
+  opacity: 0.5;
+  font-style: italic;
+}
+g: 14px 60px;
+  background: #08070a;
+  border-bottom: 0.5px solid var(--border);
+  overflow-x: auto;
+  flex-shrink: 0;
+}
+.game-tab {
+  background: transparent;
+  border: 0;
+  color: var(--muted);
+  font-family: var(--font);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  padding: 6px 0;
+  transition: color 0.2s;
+  white-space: nowrap;
+}
+.game-tab:hover { color: var(--text); }
+.game-tab.active { color: var(--text); border-bottom: 2px solid var(--accent); }
+
+/* v5: no hover scale on Game Art covers */
+.game-cover-item:hover { transform: none !important; }
+.game-cover-item:hover .game-cover-img { transform: none !important; border-color: var(--accent); }
+
+/* Achievement section styling (same as Experience) */
+.resume-section.achievements .resume-job { border-left-color: #f59e0b; }
+
+/* v6: Skills as compact inline pills */
+.skills-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: flex-start;
+  align-content: flex-start;
+}
+.skills-pills .skill-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 14px;
+  border: 0.5px solid var(--border);
+  border-radius: 999px;
+  background: var(--bg2);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--muted);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-family: var(--font);
+  line-height: 1.2;
+  flex: 0 0 auto;
+  width: auto;
+  height: auto;
+  white-space: nowrap;
+}
+
+/* v6: Achievements as single paragraph */
+.achievement-text {
+  font-family: var(--font);
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.7;
+  color: var(--text);
+  opacity: 0.85;
+  white-space: pre-wrap;
+  margin: 0;
+  padding-left: 12px;
+  border-left: 2px solid #f59e0b;
+}
+.achievement-text:empty::before {
+  content: 'Henuz eklenmemis';
+  color: var(--muted);
+  opacity: 0.5;
+  font-style: italic;
+}
+ar(--muted);
+  opacity: 0.5;
+  font-style: italic;
+}
