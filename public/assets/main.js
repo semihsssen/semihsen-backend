@@ -88,10 +88,31 @@ function applyGameGrid(projects) {
 
 let currentGameKey = null;
 
+// Render the top tab bar with all 5 games, active = current
+function renderGameTabs(activeKey) {
+  if (!siteDB || !siteDB.projects) return;
+  let bar = document.getElementById('game-tabs-bar');
+  if (!bar) {
+    bar = document.createElement('div');
+    bar.id = 'game-tabs-bar';
+    bar.className = 'game-tabs-bar';
+    const page = document.getElementById('page-game-detail');
+    const header = page && page.querySelector('.port-inner-header');
+    if (header && header.parentNode) header.parentNode.insertBefore(bar, header.nextSibling);
+  }
+  bar.innerHTML = Object.entries(siteDB.projects).map(([key, p]) =>
+    '<button class="game-tab ' + (key === activeKey ? 'active' : '') + '" data-key="' + key + '">' + (p.name || key) + '</button>'
+  ).join('');
+  Array.from(bar.querySelectorAll('.game-tab')).forEach(b => {
+    b.addEventListener('click', () => openGameDetail(b.dataset.key));
+  });
+}
+
 // Open a specific Game Art project — shows its works grid + ANY userProjects matching this category
 function openGameDetail(key) {
   if (!siteDB || !siteDB.projects[key]) return;
   currentGameKey = key;
+  renderGameTabs(key);
   const proj = siteDB.projects[key];
   const titleEl = document.getElementById('game-detail-title');
   if (titleEl) titleEl.textContent = proj.name || key;
