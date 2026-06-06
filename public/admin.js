@@ -40,6 +40,7 @@ function SP(id, el) {
   var titles = {
     "settings": "Boyut & Renk", "hero": "Hero Gorseli",
     "resume": "Resume Gorseli", "resumeedit": "Resume Duzenle",
+    "favicon": "Tarayici Ikonu",
     "covers": "Oyun Kapaklari", "portfolio-covers": "Portfolio Panelleri",
     "projects": "Projeler"
   };
@@ -48,6 +49,7 @@ function SP(id, el) {
   if (id === "covers") renderCovers();
   if (id === "portfolio-covers") renderPortfolioCovers();
   if (id === "resumeedit") renderResumeEdit();
+  if (id === "favicon") loadFavicon();
 }
 
 async function init() {
@@ -112,6 +114,33 @@ async function uploadResume(inp) {
     var d = await r.json();
     if (d.ok) { toast("Resume yuklendi"); DB.resume = { url: d.url }; var i = T("resume-img"), p = T("resume-prev"); if (i) i.src = d.url; if (p) p.style.display = "block"; }
     else toast(d.error || "Hata", true);
+  } catch (e) { toast("Yukleme hatasi", true); }
+}
+
+/* ========== FAVICON ========== */
+async function loadFavicon() {
+  try {
+    var r = await fetch("/api/favicon");
+    var d = await r.json();
+    if (d && d.url) {
+      var i = T("favicon-img"), p = T("favicon-prev");
+      if (i) i.src = d.url;
+      if (p) p.style.display = "block";
+    }
+  } catch (e) {}
+}
+async function uploadFavicon(inp) {
+  if (!inp.files[0]) return;
+  var fd = new FormData(); fd.append("image", inp.files[0]);
+  try {
+    var r = await fetch("/api/upload/favicon", { method: "POST", headers: { "Authorization": authHeader() }, body: fd });
+    var d = await r.json();
+    if (d.ok) {
+      toast("Favicon yuklendi");
+      var i = T("favicon-img"), p = T("favicon-prev");
+      if (i) i.src = d.url;
+      if (p) p.style.display = "block";
+    } else toast(d.error || "Hata", true);
   } catch (e) { toast("Yukleme hatasi", true); }
 }
 
@@ -381,6 +410,32 @@ async function saveResumeData() {
 
 window.addEventListener("DOMContentLoaded", init);
 lue;
+  try {
+    var r = await fetch("/api/resume", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "Authorization": authHeader() },
+      body: JSON.stringify(RESUME_DATA)
+    });
+    var d = await r.json();
+    if (d.ok) { toast("Resume kaydedildi"); DB.resume_data = JSON.parse(JSON.stringify(RESUME_DATA)); }
+    else { toast(d.error || "Hata", true); }
+  } catch (e) { toast("Kaydetme hatasi", true); }
+}
+
+window.addEventListener("DOMContentLoaded", init);
+ts: "" });
+  renderResumeList("exp");
+}
+function removeResumeItem(kind, idx) {
+  if (kind !== "exp") return;
+  if (!confirm("Sil?")) return;
+  RESUME_DATA.experience.splice(idx, 1);
+  renderResumeList("exp");
+}
+async function saveResumeData() {
+  RESUME_DATA.skills = T("skills-input").value.split(",").map(function (s) { return s.trim(); }).filter(Boolean);
+  var achInput = T("ach-input");
+  if (achInput) RESUME_DATA.achievements = achInput.value;
   try {
     var r = await fetch("/api/resume", {
       method: "POST",

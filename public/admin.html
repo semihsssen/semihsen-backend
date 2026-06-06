@@ -88,6 +88,7 @@ nav{padding:12px 0;flex:1;overflow-y:auto;}
     <div class="ni" onclick="SP('hero',this)"><i class="ti ti-photo"></i> Hero Gorseli</div>
     <div class="ni" onclick="SP('resume',this)"><i class="ti ti-id-badge"></i> Resume Gorseli</div>
     <div class="ni" onclick="SP('resumeedit',this)"><i class="ti ti-file-text"></i> Resume Duzenle</div>
+    <div class="ni" onclick="SP('favicon',this)"><i class="ti ti-browser"></i> Tarayici Ikonu</div>
     <div class="nl">Icerik</div>
     <div class="ni" onclick="SP('covers',this)"><i class="ti ti-photo-square-rounded"></i> Oyun Kapaklari</div>
     <div class="ni" onclick="SP('portfolio-covers',this)"><i class="ti ti-layout-2"></i> Portfolio Panelleri</div>
@@ -134,6 +135,17 @@ nav{padding:12px 0;flex:1;overflow-y:auto;}
       <div class="upload-zone"><input type="file" accept="image/*" onchange="uploadResume(this)"><div class="uz-icon"><i class="ti ti-cloud-upload"></i></div><div class="uz-text">CV gorselini surukle veya tikla</div></div>
     </div>
   </div>
+  <!-- FAVICON (Browser tab icon) -->
+  <div class="panel" id="pn-favicon">
+    <div class="card">
+      <div class="card-title">Tarayici Ikonu (Favicon)</div>
+      <p style="font-size:12px;color:var(--muted);margin-bottom:16px;line-height:1.55;">Tarayici sekmesinde gorunecek kucuk ikon. <b>Onerilen format:</b> kare (1:1) PNG, en az 256x256 px. Ufak gorsel kullanin - tarayici otomatik kuculttur.</p>
+      <div class="cover-preview" id="favicon-prev" style="display:none;max-width:160px;"><img id="favicon-img" src="" alt="" style="background:#fff;padding:8px;"></div>
+      <div class="upload-zone"><input type="file" accept="image/png,image/jpeg,image/x-icon,image/svg+xml" onchange="uploadFavicon(this)"><div class="uz-icon"><i class="ti ti-cloud-upload"></i></div><div class="uz-text">Favicon gorselini surukle veya tikla</div></div>
+      <p style="font-size:11px;color:var(--muted);margin-top:14px;opacity:0.7;">Not: Yeni favicon, tarayicilarda <b>Ctrl+Shift+R</b> ile yenilemeden sonra gorunur (eski sekmeler eskisini gosterebilir).</p>
+    </div>
+  </div>
+
   <!-- OYUN KAPAKLARI -->
   <div class="panel" id="pn-covers">
     <div class="card-title" style="margin-bottom:18px;">Oyun Kapaklari</div>
