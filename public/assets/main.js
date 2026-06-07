@@ -335,19 +335,17 @@ function applyPersonal(personal, userProjects) {
   const colors = ['g1','g2','g3','g4','g5','g6'];
   let idx = 0;
 
-  // 1) Existing personal slots
+  // 1) Existing personal slots — only render if they have at least one slide
+  //    (skip the empty default placeholders so the grid starts with real content)
   for (const [key, proj] of Object.entries(personal || {})) {
+    const slides = proj.slides || [];
+    if (slides.length === 0) continue;
     const div = document.createElement('div');
     div.className = 'game-item ' + colors[idx % colors.length];
     div.onclick = () => openPersonalDetail(key);
-    const slides = proj.slides || [];
     let ih = '';
-    if (slides.length > 0) {
-      slides.slice(0, 4).forEach(s => { ih += '<div class="inner-cell"><img src="' + s.url + '" loading="lazy"></div>'; });
-      for (let i = slides.length; i < 4; i++) ih += '<div class="inner-cell inner-cell-ph"><i class="ti ti-photo"></i></div>';
-    } else {
-      for (let i = 0; i < 4; i++) ih += '<div class="inner-cell inner-cell-ph"><i class="ti ti-photo"></i></div>';
-    }
+    slides.slice(0, 4).forEach(s => { ih += '<div class="inner-cell"><img src="' + s.url + '" loading="lazy"></div>'; });
+    for (let i = slides.length; i < 4; i++) ih += '<div class="inner-cell inner-cell-ph"><i class="ti ti-photo"></i></div>';
     div.innerHTML = '<div class="inner-grid">' + ih + '</div><div class="grid-overlay"><div class="grid-title">' + (proj.name || 'Personal Work') + '</div></div>';
     grid.appendChild(div);
     idx++;
