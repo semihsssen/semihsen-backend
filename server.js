@@ -456,6 +456,170 @@ app.get('/api/portfolio-covers', (req, res) => {
   catch (e) { res.status(500).json({ error: errMsg(e) }); }
 });
 
+// RECOVERY — list all Cloudinary assets in semihsen/projects so user can rebuild lost userProjects
+app.get('/api/recover/list', adminAuth, async (req, res) => {
+  try {
+    const all = [];
+    let next = null;
+    do {
+      const result = await cloudinary.search
+        .expression('folder:semihsen/projects')
+        .max_results(100)
+        .with_field('context')
+        .next_cursor(next)
+        .execute()
+        .catch(e => { throw e; });
+      (result.resources || []).forEach(r => {
+        all.push({
+          public_id: r.public_id,
+          url: r.secure_url,
+          type: r.resource_type === 'video' ? 'video/mp4' : 'image/' + (r.format || 'jpg'),
+          name: (r.public_id || '').split('/').pop(),
+          width: r.width || 0,
+          height: r.height || 0,
+          bytes: r.bytes || 0,
+          created_at: r.created_at
+        });
+      });
+      next = result.next_cursor;
+    } while (next);
+    // Sort newest first for easier review
+    all.sort((a, b) => (b.created_at || '').localeCompare(a.created_at || ''));
+    res.json({ count: all.length, assets: all });
+  } catch (e) {
+    console.error('Recover list error:', errMsg(e));
+    res.status(500).json({ error: errMsg(e) });
+  }
+});
+
+// RECOVERY — accept a list of project definitions [{title, category, mediaIds: [public_ids]}], create userProjects from them
+app.post('/api/recover/import', adminAuth, (req, res) => {
+  try {
+    const projects = req.body.projects || [];
+    const lookupAssets = req.body.lookup || {}; // { public_id: { url, type, name, width, height, bytes } }
+    const db = getDB();
+    if (!Array.isArray(db.userProjects)) db.userProjects = [];
+    const now = new Date().toISOString();
+    let createdCount = 0;
+    projects.forEach(p => {
+      if (!p.mediaIds || !p.mediaIds.length) return;
+      const media = p.mediaIds.map(pid => {
+        const info = lookupAssets[pid] || {};
+        return {
+          id: newId(),
+          public_id: pid,
+          url: info.url || ('https://res.cloudinary.com/' + (process.env.CLOUDINARY_CLOUD_NAME || '') + '/image/upload/' + pid),
+          type: info.type || 'image/jpeg',
+          name: info.name || pid.split('/').pop(),
+          width: info.width || 0,
+          height: info.height || 0,
+          bytes: info.bytes || 0
+        };
+      });
+      const cover = media[0];
+      db.userProjects.push({
+        id: newId(),
+        title: p.title || 'Recovered Work',
+        subtitle: '', slug: '',
+        role: '', client: '', year: new Date().getFullYear(),
+        description: '', credits: {},
+        category: p.category || 'Personal Works',
+        tags: [], software: [],
+        ios: '', android: '',
+        publishDate: now.slice(0, 10),
+        metaTitle: '', metaDesc: '',
+        status: 'published', featured: false, showOnHome: false,
+        cover: { url: cover.url, public_id: cover.public_id },
+        media,
+        createdAt: now, updatedAt: now
+      });
+      createdCount++;
+    });
+    saveDB(db);
+    res.json({ ok: true, created: createdCount });
+  } catch (e) {
+    console.error('Recover import error:', errMsg(e));
+    res.status(500).json({ error: errMsg(e) });
+  }
+});
+
+// v8: FAVICON — browser tab icon
+app.get('/api/favicon', (req, res) => {
+  try { res.json(getDB().favicon || {}); }
+  catch (e) { res.status(500).json({ error: errMsg(e) }); }
+});
+
+app.post('/api/upload/favicon', adminAuth, upload.single('image'), async (req, res) => {
+  try {
+    if (!req.file) return res.status(400).json({ error: 'Dosya bulunamadi' });
+    const db = getDB();
+    if (db.favicon && db.favicon.public_id) {
+      await cloudinary.uploader.destroy(db.favicon.public_id).catch(() => {});
+    }
+    const result = await uploadToCloudinary(req.file.buffer, 'semihsen/favicon');
+    db.favicon = { url: result.secure_url, public_id: result.public_id };
+    saveDB(db);
+    res.json({ ok: true, url: result.secure_url });
+  } catch (e) { console.error('Favicon error:', errMsg(e)); res.status(500).json({ error: errMsg(e) }); }
+});
+
+app.post('/api/upload/portfolio-cover/:cat', adminAuth, upload.single('image'), async (req, res) => {
+  try {
+    if (!req.file) return res.status(400).json({ error: 'Dosya bulunamadi' });
+    const cat = req.params.cat;
+    if (!['game-art', 'personal-works'].includes(cat)) return res.status(400).json({ error: 'Gecersiz kategori' });
+    const db = getDB();
+    if (!db.portfolio_covers) db.portfolio_covers = {};
+    if (db.portfolio_covers[cat] && db.portfolio_covers[cat].public_id) {
+      await cloudinary.uploader.destroy(db.portfolio_covers[cat].public_id).catch(() => {});
+    }
+    const result = await uploadToCloudinary(req.file.buffer, 'semihsen/portfolio-covers');
+    db.portfolio_covers[cat] = { url: result.secure_url, public_id: result.public_id };
+    saveDB(db);
+    res.json({ ok: true, url: result.secure_url });
+  } catch (e) { console.error('Portfolio cover error:', errMsg(e)); res.status(500).json({ error: errMsg(e) }); }
+});
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log('Server running on port', PORT));
+return {
+          id: newId(),
+          public_id: pid,
+          url: info.url || ('https://res.cloudinary.com/' + (process.env.CLOUDINARY_CLOUD_NAME || '') + '/image/upload/' + pid),
+          type: info.type || 'image/jpeg',
+          name: info.name || pid.split('/').pop(),
+          width: info.width || 0,
+          height: info.height || 0,
+          bytes: info.bytes || 0
+        };
+      });
+      const cover = media[0];
+      db.userProjects.push({
+        id: newId(),
+        title: p.title || 'Recovered Work',
+        subtitle: '', slug: '',
+        role: '', client: '', year: new Date().getFullYear(),
+        description: '', credits: {},
+        category: p.category || 'Personal Works',
+        tags: [], software: [],
+        ios: '', android: '',
+        publishDate: now.slice(0, 10),
+        metaTitle: '', metaDesc: '',
+        status: 'published', featured: false, showOnHome: false,
+        cover: { url: cover.url, public_id: cover.public_id },
+        media,
+        createdAt: now, updatedAt: now
+      });
+      createdCount++;
+    });
+    saveDB(db);
+    res.json({ ok: true, created: createdCount });
+  } catch (e) {
+    console.error('Recover import error:', errMsg(e));
+    res.status(500).json({ error: errMsg(e) });
+  }
+});
+
 // v8: FAVICON — browser tab icon
 app.get('/api/favicon', (req, res) => {
   try { res.json(getDB().favicon || {}); }
