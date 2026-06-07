@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Recover Personal Works - semihsen.art</title>
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+:root { --bg:#0e0d11; --bg2:#19181d; --bg3:#1e1d22; --text:#f0eeee; --muted:#888680; --accent:#4a90e2; --border:rgba(255,255,255,0.08); }
+body { background:var(--bg); color:var(--text); font-family:'Jost','Futura','Century Gothic',sans-serif; padding:24px 32px; min-height:100vh; }
+h1 { font-size:22px; font-weight:800; letter-spacing:0.06em; text-transform:uppercase; margin-bottom:6px; }
+.lede { color:var(--muted); font-size:13px; margin-bottom:24px; max-width:760px; line-height:1.6; }
+.toolbar { display:flex; gap:12px; flex-wrap:wrap; align-items:center; background:var(--bg2); border:0.5px solid var(--border); padding:14px 18px; border-radius:10px; margin-bottom:18px; position:sticky; top:8px; z-index:10; }
+.toolbar input[type="text"] { background:var(--bg3); border:0.5px solid var(--border); color:var(--text); padding:9px 12px; border-radius:6px; font-family:inherit; font-size:13px; min-width:220px; }
+.toolbar select { background:var(--bg3); border:0.5px solid var(--border); color:var(--text); padding:9px 12px; border-radius:6px; font-family:inherit; font-size:13px; }
+.btn { background:var(--accent); color:#fff; border:0; padding:9px 18px; border-radius:6px; font-family:inherit; font-size:13px; font-weight:700; cursor:pointer; letter-spacing:0.04em; }
+.btn-ghost { background:var(--bg3); color:var(--text); border:0.5px solid var(--border); }
+.btn:hover { opacity:0.9; }
+.btn-danger { background:#c0392b; color:#fff; }
+.status { color:var(--muted); font-size:12px; margin-left:auto; }
+.grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(160px,1fr)); gap:8px; margin-bottom:200px; }
+.cell { aspect-ratio:1/1; background:var(--bg2); border-radius:6px; overflow:hidden; position:relative; cursor:pointer; border:2px solid transparent; transition:border-color 0.15s, transform 0.15s; }
+.cell img, .cell video { width:100%; height:100%; object-fit:cover; display:block; }
+.cell .badge { position:absolute; top:6px; left:6px; background:rgba(0,0,0,0.78); color:#fff; padding:3px 7px; border-radius:4px; font-size:10px; font-weight:700; pointer-events:none; }
+.cell.selected { border-color:var(--accent); transform:scale(0.97); }
+.cell.assigned { opacity:0.32; }
+.cell.assigned::after { content:'\2713'; position:absolute; right:6px; bottom:6px; background:#10b981; color:#fff; width:20px; height:20px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:700; }
+.projects-bar { position:fixed; bottom:0; left:0; right:0; background:var(--bg2); border-top:0.5px solid var(--border); padding:14px 24px; max-height:48vh; overflow-y:auto; }
+.proj-row { display:flex; align-items:center; gap:10px; padding:8px 0; border-bottom:0.5px solid var(--border); }
+.proj-row input[type="text"] { background:var(--bg3); border:0.5px solid var(--border); color:var(--text); padding:7px 10px; border-radius:5px; font-family:inherit; font-size:13px; min-width:180px; }
+.proj-row .count { color:var(--muted); font-size:12px; min-width:60px; }
+.proj-row .thumbs { display:flex; gap:3px; flex:1; overflow-x:auto; }
+.proj-row .thumb-mini { width:32px; height:32px; border-radius:3px; background:var(--bg3); overflow:hidden; flex-shrink:0; cursor:pointer; }
+.proj-row .thumb-mini img { width:100%; height:100%; object-fit:cover; }
+.proj-row .remove { background:transparent; border:0.5px solid rgba(239,68,68,0.4); color:#ef4444; padding:5px 10px; border-radius:4px; font-family:inherit; font-size:11px; cursor:pointer; }
+.empty { color:var(--muted); font-size:12px; padding:14px; text-align:center; }
+</style>
+</head>
+<body>
+<h1>Recover Personal Works</h1>
+<p class="lede">Cloudinary'deki tum yuklenmis gorseller asagidadir. Tiklayarak sec, "Yeni Proje Olustur" ile gruplara ayir, sonra "Kaydet" basinca db.json'a kalici olarak yazilir. Atlanan gorseller secilmeden kalabilir.</p>
+
+<div class="toolbar">
+  <button class="btn" id="newProjBtn">+ Yeni Proje Olustur</button>
+  <input type="text" id="searchInp" placeholder="Public ID ile ara...">
+  <select id="catSel">
+    <option value="Personal Works">Personal Works</option>
+    <option value="Block Out">Block Out</option>
+    <option value="Car Match">Car Match</option>
+    <option value="Magic Sort">Magic Sort</option>
+    <option value="Match Villians">Match Villians</option>
+    <option value="Wonder Blast">Wonder Blast</option>
+  </select>
+  <button class="btn btn-ghost" id="selectAllBtn">Tumunu Sec</button>
+  <button class="btn btn-ghost" id="clearSelBtn">Secimi Temizle</button>
+  <button class="btn" id="saveBtn">Kaydet (db.json'a)</button>
+  <span class="status" id="status">Yukleniyor...</span>
+</div>
+
+<div class="grid" id="grid"></div>
+
+<div class="projects-bar" id="projBar">
+  <div class="empty" id="projEmpty">Henuz proje yok. Gorselleri secip "Yeni Proje Olustur" ile grupla.</div>
+</div>
+
+<script>
+let ASSETS = [];
+let SELECTED = new Set();
+let PROJECTS = []; // [{title, category, mediaIds:Set}]
+const ASSET_BY_ID = {};
+const PASSWORD = prompt('Admin sifresi:') || '';
+const AUTH = 'Basic ' + btoa('semih:' + PASSWORD);
+
+async function loadAssets() {
+  document.getElementById('status').textContent = 'Cloudinary listesi cekiliyor...';
+  try {
+    const r = await fetch('/api/recover/list', { headers: { 'Authorization': AUTH } });
+    if (!r.ok) { alert('Yetki hatasi veya sunucu hatasi (HTTP ' + r.status + ')'); return; }
+    const data = await r.json();
+    ASSETS = data.assets || [];
+    ASSETS.forEach(a => { ASSET_BY_ID[a.public_id] = a; });
+    document.getElementById('status').textContent = ASSETS.length + ' gorsel bulundu.';
+    renderGrid();
+  } catch (e) { alert('Hata: ' + e.message); }
+}
+
+function renderGrid() {
+  const q = document.getElementById('searchInp').value.toLowerCase();
+  const filtered = q ? ASSETS.filter(a => a.public_id.toLowerCase().includes(q)) : ASSETS;
+  const assigned = new Set();
+  PROJECTS.forEach(p => p.mediaIds.forEach(id => assigned.add(id)));
+  const grid = document.getElementById('grid');
+  grid.innerHTML = filtered.map((a, i) => {
+    const sel = SELECTED.has(a.public_id) ? 'selected' : '';
+    const asg = assigned.has(a.public_id) ? 'assigned' : '';
+    const isVid = (a.type || '').startsWith('video');
+    const media = isVid
+      ? '<video src="' + a.url + '" muted></video>'
+      : '<img src="' + a.url + '" loading="lazy">';
+    return '<div class="cell ' + sel + ' ' + asg + '" data-id="' + a.public_id + '">' + media + '<span class="badge">' + (i+1) + '</span></div>';
+  }).join('');
+  grid.querySelectorAll('.cell').forEach(c => {
+    c.addEventListener('click', () => {
+      const id = c.dataset.id;
+      if (SELECTED.has(id)) SELECTED.delete(id); else SELECTED.add(id);
+      renderGrid();
+    });
+  });
+}
+
+function renderProjects() {
+  const bar = document.getElementById('projBar');
+  const empty = document.getElementById('projEmpty');
+  if (!PROJECTS.length) { empty.style.display = 'block'; bar.querySelectorAll('.proj-row').forEach(r => r.remove()); return; }
+  empty.style.display = 'none';
+  // Clear existing rows
+  bar.querySelectorAll('.proj-row').forEach(r => r.remove());
+  PROJECTS.forEach((p, idx) => {
+    const row = document.createElement('div');
+    row.className = 'proj-row';
+    const thumbsHTML = Array.from(p.mediaIds).slice(0,12).map(id => {
+      const a = ASSET_BY_ID[id];
+      if (!a) return '';
+      const isVid = (a.type || '').startsWith('video');
+      return '<div class="thumb-mini" title="' + a.public_id + '" data-pid="' + a.public_id + '" data-proj="' + idx + '">' + (isVid ? '<video src="'+a.url+'" muted></video>' : '<img src="' + a.url + '">') + '</div>';
+    }).join('');
+    row.innerHTML =
+      '<input type="text" placeholder="Proje basligi" value="' + (p.title||'') + '" data-idx="' + idx + '" class="proj-title-inp">' +
+      '<select data-idx="' + idx + '" class="proj-cat-sel">' +
+        ['Personal Works','Block Out','Car Match','Magic Sort','Match Villians','Wonder Blast'].map(c => '<option ' + (p.category===c?'selected':'') + '>'+c+'</option>').join('') +
+      '</select>' +
+      '<span class="count">' + p.mediaIds.size + ' gorsel</span>' +
+      '<div class="thumbs">' + thumbsHTML + (p.mediaIds.size > 12 ? '<span style="color:var(--muted);font-size:11px;align-self:center;padding:0 8px;">+'+(p.mediaIds.size-12)+'</span>' : '') + '</div>' +
+      '<button class="remove" data-idx="' + idx + '">Sil</button>';
+    bar.appendChild(row);
+  });
+  bar.querySelectorAll('.proj-title-inp').forEach(inp => {
+    inp.oninput = e => PROJECTS[+inp.dataset.idx].title = e.target.value;
+  });
+  bar.querySelectorAll('.proj-cat-sel').forEach(sel => {
+    sel.onchange = e => PROJECTS[+sel.dataset.idx].category = e.target.value;
+  });
+  bar.querySelectorAll('.remove').forEach(btn => {
+    btn.onclick = () => { PROJECTS.splice(+btn.dataset.idx, 1); renderProjects(); renderGrid(); };
+  });
+  bar.querySelectorAll('.thumb-mini').forEach(t => {
+    t.onclick = () => {
+      const projIdx = +t.dataset.proj;
+      const pid = t.dataset.pid;
+      PROJECTS[projIdx].mediaIds.delete(pid);
+      if (PROJECTS[projIdx].mediaIds.size === 0) PROJECTS.splice(projIdx, 1);
+      renderProjects();
+      renderGrid();
+    };
+  });
+}
+
+document.getElementById('newProjBtn').onclick = () => {
+  if (SELECTED.size === 0) { alert('Once gorsel sec.'); return; }
+  const title = prompt('Proje basligi (bos birakirsan otomatik isim verilir):', '') || ('Personal Work ' + (PROJECTS.length + 1));
+  const category = document.getElementById('catSel').value;
+  PROJECTS.push({ title, category, mediaIds: new Set(SELECTED) });
+  SELECTED.clear();
+  renderGrid();
+  renderProjects();
+};
+document.getElementById('searchInp').oninput = renderGrid;
+document.getElementById('selectAllBtn').onclick = () => {
+  const q = document.getElementById('searchInp').value.toLowerCase();
+  const assigned = new Set();
+  PROJECTS.forEach(p => p.mediaIds.forEach(id => assigned.add(id)));
+  ASSETS.forEach(a => {
+    if (assigned.has(a.public_id)) return;
+    if (!q || a.public_id.toLowerCase().includes(q)) SELECTED.add(a.public_id);
+  });
+  renderGrid();
+};
+document.getElementById('clearSelBtn').onclick = () => { SELECTED.clear(); renderGrid(); };
+
+document.getElementById('saveBtn').onclick = async () => {
+  if (!PROJECTS.length) { alert('Hic proje olusturmadiniz.'); return; }
+  if (!confirm(PROJECTS.length + ' proje olusturulacak. Devam?')) return;
+  const lookup = {};
+  PROJECTS.forEach(p => p.mediaIds.forEach(id => { const a = ASSET_BY_ID[id]; if (a) lookup[id] = a; }));
+  const payload = {
+    projects: PROJECTS.map(p => ({ title: p.title, category: p.category, mediaIds: Array.from(p.mediaIds) })),
+    lookup
+  };
+  try {
+    const r = await fetch('/api/recover/import', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': AUTH },
+      body: JSON.stringify(payload)
+    });
+    const d = await r.json();
+    if (d.ok) {
+      alert(d.created + ' proje basariyla kaydedildi! Site otomatik Personal Works gridinde gosterecek.');
+      PROJECTS = [];
+      SELECTED.clear();
+      renderProjects();
+      renderGrid();
+    } else {
+      alert('Hata: ' + (d.error || 'bilinmeyen'));
+    }
+  } catch (e) { alert('Kaydetme hatasi: ' + e.message); }
+};
+
+loadAssets();
+</script>
+</body>
+</html>
