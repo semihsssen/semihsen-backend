@@ -9,7 +9,9 @@
   var LEFT_ID = 'sse-nav-prev';
   var RIGHT_ID = 'sse-nav-next';
 
-  var ARROW_STYLE = 'position:fixed;top:50%;transform:translateY(-50%);z-index:9998;width:52px;height:52px;display:flex;align-items:center;justify-content:center;background:rgba(20,18,26,0.55);border:1px solid rgba(255,255,255,0.15);border-radius:50%;color:#fff;cursor:pointer;text-decoration:none;font-family:inherit;font-size:20px;line-height:1;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);box-shadow:0 4px 18px rgba(0,0,0,0.4);transition:background 0.15s, transform 0.15s, opacity 0.15s;user-select:none;';
+  var ARROW_STYLE = 'position:fixed;top:50%;transform:translateY(-50%);z-index:9998;width:56px;height:96px;display:flex;align-items:center;justify-content:center;background:transparent;border:0;padding:0;color:#e6e6e6;cursor:pointer;text-decoration:none;font-family:inherit;line-height:1;opacity:0.75;transition:opacity 0.18s, transform 0.18s, color 0.18s;user-select:none;outline:none;';
+  var CHEV_LEFT  = '<svg width="40" height="72" viewBox="0 0 24 44" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M17 4L5 22l12 18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  var CHEV_RIGHT = '<svg width="40" height="72" viewBox="0 0 24 44" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M7 4l12 18L7 40" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 
   function getSiteDB() {
     if (typeof window.siteDB !== 'undefined' && window.siteDB) return window.siteDB;
@@ -22,10 +24,10 @@
     a.type = 'button';
     a.setAttribute('aria-label', title);
     a.title = title;
-    a.setAttribute('style', ARROW_STYLE + (alignRight ? 'right:18px;' : 'left:18px;'));
+    a.setAttribute('style', ARROW_STYLE + (alignRight ? 'right:22px;' : 'left:22px;'));
     a.innerHTML = symbol;
-    a.onmouseover = function () { a.style.background = 'rgba(74,144,226,0.5)'; a.style.transform = 'translateY(-50%) scale(1.06)'; };
-    a.onmouseout  = function () { a.style.background = 'rgba(20,18,26,0.55)'; a.style.transform = 'translateY(-50%)'; };
+    a.onmouseover = function () { a.style.opacity = '1'; a.style.color = '#4a90e2'; a.style.transform = 'translateY(-50%) scale(1.08)'; };
+    a.onmouseout  = function () { a.style.opacity = '0.75'; a.style.color = '#e6e6e6'; a.style.transform = 'translateY(-50%)'; };
     a.onclick = function (e) { e.preventDefault(); onClick(); };
     return a;
   }
@@ -124,8 +126,8 @@
     }
     if (!neighbors) return;
 
-    var symLeft  = '&#10094;'; // ❮
-    var symRight = '&#10095;'; // ❯
+    var symLeft  = CHEV_LEFT;
+    var symRight = CHEV_RIGHT;
 
     if (mode === 'user') {
       if (neighbors.prev) {
