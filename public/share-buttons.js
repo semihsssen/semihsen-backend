@@ -1,7 +1,7 @@
-/* share-buttons.js
- * Adds Facebook / Pinterest / X / LinkedIn share buttons to project detail pages.
- * PURE ADDITIVE — does not touch main.js, db.json, Cloudinary, or any uploaded data.
- * Reads DOM only; injects one <div class="share-bar"> when a detail page opens.
+/* share-buttons.js v2
+ * Adds Facebook / Pinterest / X / LinkedIn share buttons to project detail pages,
+ * with proper deep-link URLs (/p/{id}) so LinkedIn/FB previews show the actual project.
+ * PURE ADDITIVE — does not modify main.js, db.json, Cloudinary, or any uploaded data.
  */
 (function () {
   'use strict';
@@ -16,15 +16,41 @@
   function svg(path, viewBox, fill) {
     return '<svg style="' + ICON + '" viewBox="' + (viewBox || '0 0 24 24') + '" fill="' + (fill || 'currentColor') + '"><path d="' + path + '"/></svg>';
   }
-  // Brand icons (simplified single-path)
   var ICONS = {
     facebook:  svg('M22 12a10 10 0 1 0-11.56 9.88v-7H8v-2.88h2.44V9.8c0-2.41 1.44-3.75 3.64-3.75 1.06 0 2.16.19 2.16.19v2.37h-1.22c-1.2 0-1.57.75-1.57 1.51v1.82h2.68l-.43 2.88h-2.25v7A10 10 0 0 0 22 12Z'),
     pinterest: svg('M12.01 2C6.48 2 2 6.48 2 12c0 4.24 2.64 7.86 6.36 9.31-.09-.79-.17-2 .04-2.86.19-.78 1.22-4.94 1.22-4.94s-.31-.62-.31-1.54c0-1.45.84-2.53 1.88-2.53.89 0 1.32.67 1.32 1.47 0 .89-.57 2.22-.86 3.45-.25 1.04.52 1.88 1.54 1.88 1.85 0 3.27-1.95 3.27-4.76 0-2.49-1.79-4.23-4.34-4.23-2.96 0-4.7 2.22-4.7 4.51 0 .89.34 1.85.77 2.37.09.1.1.19.07.29-.08.32-.26 1.04-.29 1.19-.05.19-.15.24-.35.14-1.29-.6-2.09-2.48-2.09-3.99 0-3.24 2.36-6.22 6.79-6.22 3.57 0 6.34 2.54 6.34 5.94 0 3.54-2.24 6.4-5.34 6.4-1.04 0-2.02-.54-2.36-1.18l-.64 2.45c-.23.89-.86 2-1.28 2.68A10 10 0 0 0 22 12c0-5.52-4.48-10-9.99-10Z'),
     x:         svg('M18.244 2H21.6l-7.6 8.71L23 22h-6.94l-5.44-6.94L4.5 22H1.14l8.14-9.31L1 2h7.11l4.92 6.36L18.24 2Zm-1.22 18h1.86L7.06 4H5.1l11.92 16Z'),
     linkedin:  svg('M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14ZM8.34 18v-8H5.67v8h2.67Zm-1.34-9.13a1.55 1.55 0 1 0 0-3.1 1.55 1.55 0 0 0 0 3.1ZM18.34 18v-4.4c0-2.32-1.24-3.4-2.9-3.4-1.34 0-1.94.74-2.28 1.26v-1.08H10.5c.03.76 0 8 0 8h2.66V13.6c0-.24.02-.48.09-.65.19-.48.63-.98 1.36-.98.96 0 1.34.73 1.34 1.8V18h2.4Z')
   };
-
   var COLORS = { facebook: '#1877F2', pinterest: '#E60023', x: '#FFFFFF', linkedin: '#0A66C2' };
+
+  /* ---- Track current userProject ID by wrapping openXxx functions ---- */
+  window.__sseCurrentUserProjectId = null;
+  function wrapOpeners() {
+    ['openUserPersonalDetail', 'openUserWorkDetail'].forEach(function (fn) {
+      var orig = window[fn];
+      if (typeof orig !== 'function') return;
+      if (orig.__sseWrapped) return;
+      var wrapped = function (id) {
+        window.__sseCurrentUserProjectId = id;
+        return orig.apply(this, arguments);
+      };
+      wrapped.__sseWrapped = true;
+      window[fn] = wrapped;
+    });
+    // For fixed game/personal (not userProject), clear the id so we know share should be homepage
+    ['openWorkDetail', 'openPersonalDetail'].forEach(function (fn) {
+      var orig = window[fn];
+      if (typeof orig !== 'function') return;
+      if (orig.__sseWrappedClear) return;
+      var wrapped = function () {
+        window.__sseCurrentUserProjectId = null;
+        return orig.apply(this, arguments);
+      };
+      wrapped.__sseWrappedClear = true;
+      window[fn] = wrapped;
+    });
+  }
 
   function getActiveProjectInfo() {
     var page = document.querySelector('#page-work-detail.active, #page-personal-detail.active');
@@ -34,29 +60,26 @@
     if (titleEl) title = (titleEl.textContent || '').trim();
     var img = page.querySelector('.work-slides-scroll img, #work-slides-scroll img, #personal-slides-scroll img');
     var mediaUrl = img ? img.src : '';
-    return { title: title, mediaUrl: mediaUrl, page: page };
+    return { title: title, mediaUrl: mediaUrl, page: page, projectId: window.__sseCurrentUserProjectId };
   }
 
   function buildShareBar(info) {
-    // Site homepage as share URL (SPA — same URL for all projects, but title/image add context)
-    var url = SITE_URL;
-    var text = info.title ? (info.title + ' — Semih Sen | semihsen.art') : 'Check out this work by Semih Sen at semihsen.art';
+    // If we have a userProject ID, share the deep-link URL (which serves proper OG tags)
+    var url = info.projectId ? (SITE_URL + '/p/' + info.projectId) : SITE_URL;
+    var text = info.title ? (info.title + ' — Semih Sen') : 'Semih Sen | Lead Game Artist';
     var encText = encodeURIComponent(text);
     var encUrl = encodeURIComponent(url);
     var encImg = encodeURIComponent(info.mediaUrl || '');
-
     var links = [
       { key: 'facebook',  label: 'Share', href: 'https://www.facebook.com/sharer/sharer.php?u=' + encUrl },
       { key: 'pinterest', label: 'Save',  href: 'https://pinterest.com/pin/create/button/?url=' + encUrl + '&media=' + encImg + '&description=' + encText },
       { key: 'x',         label: 'Share', href: 'https://twitter.com/intent/tweet?url=' + encUrl + '&text=' + encText },
       { key: 'linkedin',  label: 'Share', href: 'https://www.linkedin.com/sharing/share-offsite/?url=' + encUrl }
     ];
-
     var bar = document.createElement('div');
     bar.id = SHARE_BAR_ID;
     bar.className = 'share-bar';
     bar.setAttribute('style', STYLE);
-
     links.forEach(function (l) {
       var a = document.createElement('a');
       a.href = l.href;
@@ -71,41 +94,34 @@
   }
 
   function insertShareBar() {
-    // Remove any old bar first
     var old = document.getElementById(SHARE_BAR_ID);
     if (old && old.parentNode) old.parentNode.removeChild(old);
-
     var info = getActiveProjectInfo();
     if (!info) return;
-
-    // Find best injection point: info panel of work-detail or a sensible container
     var targetPanel =
       info.page.querySelector('.work-slider-right') ||
       info.page.querySelector('.work-info') ||
       info.page.querySelector('#work-info-panel') ||
       info.page.querySelector('.work-slider-page') ||
       info.page;
-
     var bar = buildShareBar(info);
     targetPanel.appendChild(bar);
   }
 
   function cleanupIfInactive() {
-    // If neither detail page is active, remove the bar
     var anyActive = document.querySelector('#page-work-detail.active, #page-personal-detail.active');
     var bar = document.getElementById(SHARE_BAR_ID);
     if (!anyActive && bar && bar.parentNode) bar.parentNode.removeChild(bar);
   }
 
-  // Debounce inserts (page navigation can fire multiple mutations)
   var pending = null;
   function scheduleUpdate() {
     if (pending) return;
     pending = setTimeout(function () {
       pending = null;
+      wrapOpeners(); // re-wrap in case main.js re-defined
       var info = getActiveProjectInfo();
       if (info) {
-        // Only re-insert if not present OR if the target title changed
         var existing = document.getElementById(SHARE_BAR_ID);
         if (!existing) insertShareBar();
       } else {
@@ -114,16 +130,40 @@
     }, 350);
   }
 
+  /* ---- Deep-link support: if /p/:id served page with __initialProjectId, auto-open it ---- */
+  function tryOpenInitial() {
+    var id = window.__initialProjectId;
+    if (!id) return;
+    var attempts = 0;
+    var iv = setInterval(function () {
+      attempts++;
+      if (attempts > 60) { clearInterval(iv); return; } // 30s max
+      var db = window.siteDB;
+      if (!db || !Array.isArray(db.userProjects)) return;
+      var proj = db.userProjects.find(function (p) { return p.id === id; });
+      if (!proj) { clearInterval(iv); return; }
+      wrapOpeners();
+      clearInterval(iv);
+      if (proj.category === 'Personal Works' && typeof window.openUserPersonalDetail === 'function') {
+        window.openUserPersonalDetail(id);
+      } else if (typeof window.openUserWorkDetail === 'function') {
+        window.openUserWorkDetail(id);
+      }
+      window.__initialProjectId = null;
+    }, 500);
+  }
+
   function boot() {
-    // Watch for class changes on the page containers
+    wrapOpeners();
     var observer = new MutationObserver(function () { scheduleUpdate(); });
     observer.observe(document.body, { subtree: true, attributes: true, attributeFilter: ['class'], childList: true });
-
-    // Also try immediately (in case a page is already active)
     scheduleUpdate();
-
-    // Extra safety: watch nav clicks that leave detail pages
     document.addEventListener('click', function () { setTimeout(scheduleUpdate, 400); }, true);
+    // Handle deep-link
+    tryOpenInitial();
+    // Re-wrap periodically for first 5s in case main.js is still loading
+    var cnt = 0;
+    var reWrap = setInterval(function () { wrapOpeners(); if (++cnt > 10) clearInterval(reWrap); }, 500);
   }
 
   if (document.readyState === 'loading') {
