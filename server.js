@@ -580,5 +580,41 @@ app.post('/api/upload/portfolio-cover/:cat', adminAuth, upload.single('image'), 
   } catch (e) { console.error('Portfolio cover error:', errMsg(e)); res.status(500).json({ error: errMsg(e) }); }
 });
 
+// v9: Deep-link project pages with Open Graph meta tags for LinkedIn/Facebook/X/Pinterest previews.
+// Serves index.html with dynamically injected <meta og:*> tags for a specific userProject.
+// Additive — does not change any existing behavior; unknown IDs fall back to homepage.
+app.get('/p/:id', (req, res) => {
+  try {
+    const path = require('path');
+    const indexPath = path.join(__dirname, 'public', 'index.html');
+    const db = getDB();
+    const p = (db.userProjects || []).find(x => x.id === req.params.id);
+    if (!p) return res.sendFile(indexPath);
+    const esc = s => String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    const title = esc(p.title || 'Semih Sen');
+    const desc  = esc(String(p.description || 'Work by Semih Sen').replace(/<[^>]+>/g,' ').replace(/\s+/g,' ').trim().slice(0, 200));
+    const image = (p.cover && p.cover.url) || (p.media && p.media[0] && p.media[0].url) || '';
+    const url   = 'https://www.semihsen.art/p/' + p.id;
+    const ogTags =
+      '<meta property="og:type" content="article">' +
+      '<meta property="og:title" content="' + title + '">' +
+      '<meta property="og:description" content="' + desc + '">' +
+      '<meta property="og:image" content="' + esc(image) + '">' +
+      '<meta property="og:url" content="' + url + '">' +
+      '<meta name="twitter:card" content="summary_large_image">' +
+      '<meta name="twitter:title" content="' + title + '">' +
+      '<meta name="twitter:description" content="' + desc + '">' +
+      '<meta name="twitter:image" content="' + esc(image) + '">' +
+      '<script>window.__initialProjectId=' + JSON.stringify(p.id) + ';</script>';
+    let html = fs.readFileSync(indexPath, 'utf8');
+    html = html.replace('</head>', ogTags + '</head>');
+    res.set('Content-Type', 'text/html; charset=utf-8').send(html);
+  } catch (e) {
+    console.error('Deep-link /p error:', errMsg(e));
+    try { res.sendFile(require('path').join(__dirname, 'public', 'index.html')); }
+    catch (e2) { res.status(500).send('Error'); }
+  }
+});
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log('Server running on port', PORT));
