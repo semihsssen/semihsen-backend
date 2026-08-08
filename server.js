@@ -580,6 +580,28 @@ app.post('/api/upload/portfolio-cover/:cat', adminAuth, upload.single('image'), 
   } catch (e) { console.error('Portfolio cover error:', errMsg(e)); res.status(500).json({ error: errMsg(e) }); }
 });
 
+// v10: Persist media order — project-editor sends { order: [mediaId1, mediaId2, ...] } and we reorder db.
+app.post('/api/projects/:id/media/reorder', adminAuth, (req, res) => {
+  try {
+    const db = getDB();
+    const idx = (db.userProjects || []).findIndex(x => x.id === req.params.id);
+    if (idx < 0) return res.status(404).json({ error: 'Bulunamadi' });
+    const order = Array.isArray(req.body && req.body.order) ? req.body.order : null;
+    if (!order) return res.status(400).json({ error: 'order dizisi eksik' });
+    const media = db.userProjects[idx].media || [];
+    const byId = {};
+    media.forEach(m => { if (m && m.id) byId[m.id] = m; });
+    const reordered = [];
+    order.forEach(id => { if (byId[id]) { reordered.push(byId[id]); delete byId[id]; } });
+    // Append any media not in the order list (safety — don't lose items)
+    media.forEach(m => { if (m && m.id && byId[m.id]) reordered.push(m); });
+    db.userProjects[idx].media = reordered;
+    db.userProjects[idx].updatedAt = new Date().toISOString();
+    saveDB(db);
+    res.json({ ok: true, count: reordered.length });
+  } catch (e) { console.error('Media reorder error:', errMsg(e)); res.status(500).json({ error: errMsg(e) }); }
+});
+
 // v9: Deep-link project pages with Open Graph meta tags for LinkedIn/Facebook/X/Pinterest previews.
 // Serves index.html with dynamically injected <meta og:*> tags for a specific userProject.
 // Additive — does not change any existing behavior; unknown IDs fall back to homepage.
@@ -607,8 +629,6 @@ app.get('/p/:id', (req, res) => {
       '<meta name="twitter:image" content="' + esc(image) + '">' +
       '<script>window.__initialProjectId=' + JSON.stringify(p.id) + ';</script>';
     let html = fs.readFileSync(indexPath, 'utf8');
-    // Add <base href="/"> so relative paths (assets/main.js, share-buttons.js, favicon)
-    // resolve to the site root even when the page is served from /p/:id
     html = html.replace('<head>', '<head>\n<base href="/">');
     html = html.replace('</head>', ogTags + '</head>');
     res.set('Content-Type', 'text/html; charset=utf-8').send(html);
@@ -616,6 +636,12 @@ app.get('/p/:id', (req, res) => {
     console.error('Deep-link /p error:', errMsg(e));
     try { res.sendFile(require('path').join(__dirname, 'public', 'index.html')); }
     catch (e2) { res.status(500).send('Error'); }
+  }
+});
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log('Server running on port', PORT));
+atch (e2) { res.status(500).send('Error'); }
   }
 });
 
