@@ -131,6 +131,12 @@
   }
 
   /* ---- Deep-link support: if /p/:id served page with __initialProjectId, auto-open it ---- */
+  function getSiteDB() {
+    // main.js declares `let siteDB` at top level — with let this doesn't attach to window.
+    // Try window first (in case someone changes to var later), else eval bare identifier.
+    if (typeof window.siteDB !== 'undefined' && window.siteDB) return window.siteDB;
+    try { return (0, eval)('typeof siteDB !== "undefined" ? siteDB : null'); } catch (e) { return null; }
+  }
   function tryOpenInitial() {
     var id = window.__initialProjectId;
     if (!id) return;
@@ -138,7 +144,7 @@
     var iv = setInterval(function () {
       attempts++;
       if (attempts > 60) { clearInterval(iv); return; } // 30s max
-      var db = window.siteDB;
+      var db = getSiteDB();
       if (!db || !Array.isArray(db.userProjects)) return;
       var proj = db.userProjects.find(function (p) { return p.id === id; });
       if (!proj) { clearInterval(iv); return; }
@@ -150,7 +156,7 @@
         window.openUserWorkDetail(id);
       }
       window.__initialProjectId = null;
-    }, 500);
+    }, 400);
   }
 
   function boot() {
@@ -159,14 +165,18 @@
     observer.observe(document.body, { subtree: true, attributes: true, attributeFilter: ['class'], childList: true });
     scheduleUpdate();
     document.addEventListener('click', function () { setTimeout(scheduleUpdate, 400); }, true);
-    // Handle deep-link
     tryOpenInitial();
-    // Re-wrap periodically for first 5s in case main.js is still loading
     var cnt = 0;
     var reWrap = setInterval(function () { wrapOpeners(); if (++cnt > 10) clearInterval(reWrap); }, 500);
   }
 
   if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', boot);
+  } else {
+    boot();
+  }
+})();
+ing') {
     document.addEventListener('DOMContentLoaded', boot);
   } else {
     boot();
