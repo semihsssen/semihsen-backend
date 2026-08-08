@@ -176,9 +176,3 @@
     boot();
   }
 })();
-ing') {
-    document.addEventListener('DOMContentLoaded', boot);
-  } else {
-    boot();
-  }
-})();
