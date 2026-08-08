@@ -607,6 +607,9 @@ app.get('/p/:id', (req, res) => {
       '<meta name="twitter:image" content="' + esc(image) + '">' +
       '<script>window.__initialProjectId=' + JSON.stringify(p.id) + ';</script>';
     let html = fs.readFileSync(indexPath, 'utf8');
+    // Add <base href="/"> so relative paths (assets/main.js, share-buttons.js, favicon)
+    // resolve to the site root even when the page is served from /p/:id
+    html = html.replace('<head>', '<head>\n<base href="/">');
     html = html.replace('</head>', ogTags + '</head>');
     res.set('Content-Type', 'text/html; charset=utf-8').send(html);
   } catch (e) {
