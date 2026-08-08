@@ -26,9 +26,9 @@
     if (panel) {
       var r = panel.getBoundingClientRect();
       if (r && r.width > 0) {
-        var gap = 18; // px between arrow and panel
-        var arrowW = 56;
-        var right = Math.max(20, window.innerWidth - r.left + gap - arrowW);
+        var gap = 18; // px between arrow's right edge and panel's left edge
+        // CSS right = viewportWidth - panel.left + gap  (so arrow sits gap px to the left of panel)
+        var right = Math.max(20, window.innerWidth - r.left + gap);
         return right;
       }
     }
