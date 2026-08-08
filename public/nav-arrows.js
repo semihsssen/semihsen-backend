@@ -18,18 +18,43 @@
     try { return (0, eval)('typeof siteDB !== "undefined" ? siteDB : null'); } catch (e) { return null; }
   }
 
+  function computeRightOffset() {
+    // Prefer placing the right arrow just to the LEFT of the right info panel
+    // (matches the reference where the arrow sits next to the text column).
+    // Falls back to a reasonable inward offset when no panel is present.
+    var panel = document.querySelector('#page-work-detail.active .work-slider-right');
+    if (panel) {
+      var r = panel.getBoundingClientRect();
+      if (r && r.width > 0) {
+        var gap = 18; // px between arrow and panel
+        var arrowW = 56;
+        var right = Math.max(20, window.innerWidth - r.left + gap - arrowW);
+        return right;
+      }
+    }
+    // Personal-detail (no right panel): keep inward, mirroring where the panel would be
+    return Math.max(20, Math.round(window.innerWidth * 0.22));
+  }
+
   function makeArrow(id, symbol, alignRight, onClick, title) {
     var a = document.createElement('button');
     a.id = id;
     a.type = 'button';
     a.setAttribute('aria-label', title);
     a.title = title;
-    a.setAttribute('style', ARROW_STYLE + (alignRight ? 'right:22px;' : 'left:22px;'));
+    var pos = alignRight ? ('right:' + computeRightOffset() + 'px;') : 'left:22px;';
+    a.setAttribute('style', ARROW_STYLE + pos);
     a.innerHTML = symbol;
     a.onmouseover = function () { a.style.opacity = '1'; a.style.color = '#4a90e2'; a.style.transform = 'translateY(-50%) scale(1.08)'; };
     a.onmouseout  = function () { a.style.opacity = '0.75'; a.style.color = '#e6e6e6'; a.style.transform = 'translateY(-50%)'; };
     a.onclick = function (e) { e.preventDefault(); onClick(); };
     return a;
+  }
+
+  function repositionRightArrow() {
+    var r = document.getElementById(RIGHT_ID);
+    if (!r) return;
+    r.style.right = computeRightOffset() + 'px';
   }
 
   function removeArrows() {
@@ -144,6 +169,9 @@
         document.body.appendChild(makeArrow(RIGHT_ID, symRight, true, function () { navigateToFixedWork(neighbors.key, neighbors.nextIdx); }, 'Sonraki'));
       }
     }
+    // Recompute right arrow position after layout settles (panel may render after arrow)
+    setTimeout(repositionRightArrow, 100);
+    setTimeout(repositionRightArrow, 400);
   }
 
   // Keyboard shortcuts: left/right arrows
@@ -169,6 +197,7 @@
     mo.observe(document.body, { attributes: true, subtree: true, attributeFilter: ['class'], childList: true });
     document.addEventListener('click', function () { setTimeout(schedule, 500); }, true);
     document.addEventListener('keydown', onKey);
+    window.addEventListener('resize', function () { setTimeout(repositionRightArrow, 50); });
     schedule();
   }
 
